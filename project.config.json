@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.1",
 	"appid": "wx061d0eb5e42d7eed",
-	"projectname": "SmartQA",
+	"projectname": "wechatapp",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

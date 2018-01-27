@@ -1,0 +1,3 @@
+<view class="container">
+  <text>我是{{name}}</text>
+</view>
