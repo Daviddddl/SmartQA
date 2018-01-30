@@ -60,7 +60,7 @@ appserver/*.msp
 appserver/*.lnk
 
 node_modules/
-appserver//dist/
+appserver/dist/
 appserver/npm-debug.log*
 appserver/yarn-debug.log*
 appserver/yarn-error.log*
@@ -74,3 +74,4 @@ appserver/*.ntvs*
 appserver/*.njsproj
 appserver/*.sln
 appserver/target/
+appserver/out/
