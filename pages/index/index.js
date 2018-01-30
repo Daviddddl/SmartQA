@@ -50,5 +50,24 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  createcourse: function () {
+    wx.request({
+      url: 'http://localhost:8080/servlet/ServiceServlet',
+      data: {
+        nickname: app.globalData.userInfo.nickName,
+        remark: app.globalData.userInfo.language
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+      },
+      fail: function (res) {
+        console.log(".....fail.....");
+      }
+    })
   }
 })
