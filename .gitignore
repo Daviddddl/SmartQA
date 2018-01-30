@@ -1,16 +1,16 @@
 @@ -0,0 +1,59 @@
-*.class
+appserver/*.class
 
 # Mobile Tools for Java (J2ME)
-.mtj.tmp/
+appserver/.mtj.tmp/
 
 # Package Files #
 #*.jar
-*.war
-*.ear
+appserver/*.war
+appserver/*.ear
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# virtual machine crash logs, see appserver/http://www.java.com/en/download/help/error_hotspot.xml
+appserver/hs_err_pid*
 
 # =========================
 # Operating System Files
@@ -19,58 +19,58 @@ hs_err_pid*
 # OSX
 # =========================
 
-.DS_Store
-.AppleDouble
-.LSOverride
+appserver/.DS_Store
+appserver/.AppleDouble
+appserver/.LSOverride
 
 # Thumbnails
-._*
+appserver/._*
 
 # Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+appserver/.Spotlight-V100
+appserver/.Trashes
 
 # Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+appserver/.AppleDB
+appserver/.AppleDesktop
+appserver/Network Trash Folder
+appserver/Temporary Items
+appserver/.apdisk
 
 # Windows
 # =========================
 
 # Windows image file caches
-Thumbs.db
-ehthumbs.db
+appserver/Thumbs.db
+appserver/ehthumbs.db
 
 # Folder config file
-Desktop.ini
+appserver/Desktop.ini
 
 # Recycle Bin used on file shares
-$RECYCLE.BIN/
+appserver/$RECYCLE.BIN/
 
 # Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+appserver/*.cab
+appserver/*.msi
+appserver/*.msm
+appserver/*.msp
 
 # Windows shortcuts
-*.lnk
+appserver/*.lnk
 
 node_modules/
-/dist/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+appserver//dist/
+appserver/npm-debug.log*
+appserver/yarn-debug.log*
+appserver/yarn-error.log*
 
 # Editor directories and files
-.idea/
-*.iml
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-target/
+appserver/.idea/
+appserver/*.iml
+appserver/.vscode
+appserver/*.suo
+appserver/*.ntvs*
+appserver/*.njsproj
+appserver/*.sln
+appserver/target/
