@@ -17,15 +17,10 @@ import java.sql.SQLException;
  */
 public class UserService {
 
-    private String nickname;
-    private String remark;
-
     public UserService(){}
 
-    public UserService(String nickname, String remark) throws SQLException {
-        this.nickname = nickname;
-        this.remark = remark;
-        new DBUtil().adduser(nickname,remark);
+    public UserService(String nickname, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl) throws SQLException {
+        new DBUtil().adduser(nickname,remark,gender,lang,city,province,country,avatarUrl);
     }
 
     public String listuser(){
@@ -39,11 +34,17 @@ public class UserService {
             preparedStatement = conn.prepareStatement(listsql);
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                int id = resultSet.getInt(1);
+                Integer id = resultSet.getInt(1);
                 String nickname = resultSet.getString(2);
                 String remark = resultSet.getString(3);
-                resultdata += "\n" + id+":"+nickname+":"+remark;
-                System.out.println(id+":"+nickname+":"+remark);
+                String gender = resultSet.getInt(4) == 1 ? "male": "female";
+                String lang = resultSet.getString(5);
+                String city = resultSet.getString(6);
+                String province = resultSet.getString(7);
+                String country = resultSet.getString(8);
+                String avatarUrl = resultSet.getString(9);
+                resultdata += "\n" + id+" : "+nickname+" : "+remark + " : "+ gender + " : " + lang +" : "+city+" : "+province+" : "+country+" : "+avatarUrl;
+                System.out.println(id+" : "+nickname+" : "+remark + " : "+ gender + " : " + lang +" : "+city+" : "+province+" : "+country+" : "+avatarUrl);
             }
         }catch(SQLException e)
         {
@@ -53,9 +54,4 @@ public class UserService {
         }
         return resultdata;
     }
-
-    public static void main(String[] args) throws SQLException {
-        new UserService("test04","test04").listuser();
-    }
-
 }

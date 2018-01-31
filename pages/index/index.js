@@ -4,7 +4,6 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -52,22 +51,13 @@ Page({
     })
   },
   createcourse: function () {
-    wx.request({
-      url: 'http://localhost:8080/servlet/ServiceServlet',
-      data: {
-        nickname: app.globalData.userInfo.nickName,
-        remark: app.globalData.userInfo.language
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-      },
-      fail: function (res) {
-        console.log(".....fail.....");
-      }
+    wx.navigateTo({
+      url: '../addcourse/addcourse'
+    })
+  },
+  managecourse: function () {
+    wx.navigateTo({
+      url: '../managecourse/managecourse'
     })
   }
 })

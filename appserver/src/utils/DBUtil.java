@@ -46,13 +46,21 @@ public class DBUtil {
     }
 
 
-    public boolean adduser(String nickname, String remark) throws SQLException {
+    public boolean adduser(String nickname, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl) throws SQLException {
         DBUtil util = new DBUtil();
         Connection conn = util.openConnection();
         PreparedStatement preparedStatement;
         boolean result = false;// 创建一个结果集对象
 
-        String sql = "insert into user(nickname, remark) value (\""+nickname + "\",\""+remark +"\")";
+        String sql = "insert into user(nickname, remark, gender, lang, city, province, country, avatarUrl ) " +
+                "value (\""+nickname + "\","
+                + "\"" + remark + "\","
+                + gender +", "
+                + "\"" + lang +"\","
+                + "\"" + city +"\","
+                + "\"" + province +"\","
+                + "\"" + country +"\","
+                + "\"" + avatarUrl +"\")";
         System.out.println(sql);
         try
         {

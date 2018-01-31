@@ -7,11 +7,10 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <view>
+    <button bindtap='createcourse'>新增课程</button>
   </view>
   <view>
-    <button bindtap='createcourse'>创建课程</button>
     <button bindtap='managecourse'>管理课程</button>
   </view>
 </view>
