@@ -62,7 +62,7 @@ Page({
   createuser: function () {
     if (this.data.remarkN.length == 0) {
       this.setData({
-        infoMess: '温馨提示：用户名和密码不能为空！',
+        infoMess: '温馨提示：备注名称不能为空！',
       })
     }else{
       this.setData({

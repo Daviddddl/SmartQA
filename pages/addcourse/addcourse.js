@@ -12,7 +12,14 @@ Page({
     courseN: '',
     coursepassWd: '',
     coursepassW: '',
-    courseId: ''
+    teacher: '',
+    teacherID: '',
+    capacity: '',
+    capacityNum: '',
+    startdate: '',
+    startDate: '',
+    enddate: '',
+    endDate: ''
   },
   //课程名和密码输入框事件
   courseNameInput: function (e) {
@@ -23,6 +30,17 @@ Page({
   coursepassWdInput: function (e) {
     this.setData({
       coursepassW: e.detail.value
+    })
+  },
+
+  courseCapacityInput: function(e){
+    this.setData({
+      capacity: e.detail.value
+    })
+  },
+  teacherInput: function (e) {
+    this.setData({
+      teacher: e.detail.value
     })
   },
   //创建课程按钮点击事件，调用参数要用：this.data.参数；
@@ -37,7 +55,31 @@ Page({
         infoMess: '课程创建成功！',
         courseName: '课程名称：' + this.data.courseN,
         coursepassWd: '选课密码：' + this.data.coursepassW,
-        courseId: '课程唯一ID: '
+        teacherID: '教师ID：' + this.data.teacher,
+        capacityNum: '课堂容量：' + this.data.capacity,
+        startDate: '开始时间：' + this.data.startdate,
+        endDate: '结束时间：' + this.data.enddate,
+      })
+      wx.request({
+        url: 'http://localhost:8080/servlet/CourseServlet',
+        data: {
+          name: this.data.courseN,
+          password: this.data.coursepassW,
+          teacher: this.data.teacher,
+          capacity: this.data.capacity,
+          startdate : this.data.startdate,
+          enddate: this.data.enddate
+        },
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res.data);
+        },
+        fail: function (res) {
+          console.log(".....fail.....");
+        }
       })
     }
   },
@@ -49,9 +91,23 @@ Page({
       courseN: '',
       coursepassWd: '',
       coursepassW: '',
+      startdate: '',
+      enddate: ''
     })
     wx.navigateBack({
     delta:1
+    })
+  },
+  //  点击开始日期组件确定事件  
+  startdatePick: function (e) {
+    this.setData({
+      startdate: e.detail.value
+    })
+  },
+  //  点击结束日期组件确定事件  
+  enddatePick: function (e) {
+    this.setData({
+      enddate: e.detail.value
     })
   },
   
