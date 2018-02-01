@@ -48,8 +48,9 @@ public class CourseServlet extends HttpServlet {
                 try {
                     CourseService courseService = new CourseService();
                     if(courseService.checkID(teacher)){
-                        courseService.addcourse(name,password,teacher,capacity,startdate,enddate);
-                        returnwechat = "创建课程成功！";
+                        String courseid = courseService.addcourse(name,password,teacher,capacity,startdate,enddate);
+                        returnwechat = "创建课程成功！课程唯一ID:"+courseid;
+                        System.out.println(returnwechat);
                     }
                     else
                         returnwechat = "userID:"+teacher+"有误！";
@@ -63,13 +64,17 @@ public class CourseServlet extends HttpServlet {
                 String password = request.getParameter("password");
                 Integer stuID = Integer.parseInt(request.getParameter("stuID"));
                 CourseService courseService = new CourseService();
-                if(courseService.checkID(stuID)){
-                    if(courseService.joincourse(name,password,stuID))
-                        returnwechat = "加入课程成功！";
-                    else
-                        returnwechat = "加入课程失败！" + "课程名称或密码有误！";
-                }else
-                    returnwechat = "userID:"+stuID+"有误！";
+                try {
+                    if(courseService.checkID(stuID)){
+                        if(courseService.joincourse(name,password,stuID))
+                            returnwechat = "加入课程成功！";
+                        else
+                            returnwechat = "加入课程失败！" + "课程名称或密码有误！";
+                    }else
+                        returnwechat = "userID:"+stuID+"有误！";
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
 

@@ -1,12 +1,11 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/teachers/teachers",
     "pages/students/students",
     "pages/mine/mine",
-    "pages/addcourse/addcourse",
-    "pages/managecourse/managecourse",
-    "pages/joincourse/joincourse"
+    "pages/course/addcourse/addcourse",
+    "pages/course/managecourse/managecourse",
+    "pages/course/joincourse/joincourse"
   ],
   "window":{
     "backgroundTextStyle":"light",

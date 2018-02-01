@@ -45,7 +45,7 @@ public class DBUtil {
         }
     }
 
-    public static String DBMonitorSQL(String sql, String table) {
+    public static String DBMonitorSQL(String sql, String table) throws SQLException {
 
         ResultSet result;// 创建一个结果集对象
 
@@ -55,6 +55,17 @@ public class DBUtil {
 
         Connection connection = dbUtil.openConnection();
 
+        String[] labels;
+        if(sql.charAt(7) == '*')
+            labels = dbUtil.getallLabel(table);
+        else{
+            if(sql.toUpperCase().contains("FROM"))
+                labels = sql.substring(7,sql.toUpperCase().indexOf("FROM")).trim().split(",");
+            else if(sql.toUpperCase().contains("SET"))
+                labels = sql.substring(7,sql.toUpperCase().indexOf("SET")).trim().split(",");
+            else
+                labels = new String[]{"id"};
+        }
         //2. 执行sql查询语句,得到结果后关闭连接
         try {
             PreparedStatement preparedstatement = connection.prepareStatement(sql); //实例化预编译语句
@@ -62,8 +73,8 @@ public class DBUtil {
             if(sql.contains("select") || sql.contains("SELECT")){
                 result = preparedstatement.executeQuery();// 执行查询，注意括号中不需要再加参数
                 while (result.next())
-                    for(String s : dbUtil.getallLabel(table))
-                    resultdata += result.getString(s);
+                    for(String s : labels)
+                        resultdata += result.getString(s);
             }
             if(sql.contains("update") || sql.contains("UPDATE")){
                 int updateres = preparedstatement.executeUpdate();

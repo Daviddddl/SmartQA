@@ -8,6 +8,7 @@ Page({
    */
   data: {
     infoMess: '',
+    courseID: '',
     courseName: '',
     courseN: '',
     coursepassWd: '',
@@ -19,7 +20,7 @@ Page({
     startdate: '',
     startDate: '',
     enddate: '',
-    endDate: ''
+    endDate: '',
   },
   //课程名和密码输入框事件
   courseNameInput: function (e) {
@@ -52,7 +53,6 @@ Page({
       })
     } else {
       this.setData({
-        infoMess: '课程创建成功！',
         courseName: '课程名称：' + this.data.courseN,
         coursepassWd: '选课密码：' + this.data.coursepassW,
         teacherID: '教师ID：' + this.data.teacher,
@@ -80,6 +80,9 @@ Page({
         },
         fail: function (res) {
           console.log(".....fail.....");
+        },
+        complete: function (res){
+          console.log(".....complete.....");
         }
       })
     }

@@ -46,12 +46,12 @@ Page({
   },
   createcourse: function () {
     wx.navigateTo({
-      url: '../addcourse/addcourse'
+      url: '../course/addcourse/addcourse'
     })
   },
   managecourse: function () {
     wx.navigateTo({
-      url: '../managecourse/managecourse'
+      url: '../course/managecourse/managecourse'
     })
   }
 })

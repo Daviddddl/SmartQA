@@ -28,11 +28,11 @@ public class CourseService {
      * @return
      * @throws SQLException
      */
-    public boolean addcourse(String name, String password, Integer teacher, Integer capacity, String startdate, String enddate) throws SQLException {
+    public String addcourse(String name, String password, Integer teacher, Integer capacity, String startdate, String enddate) throws SQLException {
         DBUtil util = new DBUtil();
         Connection conn = util.openConnection();
         PreparedStatement preparedStatement;
-        boolean result = false;// 创建一个结果集对象
+        String result = "0";
 
         String sql = "insert into course(name, password, teacher, capacity, startdate, enddate ) " +
                 "value (\""+name + "\","
@@ -48,8 +48,8 @@ public class CourseService {
             preparedStatement = conn.prepareStatement(sql);// 实例化预编译语句
             int res = preparedStatement.executeUpdate();// 执行查询，注意括号中不需要再加参数
             conn.commit(); //必须加入这句，才会将数据插入库中
-            if(res != 0)
-                result = true;
+            String courseIDsql = "select id from course where name = \"" + name + "\" and password = \"" + password + "\"";
+            result = DBUtil.DBMonitorSQL(courseIDsql, "course");
         }catch(Exception e){
             e.printStackTrace();
             conn.rollback();//若抛出异常，则回滚，即上述try语句块无效
@@ -64,7 +64,7 @@ public class CourseService {
      * @param teacher
      * @return
      */
-    public boolean checkID(Integer teacher) {
+    public boolean checkID(Integer teacher) throws SQLException {
         String sql = "select * from user where id = "+teacher;
         String sqlres = DBUtil.DBMonitorSQL(sql, "user");
         if(sqlres.equals(""))
@@ -73,13 +73,12 @@ public class CourseService {
             return true;
     }
 
-    public boolean joincourse(String name, String password, Integer stuID){
+    public boolean joincourse(String name, String password, Integer stuID) throws SQLException {
         String joinfindsql = "select * from course where name = \"" + name + "\" && password = \""+ password+"\"";
         String courseupdatesql = "UPDATE course SET stunum = stunum+1 WHERE name = \""+name + "\" and password = \""+ password+"\"";
         String joinres = DBUtil.DBMonitorSQL(joinfindsql, "course");
         if(!joinres.equals("")){
             System.out.println("course表中有该课程！");
-            System.out.println(courseupdatesql);
             String courseupres = DBUtil.DBMonitorSQL(courseupdatesql, "course");
             System.out.println(courseupres);
             String courseid = DBUtil.DBMonitorSQL("select id from course where name = \""+name +"\" and password = \""+password+"\"","course");
@@ -94,6 +93,4 @@ public class CourseService {
         return true;
 
     }
-
-
 }
