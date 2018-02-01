@@ -2,13 +2,16 @@
   "pages":[
     "pages/index/index",
     "pages/logs/logs",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/student/student",
+    "pages/editcourse/editcourse"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#a9b7b7",
@@ -18,19 +21,19 @@
     "list": [
       {
       "pagePath": "pages/index/index",
-      "text": "主页",
+      "text": "教师",
       "iconPath": "images/icons/icon-home.png",
       "selectedIconPath": "images/icons/icon-home-selected.png"
       },
       {
-        "pagePath": "pages/logs/logs",
-        "text": "日志",
+        "pagePath": "pages/student/student",
+        "text": "学生",
         "iconPath": "images/icons/icon-type.png",
         "selectedIconPath": "images/icons/icon-type-selected.png"
       },
       {
         "pagePath": "pages/mine/mine",
-        "text": "我",
+        "text": "我的",
         "iconPath": "images/icons/icon-user.png",
         "selectedIconPath": "images/icons/icon-user-selected.png"
       }
