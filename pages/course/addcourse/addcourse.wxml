@@ -1,0 +1,41 @@
+<view class="itemView">课程名称：
+  <input class="input" name="courseName" placeholder="请输入课程名称"
+  bindinput="courseNameInput"/>
+  </view>
+<view class="itemView">选课密码：
+  <input class="input" password placeholder="请输入选课密码"
+  bindinput="coursepassWdInput" />
+</view>
+<view class="itemView">教师ID：
+  <input class="input" placeholder="请输入个人ID"
+  bindinput="teacherInput" />
+</view>
+<view class="itemView">课堂容量：
+  <input class="input" placeholder="请输入课堂容量"
+  bindinput="courseCapacityInput" />
+</view>
+<view class="section" style="background:#787878;margin:20rpx;padding:20rpx">  
+  <picker mode="date" value="{{startdate}}" start="2018-01-01" end="2099-12-31" bindchange="startdatePick">  
+    <view class="picker">  
+      开始日期: {{startdate}}  
+    </view>
+  </picker>
+</view>
+<view class="section" style="background:#787878;margin:20rpx;padding:20rpx">  
+  <picker mode="date" value="{{enddate}}" start="2018-01-01" end="2099-12-31" bindchange="enddatePick">  
+    <view class="picker">
+      结束日期: {{enddate}}  
+    </view>  
+  </picker>  
+</view>
+<view class="viewName" style="background-color:#fbf9fe">
+  <button class="createCourseBtn" bindtap="createCourseBtnClick">创建</button>
+  <button class="resetBtn" bindtap="resetBtnClick">取消</button>
+</view>
+<view>{{infoMess}}</view>
+<view>{{courseName}}</view>
+<view>{{coursepassWd}}</view>
+<view>{{teacherID}}</view>
+<view>{{capacityNum}}</view>
+<view>{{startDate}}</view>
+<view>{{endDate}}</view>

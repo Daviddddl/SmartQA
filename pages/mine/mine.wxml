@@ -1,3 +1,4 @@
+<!--mine.wxml-->
 <view class="container">
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
@@ -10,3 +11,18 @@
     <text class="user-motto">{{motto}}</text>
   </view>
 </view>
+  <view class="itemView">备注名：
+    <input class="input" name="courseName" placeholder="请输入个人备注名"
+    bindinput="remarkNameInput"/>
+  </view>
+  <view>
+    <button bindtap='createuser'>新增用户</button>
+  </view>
+  </view>
+<view>{{infoMess}}</view>
+<view>{{nickName}}</view>
+<view>{{remarkName}}</view>
+<view>{{gender}}</view>
+<view>{{city}}</view>
+<view>{{province}}</view>
+<view>{{country}}</view>

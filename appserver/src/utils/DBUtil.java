@@ -45,29 +45,66 @@ public class DBUtil {
         }
     }
 
+    public static String DBMonitorSQL(String sql, String table) throws SQLException {
 
-    public boolean adduser(String nickname, String remark) throws SQLException {
-        DBUtil util = new DBUtil();
-        Connection conn = util.openConnection();
-        PreparedStatement preparedStatement;
-        boolean result = false;// 创建一个结果集对象
+        ResultSet result;// 创建一个结果集对象
 
-        String sql = "insert into user(nickname, remark) value (\""+nickname + "\",\""+remark +"\")";
-        System.out.println(sql);
-        try
-        {
-            conn.setAutoCommit(false);//加入这个语句，表示不自动提交
-            preparedStatement = conn.prepareStatement(sql);// 实例化预编译语句
-            int res = preparedStatement.executeUpdate();// 执行查询，注意括号中不需要再加参数
-            conn.commit(); //必须加入这句，才会将数据插入库中
-            if(res != 0)
-                result = true;
-        }catch(Exception e){
-            e.printStackTrace();
-            conn.rollback();//若抛出异常，则回滚，即上述try语句块无效
-        }finally{
-            util.closeConnection(conn);
+        String resultdata = ""; //
+        //1. 连接数据库
+        DBUtil dbUtil = new DBUtil();
+
+        Connection connection = dbUtil.openConnection();
+
+        String[] labels;
+        if(sql.charAt(7) == '*')
+            labels = dbUtil.getallLabel(table);
+        else{
+            if(sql.toUpperCase().contains("FROM"))
+                labels = sql.substring(7,sql.toUpperCase().indexOf("FROM")).trim().split(",");
+            else if(sql.toUpperCase().contains("SET"))
+                labels = sql.substring(7,sql.toUpperCase().indexOf("SET")).trim().split(",");
+            else
+                labels = new String[]{"id"};
         }
-        return result;
+        //2. 执行sql查询语句,得到结果后关闭连接
+        try {
+            PreparedStatement preparedstatement = connection.prepareStatement(sql); //实例化预编译语句
+
+            if(sql.contains("select") || sql.contains("SELECT")){
+                result = preparedstatement.executeQuery();// 执行查询，注意括号中不需要再加参数
+                while (result.next())
+                    for(String s : labels)
+                        resultdata += result.getString(s);
+            }
+            if(sql.contains("update") || sql.contains("UPDATE")){
+                int updateres = preparedstatement.executeUpdate();
+                resultdata += updateres > 0 ? "更新成功！有"+updateres+"列发生变化！" : "更新失败！";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            dbUtil.closeConnection(connection);
+        }
+
+
+        //3. 返回查询结果
+        return resultdata;
+    }
+
+    public String[] getallLabel(String table) throws SQLException {
+
+        Connection connection = this.openConnection();
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM "+table);
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        int count=rsmd.getColumnCount();
+
+        String[] name=new String[count];
+
+        for(int i=0;i<count;i++)
+            name[i]=rsmd.getColumnName(i+1);
+        return name;
     }
 }

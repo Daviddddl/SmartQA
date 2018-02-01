@@ -1,4 +1,4 @@
-/* pages/mine/mine.wxss */
+/* pages/students/students.wxss */
 .userinfo {
   display: flex;
   flex-direction: column;

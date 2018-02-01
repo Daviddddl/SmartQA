@@ -11,14 +11,15 @@ import java.io.IOException;
 import java.io.Writer;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServiceServlet")
-public class ServiceServlet extends HttpServlet {
+@WebServlet(name = "UserServlet")
+public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
+
+        String result = "";
 
         response.setContentType("text/html;charset=utf-8");
         /* 设置响应头允许ajax跨域访问 */
@@ -29,19 +30,23 @@ public class ServiceServlet extends HttpServlet {
         //获取微信小程序get的参数值并打印
         String nickname = request.getParameter("nickname");
         String remark = request.getParameter("remark");
-        UserService userService;
+        Integer gender = Integer.parseInt(request.getParameter("gender"));
+        String lang = request.getParameter("lang");
+        String city = request.getParameter("city");
+        String province = request.getParameter("province");
+        String country = request.getParameter("country");
+        String avatarUrl = request.getParameter("avatarUrl");
         try {
-            userService = new UserService(nickname,remark);
-            userService.listuser();
+            UserService userService = new UserService();
+            result = userService.adduser(nickname,remark,gender,lang,city,province,country,avatarUrl);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        System.out.println("nickname="+nickname+" ,remark="+remark);
-
         //返回值给微信小程序
         Writer out = response.getWriter();
-        out.write("进入后台了");
+        out.write(result);
         out.flush();
     }
 }

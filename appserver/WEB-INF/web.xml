@@ -26,13 +26,23 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ServiceServlet</servlet-name>
-        <servlet-class>servlet.ServiceServlet</servlet-class>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>servlet.UserServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>ServiceServlet</servlet-name>
-        <url-pattern>/servlet/ServiceServlet</url-pattern>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/servlet/UserServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CourseServlet</servlet-name>
+        <servlet-class>servlet.CourseServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CourseServlet</servlet-name>
+        <url-pattern>/servlet/CourseServlet</url-pattern>
     </servlet-mapping>
 
 </web-app>

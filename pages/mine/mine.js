@@ -1,18 +1,23 @@
+//mine.js
 //获取应用实例
 const app = getApp()
+
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    infoMess: '',
+    remarkName: '',
+    remarkN: '',
+    nickName: '',
+    gender: '',
+    lang: '',
+    city: '',
+    province: '',
+    country: ''
   },
-  //事件处理函数
-  bindViewTap: function () {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
+  
   onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({
@@ -48,5 +53,51 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  remarkNameInput: function (e) {
+    this.setData({
+      remarkN: e.detail.value
+    })
+  },
+  createuser: function () {
+    if (this.data.remarkN.length == 0) {
+      this.setData({
+        infoMess: '温馨提示：备注名称不能为空！',
+      })
+    }else{
+      this.setData({
+        infoMess: '创建用户成功！',
+        nickName: '您的昵称：' + app.globalData.userInfo.nickName,
+        remarkName: '备注名称：' + this.data.remarkN,
+        gender: '性别：' + (app.globalData.userInfo.gender == 1?'男':'女'),
+        lang: '语言：'+app.globalData.userInfo.language,
+        city: '城市：'+app.globalData.userInfo.city,
+        province: '省会：' + app.globalData.userInfo.province,
+        country: '国家：'+app.globalData.userInfo.country
+      }),
+      wx.request({
+          url: 'http://localhost:8080/servlet/UserServlet',
+          data: {
+            nickname: app.globalData.userInfo.nickName,
+            remark: this.data.remarkN,
+            gender: app.globalData.userInfo.gender,
+            lang: app.globalData.userInfo.language,
+            city: app.globalData.userInfo.city,
+            province: app.globalData.userInfo.province,
+            country: app.globalData.userInfo.country,
+            avatarUrl: app.globalData.userInfo.avatarUrl,
+          },
+          method: 'GET',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            console.log(res.data);
+          },
+          fail: function (res) {
+            console.log(".....fail.....");
+          }
+      })
+    }
   }
 })

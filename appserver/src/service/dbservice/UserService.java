@@ -1,8 +1,8 @@
 package service.dbservice;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import utils.DBUtil;
 
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,16 +17,7 @@ import java.sql.SQLException;
  */
 public class UserService {
 
-    private String nickname;
-    private String remark;
-
     public UserService(){}
-
-    public UserService(String nickname, String remark) throws SQLException {
-        this.nickname = nickname;
-        this.remark = remark;
-        new DBUtil().adduser(nickname,remark);
-    }
 
     public String listuser(){
         DBUtil util = new DBUtil();
@@ -39,11 +30,17 @@ public class UserService {
             preparedStatement = conn.prepareStatement(listsql);
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                int id = resultSet.getInt(1);
+                Integer id = resultSet.getInt(1);
                 String nickname = resultSet.getString(2);
                 String remark = resultSet.getString(3);
-                resultdata += "\n" + id+":"+nickname+":"+remark;
-                System.out.println(id+":"+nickname+":"+remark);
+                String gender = resultSet.getInt(4) == 1 ? "male": "female";
+                String lang = resultSet.getString(5);
+                String city = resultSet.getString(6);
+                String province = resultSet.getString(7);
+                String country = resultSet.getString(8);
+                String avatarUrl = resultSet.getString(9);
+                resultdata += "\n" + id+" : "+nickname+" : "+remark + " : "+ gender + " : " + lang +" : "+city+" : "+province+" : "+country+" : "+avatarUrl;
+                System.out.println(id+" : "+nickname+" : "+remark + " : "+ gender + " : " + lang +" : "+city+" : "+province+" : "+country+" : "+avatarUrl);
             }
         }catch(SQLException e)
         {
@@ -54,8 +51,39 @@ public class UserService {
         return resultdata;
     }
 
-    public static void main(String[] args) throws SQLException {
-        new UserService("test04","test04").listuser();
-    }
+    public String adduser(String nickname, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl) throws SQLException {
+        DBUtil util = new DBUtil();
+        Connection conn = util.openConnection();
+        PreparedStatement preparedStatement;
+        String result ="";
 
+        String sql = "insert into user(nickname, remark, gender, lang, city, province, country, avatarUrl, joinCourse) " +
+                "value (\""+nickname + "\","
+                + "\"" + remark + "\","
+                + gender +", "
+                + "\"" + lang +"\","
+                + "\"" + city +"\","
+                + "\"" + province +"\","
+                + "\"" + country +"\","
+                + "\"" + avatarUrl + "\","
+                + "\"" + "0" + "\""
+                +")";
+        System.out.println(sql);
+        try
+        {
+            conn.setAutoCommit(false);//加入这个语句，表示不自动提交
+            preparedStatement = conn.prepareStatement(sql);// 实例化预编译语句
+            int res = preparedStatement.executeUpdate();// 执行查询，注意括号中不需要再加参数
+            conn.commit(); //必须加入这句，才会将数据插入库中
+            String getuserIDsql = "select id from user where nickname = \""+nickname + " \" and remark = \""+remark+"\"";
+            String userID = DBUtil.DBMonitorSQL(getuserIDsql,"user");
+            result = "注册用户成功！用户唯一ID："+ userID;
+        }catch(Exception e){
+            e.printStackTrace();
+            conn.rollback();//若抛出异常，则回滚，即上述try语句块无效
+        }finally{
+            util.closeConnection(conn);
+        }
+        return result;
+    }
 }

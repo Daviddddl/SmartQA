@@ -29,7 +29,7 @@ Page({
         list[i].open = !list[i].open
       } else {
         list[i].open = false
-      }
+     }
     }
     this.setData({
       list: list
@@ -38,6 +38,6 @@ Page({
   nav2editcourse: function(){
     wx.navigateTo({
       url: '../editcourse/editcourse',
-    })
+   })
   }
 })

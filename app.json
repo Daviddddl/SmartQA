@@ -5,13 +5,14 @@
     "pages/mine/mine",
     "pages/student/student",
     "pages/editcourse/editcourse"
+    "pages/mine/mine",
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black",
     "enablePullDownRefresh": true
+    "navigationBarTitleText": "SmartQA",
+    "navigationBarTextStyle":"black"
   },
   "tabBar": {
     "color": "#a9b7b7",
