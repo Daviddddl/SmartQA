@@ -76,7 +76,7 @@ Page({
         country: '国家：'+app.globalData.userInfo.country
       }),
       wx.request({
-          url: 'http://localhost:8080/servlet/UserServlet',
+          url: 'https://www.doveminr.com/appserver/servlet/UserServlet',
           data: {
             nickname: app.globalData.userInfo.nickName,
             remark: this.data.remarkN,
