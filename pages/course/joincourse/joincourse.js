@@ -79,7 +79,7 @@ Page({
         courseName: '课程名称：' + this.data.courseN,
       })
       wx.request({
-        url: 'http://localhost:8080/servlet/CourseServlet',
+        url: 'https://www.doveminr,com/appserver/servlet/CourseServlet',
         data: {
           funcID: 2,
           name: this.data.courseN,

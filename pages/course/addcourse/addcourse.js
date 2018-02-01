@@ -61,7 +61,7 @@ Page({
         endDate: '结束时间：' + this.data.enddate,
       })
       wx.request({
-        url: 'http://localhost:8080/servlet/CourseServlet',
+        url: 'https://www.doveminr.com/appserver/servlet/CourseServlet',
         data: {
           funcID: 1,
           name: this.data.courseN,

@@ -61,7 +61,7 @@ Page({
         infoMess: '温馨提示',
       })
       wx.request({
-        url: 'http://localhost:8080/servlet/CourseServlet',
+        url: 'https://www.doveminr.com/appserver/servlet/CourseServlet',
         data: {
           funcID: 1,
           name: this.data.courseName,
