@@ -18,7 +18,6 @@
   <view>
     <button bindtap='createuser'>新增用户</button>
   </view>
-  </view>
 <view>{{infoMess}}</view>
 <view>{{nickName}}</view>
 <view>{{remarkName}}</view>

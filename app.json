@@ -1,16 +1,14 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs",
-    "pages/mine/mine",
     "pages/student/student",
-    "pages/editcourse/editcourse"
-    "pages/mine/mine",
+    "pages/editcourse/editcourse",
+    "pages/mine/mine"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "enablePullDownRefresh": true
+    "enablePullDownRefresh": true,
     "navigationBarTitleText": "SmartQA",
     "navigationBarTextStyle":"black"
   },
