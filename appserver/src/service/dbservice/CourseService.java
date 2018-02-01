@@ -17,10 +17,17 @@ public class CourseService {
 
     public CourseService(){}
 
-    public CourseService(String name, String password, Integer teacher, Integer capacity, String startdate, String enddate) throws SQLException {
-        this.addcourse(name,password,teacher,capacity,startdate,enddate);
-    }
-
+    /**
+     * 教师创建课程
+     * @param name
+     * @param password
+     * @param teacher
+     * @param capacity
+     * @param startdate
+     * @param enddate
+     * @return
+     * @throws SQLException
+     */
     public boolean addcourse(String name, String password, Integer teacher, Integer capacity, String startdate, String enddate) throws SQLException {
         DBUtil util = new DBUtil();
         Connection conn = util.openConnection();
@@ -52,12 +59,41 @@ public class CourseService {
         return result;
     }
 
+    /**
+     * 创建课程时需要检验教师ID是否在user中
+     * @param teacher
+     * @return
+     */
     public boolean checkID(Integer teacher) {
         String sql = "select * from user where id = "+teacher;
-        String sqlres = DBUtil.DBMonitorSQL(sql,new String[]{"id"});
+        String sqlres = DBUtil.DBMonitorSQL(sql, "user");
         if(sqlres.equals(""))
             return false;
         else
             return true;
     }
+
+    public boolean joincourse(String name, String password, Integer stuID){
+        String joinfindsql = "select * from course where name = \"" + name + "\" && password = \""+ password+"\"";
+        String courseupdatesql = "UPDATE course SET stunum = stunum+1 WHERE name = \""+name + "\" and password = \""+ password+"\"";
+        String joinres = DBUtil.DBMonitorSQL(joinfindsql, "course");
+        if(!joinres.equals("")){
+            System.out.println("course表中有该课程！");
+            System.out.println(courseupdatesql);
+            String courseupres = DBUtil.DBMonitorSQL(courseupdatesql, "course");
+            System.out.println(courseupres);
+            String courseid = DBUtil.DBMonitorSQL("select id from course where name = \""+name +"\" and password = \""+password+"\"","course");
+            String stuupdatesql = "UPDATE user SET joinCourse = CONCAT(joinCourse, \","+courseid+"\") WHERE id = "+stuID;
+            if(courseupres.contains("失败"))
+                return false;
+            String stuupres = DBUtil.DBMonitorSQL(stuupdatesql,"user");
+            System.out.println(stuupdatesql);
+            if(stuupres.contains("失败"))
+                return false;
+        }
+        return true;
+
+    }
+
+
 }

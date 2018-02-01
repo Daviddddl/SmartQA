@@ -1,25 +1,52 @@
-// pages/managecourse/addcourse.js
-var app = getApp()
-
+// pages/joincourse/joincourse/.js
+//获取应用实例
+const app = getApp()
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
+    userInfo: {},
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     infoMess: '',
     courseName: '',
     courseN: '',
-    coursepassWd: '',
-    coursepassW: '',
-    teacher: '',
-    teacherID: '',
-    capacity: '',
-    capacityNum: '',
-    startdate: '',
-    startDate: '',
-    enddate: '',
-    endDate: ''
+    stuID: ''
+  },
+  onLoad: function () {
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
+  },
+  getUserInfo: function (e) {
+    console.log(e)
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
   },
   //课程名和密码输入框事件
   courseNameInput: function (e) {
@@ -33,43 +60,31 @@ Page({
     })
   },
 
-  courseCapacityInput: function(e){
+  stuIDInput: function(e){
     this.setData({
-      capacity: e.detail.value
+      stuID: e.detail.value
     })
   },
-  teacherInput: function (e) {
-    this.setData({
-      teacher: e.detail.value
-    })
-  },
+
   //创建课程按钮点击事件，调用参数要用：this.data.参数；
   //设置参数值，要使用this.setData({}）方法
-  createCourseBtnClick: function () {
-    if (this.data.courseN.length == 0 || this.data.coursepassW.length == 0 || this.data.capacity.length == 0) {
+  joinCourseBtnClick: function () {
+    if (this.data.courseN.length == 0 || this.data.coursepassW.length == 0) {
       this.setData({
-        infoMess: '温馨提示：课程名、密码和容量不能为空！',
+        infoMess: '温馨提示：课程名和密码不能为空！',
       })
     } else {
       this.setData({
-        infoMess: '课程创建成功！',
+        infoMess: '课程加入成功！',
         courseName: '课程名称：' + this.data.courseN,
-        coursepassWd: '选课密码：' + this.data.coursepassW,
-        teacherID: '教师ID：' + this.data.teacher,
-        capacityNum: '课堂容量：' + this.data.capacity,
-        startDate: '开始时间：' + this.data.startdate,
-        endDate: '结束时间：' + this.data.enddate,
       })
       wx.request({
         url: 'http://localhost:8080/servlet/CourseServlet',
         data: {
-          funcID: 1,
+          funcID: 2,
           name: this.data.courseN,
           password: this.data.coursepassW,
-          teacher: this.data.teacher,
-          capacity: this.data.capacity,
-          startdate : this.data.startdate,
-          enddate: this.data.enddate
+          stuID: this.data.stuID
         },
         method: 'GET',
         header: {
@@ -89,34 +104,11 @@ Page({
     this.setData({
       infoMess: '',
       courseName: '',
-      courseN: '',
-      coursepassWd: '',
-      coursepassW: '',
-      startdate: '',
-      enddate: ''
+      courseN: ''
     })
     wx.navigateBack({
-    delta:1
+      delta: 1
     })
-  },
-  //  点击开始日期组件确定事件  
-  startdatePick: function (e) {
-    this.setData({
-      startdate: e.detail.value
-    })
-  },
-  //  点击结束日期组件确定事件  
-  enddatePick: function (e) {
-    this.setData({
-      enddate: e.detail.value
-    })
-  },
-  
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function () {
-    console.log('onLoad')
   },
 
   /**

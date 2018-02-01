@@ -60,7 +60,7 @@ public class UserService {
         PreparedStatement preparedStatement;
         boolean result = false;// 创建一个结果集对象
 
-        String sql = "insert into user(nickname, remark, gender, lang, city, province, country, avatarUrl ) " +
+        String sql = "insert into user(nickname, remark, gender, lang, city, province, country, avatarUrl, joinCourse) " +
                 "value (\""+nickname + "\","
                 + "\"" + remark + "\","
                 + gender +", "
@@ -68,7 +68,9 @@ public class UserService {
                 + "\"" + city +"\","
                 + "\"" + province +"\","
                 + "\"" + country +"\","
-                + "\"" + avatarUrl +"\")";
+                + "\"" + avatarUrl + "\","
+                + "\"" + "0" + "\""
+                +")";
         System.out.println(sql);
         try
         {

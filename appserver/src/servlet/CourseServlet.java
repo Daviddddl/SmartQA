@@ -30,23 +30,49 @@ public class CourseServlet extends HttpServlet {
         response.setHeader("Access-Control-Allow-Methods", "GET,POST");
 
         //获取微信小程序get的参数值并打印
-        String name = request.getParameter("name");
-        String password = request.getParameter("password");
-        Integer teacher = Integer.parseInt(request.getParameter("teacher"));
-        Integer capacity = Integer.parseInt(request.getParameter("capacity"));
-        String startdate = request.getParameter("startdate");
-        String enddate = request.getParameter("enddate");
+        Integer funcID = Integer.parseInt(request.getParameter("funcID"));
 
-        try {
-            CourseService courseService = new CourseService();
-            if(courseService.checkID(teacher)){
-                courseService.addcourse(name,password,teacher,capacity,startdate,enddate);
-                returnwechat = "创建课程成功！";
+        switch (funcID){
+            case 1:{
+                String name = request.getParameter("name");
+                String password = request.getParameter("password");
+                Integer teacher = Integer.parseInt(request.getParameter("teacher"));
+                Integer capacity = Integer.parseInt(request.getParameter("capacity"));
+                String startdate = request.getParameter("startdate");
+                if(startdate.equals(""))
+                    startdate = "2018-01-01";
+                String enddate = request.getParameter("enddate");
+                if(enddate.equals(""))
+                    enddate = "2099-12-31";
+
+                try {
+                    CourseService courseService = new CourseService();
+                    if(courseService.checkID(teacher)){
+                        courseService.addcourse(name,password,teacher,capacity,startdate,enddate);
+                        returnwechat = "创建课程成功！";
+                    }
+                    else
+                        returnwechat = "userID:"+teacher+"有误！";
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
             }
-            else
-                returnwechat = "ID:"+teacher+"有误！";
-        } catch (SQLException e) {
-            e.printStackTrace();
+            case 2:{
+                String name = request.getParameter("name");
+                String password = request.getParameter("password");
+                Integer stuID = Integer.parseInt(request.getParameter("stuID"));
+                CourseService courseService = new CourseService();
+                if(courseService.checkID(stuID)){
+                    if(courseService.joincourse(name,password,stuID))
+                        returnwechat = "加入课程成功！";
+                    else
+                        returnwechat = "加入课程失败！" + "课程名称或密码有误！";
+                }else
+                    returnwechat = "userID:"+stuID+"有误！";
+                break;
+            }
+
         }
 
         //返回值给微信小程序

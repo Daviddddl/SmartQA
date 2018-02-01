@@ -1,15 +1,17 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs",
+    "pages/teachers/teachers",
+    "pages/students/students",
     "pages/mine/mine",
     "pages/addcourse/addcourse",
-    "pages/managecourse/managecourse"
+    "pages/managecourse/managecourse",
+    "pages/joincourse/joincourse"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "SmartQA",
     "navigationBarTextStyle":"black"
   },
   "tabBar": {
@@ -20,19 +22,19 @@
     "list": [
       {
       "pagePath": "pages/index/index",
-      "text": "主页",
+      "text": "教师",
       "iconPath": "images/icons/icon-home.png",
       "selectedIconPath": "images/icons/icon-home-selected.png"
       },
       {
-        "pagePath": "pages/logs/logs",
-        "text": "日志",
+        "pagePath": "pages/students/students",
+        "text": "学生",
         "iconPath": "images/icons/icon-type.png",
         "selectedIconPath": "images/icons/icon-type-selected.png"
       },
       {
         "pagePath": "pages/mine/mine",
-        "text": "我",
+        "text": "我的",
         "iconPath": "images/icons/icon-user.png",
         "selectedIconPath": "images/icons/icon-user-selected.png"
       }

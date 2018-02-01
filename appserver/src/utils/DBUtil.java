@@ -45,7 +45,7 @@ public class DBUtil {
         }
     }
 
-    public static String DBMonitorSQL(String sql, String[] columnLables) {
+    public static String DBMonitorSQL(String sql, String table) {
 
         ResultSet result;// 创建一个结果集对象
 
@@ -59,12 +59,15 @@ public class DBUtil {
         try {
             PreparedStatement preparedstatement = connection.prepareStatement(sql); //实例化预编译语句
 
-            result = preparedstatement.executeQuery();// 执行查询，注意括号中不需要再加参数
-
-            while (result.next()){
-                for(String s : columnLables)
+            if(sql.contains("select") || sql.contains("SELECT")){
+                result = preparedstatement.executeQuery();// 执行查询，注意括号中不需要再加参数
+                while (result.next())
+                    for(String s : dbUtil.getallLabel(table))
                     resultdata += result.getString(s);
-                //System.out.println("学号:" + result.getInt("db_id") + "姓名:" + result.getString("instance_name"));
+            }
+            if(sql.contains("update") || sql.contains("UPDATE")){
+                int updateres = preparedstatement.executeUpdate();
+                resultdata += updateres > 0 ? "更新成功！有"+updateres+"列发生变化！" : "更新失败！";
             }
 
         } catch (SQLException e) {
@@ -76,5 +79,21 @@ public class DBUtil {
 
         //3. 返回查询结果
         return resultdata;
+    }
+
+    public String[] getallLabel(String table) throws SQLException {
+
+        Connection connection = this.openConnection();
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM "+table);
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        int count=rsmd.getColumnCount();
+
+        String[] name=new String[count];
+
+        for(int i=0;i<count;i++)
+            name[i]=rsmd.getColumnName(i+1);
+        return name;
     }
 }
