@@ -1,4 +1,4 @@
-var app = getApp()
+const app = getApp()
 
 Page({
 
@@ -76,12 +76,18 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
+          wx.showToast({
+            title: '创建成功',
+            icon: 'success',
+            duration: 1500
+          })
           console.log(res.data);
         },
         fail: function (res) {
           wx.showToast({
             title: '创建失败',
-            
+            image: '../../images/icon_fail.png',
+            duration: 1500
           })
           console.log(".....fail.....");
         },

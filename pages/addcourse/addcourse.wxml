@@ -100,11 +100,4 @@
           <button class="weui-btn" type='primary' plain='true' bindtap="createCourseBtnClick">创建</button>
           <button class="weui-btn" type='warn' plain='true' bindtap="resetBtnClick">重置</button>
         </view>
-  <view>{{infoMess}}</view>
-  <view>{{courseName}}</view>
-  <view>{{coursepassWd}}</view>
-  <view>{{teacherID}}</view>
-  <view>{{capacityNum}}</view>
-  <view>{{startDate}}</view>
-  <view>{{endDate}}</view>
 </view>

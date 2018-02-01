@@ -5,7 +5,7 @@ Page({
   data: {
     list: [
       {
-        id: 'mycourses',
+        id: 'ingcourses',
         name: '正在进行的课程',
         open: false,
         pages: ['课程1', '课程2', '课程3']
