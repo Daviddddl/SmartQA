@@ -2,6 +2,7 @@ package service.dbservice;
 
 import utils.DBUtil;
 
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,10 +18,6 @@ import java.sql.SQLException;
 public class UserService {
 
     public UserService(){}
-
-    public UserService(String nickname, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl) throws SQLException {
-        this.adduser(nickname,remark,gender,lang,city,province,country,avatarUrl);
-    }
 
     public String listuser(){
         DBUtil util = new DBUtil();
@@ -54,11 +51,11 @@ public class UserService {
         return resultdata;
     }
 
-    public boolean adduser(String nickname, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl) throws SQLException {
+    public String adduser(String nickname, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl) throws SQLException {
         DBUtil util = new DBUtil();
         Connection conn = util.openConnection();
         PreparedStatement preparedStatement;
-        boolean result = false;// 创建一个结果集对象
+        String result ="";
 
         String sql = "insert into user(nickname, remark, gender, lang, city, province, country, avatarUrl, joinCourse) " +
                 "value (\""+nickname + "\","
@@ -78,8 +75,9 @@ public class UserService {
             preparedStatement = conn.prepareStatement(sql);// 实例化预编译语句
             int res = preparedStatement.executeUpdate();// 执行查询，注意括号中不需要再加参数
             conn.commit(); //必须加入这句，才会将数据插入库中
-            if(res != 0)
-                result = true;
+            String getuserIDsql = "select id from user where nickname = \""+nickname + " \" and remark = \""+remark+"\"";
+            String userID = DBUtil.DBMonitorSQL(getuserIDsql,"user");
+            result = "注册用户成功！用户唯一ID："+ userID;
         }catch(Exception e){
             e.printStackTrace();
             conn.rollback();//若抛出异常，则回滚，即上述try语句块无效

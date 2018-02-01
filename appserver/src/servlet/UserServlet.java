@@ -18,7 +18,8 @@ public class UserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
+
+        String result = "";
 
         response.setContentType("text/html;charset=utf-8");
         /* 设置响应头允许ajax跨域访问 */
@@ -36,15 +37,16 @@ public class UserServlet extends HttpServlet {
         String country = request.getParameter("country");
         String avatarUrl = request.getParameter("avatarUrl");
         try {
-            UserService userService = new UserService(nickname,remark,gender,lang,city,province,country,avatarUrl);
-            userService.listuser();
+            UserService userService = new UserService();
+            result = userService.adduser(nickname,remark,gender,lang,city,province,country,avatarUrl);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         //返回值给微信小程序
         Writer out = response.getWriter();
-        out.write(nickname+" : "+remark + " : "+ gender + " : " + lang +" : "+city+" : "+province+" : "+country+" : "+avatarUrl);
+        out.write(result);
         out.flush();
     }
 }
