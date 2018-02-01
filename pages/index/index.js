@@ -37,7 +37,7 @@ Page({
   },
   nav2editcourse: function(){
     wx.navigateTo({
-      url: '../editcourse/editcourse',
+      url: '../addcourse/addcourse',
    })
   }
 })

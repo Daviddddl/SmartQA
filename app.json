@@ -2,7 +2,7 @@
   "pages":[
     "pages/index/index",
     "pages/student/student",
-    "pages/editcourse/editcourse",
+    "pages/addcourse/addcourse",
     "pages/mine/mine"
   ],
   "window":{

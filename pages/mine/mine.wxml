@@ -7,9 +7,6 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
 </view>
   <view class="itemView">备注名：
     <input class="input" name="courseName" placeholder="请输入个人备注名"
