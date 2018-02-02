@@ -74,7 +74,8 @@ public class DBUtil {
                 result = preparedstatement.executeQuery();// 执行查询，注意括号中不需要再加参数
                 while (result.next())
                     for(String s : labels)
-                        resultdata += result.getString(s);
+                        resultdata += ","+result.getString(s);
+                resultdata = resultdata.substring(1,resultdata.length());
             }
             if(sql.contains("update") || sql.contains("UPDATE")){
                 int updateres = preparedstatement.executeUpdate();

@@ -93,4 +93,47 @@ public class CourseService {
         return true;
 
     }
+
+    public String listallcourse(Integer userId, String nickname, String remark) throws SQLException {
+        String listallcoursesql = "select joinCourse from user where id = "+userId+" and nickname = \""+nickname+"\" and remark = \""+remark+"\"";
+        String listallcourseres = DBUtil.DBMonitorSQL(listallcoursesql,"user");
+        return listallcourseres;
+    }
+
+    public String listactivecourse(Integer userId, String nickname, String remark) throws SQLException {
+        String allcourse = this.listallcourse(userId,nickname, remark);
+        String[] courselist = allcourse.split(",");
+        String activecourseres = "0";
+        for(String courseid:courselist){
+            String isactivesql = "select isactive from course where id = " +courseid;
+            String isactiveres = DBUtil.DBMonitorSQL(isactivesql,"course");
+            if(isactiveres.equals("1"))
+                activecourseres += ","+courseid;
+        }
+        return activecourseres;
+    }
+
+    public String listmyowncourse(Integer teacherID) throws SQLException {
+        String listmyowncoursesql = "select id from course where teacher = "+teacherID;
+        String listmyowncourseres = DBUtil.DBMonitorSQL(listmyowncoursesql,"course");
+        return listmyowncourseres;
+    }
+
+    public String searchcoursebyid(String courseid) throws SQLException {
+        String searchbyidsql = "select * from course where id = "+courseid;
+        String idres = DBUtil.DBMonitorSQL(searchbyidsql,"course");
+        return idres;
+    }
+
+    public String searchcoursebyname(String coursename) throws SQLException {
+        String searchbynamesql = "select * from course where name = \"" + coursename + "\"";
+        String nameres = DBUtil.DBMonitorSQL(searchbynamesql,"course");
+        return nameres;
+    }
+
+    public String searchcoursebyteacher(String teacherid) throws SQLException {
+        String searchbyteacheridsql = "select * from course where teacher = "+teacherid;
+        String teacheridres = DBUtil.DBMonitorSQL(searchbyteacheridsql,"course");
+        return teacheridres;
+    }
 }

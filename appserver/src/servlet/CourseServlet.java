@@ -19,7 +19,6 @@ public class CourseServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
 
         String returnwechat = "";
 
@@ -30,10 +29,10 @@ public class CourseServlet extends HttpServlet {
         response.setHeader("Access-Control-Allow-Methods", "GET,POST");
 
         //获取微信小程序get的参数值并打印
-        Integer funcID = Integer.parseInt(request.getParameter("funcID"));
+        String funcID = request.getParameter("funcID");
 
         switch (funcID){
-            case 1:{
+            case "createcourse":{
                 String name = request.getParameter("name");
                 String password = request.getParameter("password");
                 Integer teacher = Integer.parseInt(request.getParameter("teacher"));
@@ -59,7 +58,7 @@ public class CourseServlet extends HttpServlet {
                 }
                 break;
             }
-            case 2:{
+            case "joincourse":{
                 String name = request.getParameter("name");
                 String password = request.getParameter("password");
                 Integer stuID = Integer.parseInt(request.getParameter("stuID"));
@@ -72,6 +71,85 @@ public class CourseServlet extends HttpServlet {
                             returnwechat = "加入课程失败！" + "课程名称或密码有误！";
                     }else
                         returnwechat = "userID:"+stuID+"有误！";
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case "listallcourse":{
+                Integer userID = Integer.parseInt(request.getParameter("userID"));
+                String nickname = request.getParameter("nickname");
+                String remark = request.getParameter("remark");
+                CourseService courseService = new CourseService();
+                try {
+                    String listallcourseres = courseService.listallcourse(userID,nickname,remark);
+                    if(!listallcourseres.equals(""))
+                        returnwechat = listallcourseres;
+                    else
+                        returnwechat = "没有查询到课程列表！";
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case "listmyowncourse":{
+                Integer userID = Integer.parseInt(request.getParameter("userID"));
+                CourseService courseService = new CourseService();
+                try {
+                    String listmyowncourseres = courseService.listmyowncourse(userID);
+                    if(!listmyowncourseres.equals(""))
+                        returnwechat = listmyowncourseres;
+                    else
+                        returnwechat = "没有查询到您创建的课程！";
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case "listactivecourse":{
+                Integer userID = Integer.parseInt(request.getParameter("userID"));
+                String nickname = request.getParameter("nickname");
+                String remark = request.getParameter("remark");
+                CourseService courseService = new CourseService();
+                try {
+                    String listactivecourseres = courseService.listactivecourse(userID,nickname,remark);
+                    if(!listactivecourseres.equals(""))
+                        returnwechat = listactivecourseres;
+                    else
+                        returnwechat = "没有查询到正在进行的课程！";
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case "searchcourse":{
+                String courseid = request.getParameter("courseid");
+                String coursename = request.getParameter("coursename");
+                String teacherid = request.getParameter("teacherid");
+                CourseService courseService = new CourseService();
+                try {
+                    if(!courseid.equals("")){
+                        String seachcoursebyidres = courseService.searchcoursebyid(courseid);
+                        if(!seachcoursebyidres.equals(""))
+                            returnwechat = seachcoursebyidres;
+                        else
+                            returnwechat = "没有查询该ID的课程信息！";
+                    }
+                    if(!coursename.equals("")){
+                        String searchcoursebynameres = courseService.searchcoursebyname(coursename);
+                        if(!searchcoursebynameres.equals(""))
+                            returnwechat = searchcoursebynameres;
+                        else
+                            returnwechat = "没有查询到该课程名的课程信息！";
+                    }
+                    if(!teacherid.equals("")){
+                        String searchcoursebyteacherres = courseService.searchcoursebyteacher(teacherid);
+                        if(!searchcoursebyteacherres.equals(""))
+                            returnwechat = searchcoursebyteacherres;
+                        else
+                            returnwechat = "没有查询到该老师开设的课程信息！";
+                    }
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
