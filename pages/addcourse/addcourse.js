@@ -61,7 +61,7 @@ Page({
         infoMess: '温馨提示',
       })
       wx.request({
-        url: 'https://www.doveminr.com/appserver/servlet/CourseServlet',
+        url: app.globalData.URI + '/appserver/servlet/CourseServlet',
         data: {
           funcID: 1,
           name: this.data.courseName,
@@ -71,7 +71,7 @@ Page({
           startdate: this.data.startDate,
           enddate: this.data.endDate
         },
-        method: 'POST',
+        method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
         },

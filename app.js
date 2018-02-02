@@ -1,5 +1,29 @@
 //app.js
 App({
+  getAllCourses: function (userID) {
+    wx.request({
+      url: this.globalData.URI + '/getAllCourses',
+      data: {
+        userID: userID
+      },
+      method: 'GET',
+      header: { 'content-type': 'application/json' },
+      success: function (res) {
+        if (res.statusCode === 200) {
+          return res.data
+        } else {
+          console.log("get all courses failed.")
+        }
+      },
+      fail: function (res) {
+        console.log("get all courses failed.")
+      }
+    })
+  },
+  globalData: {
+    userInfo: {},
+    URI: 'https://www.doveminr.com'
+  },
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
@@ -12,14 +36,39 @@ App({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         if (res.code) {
           //发起网络请求
-          // wx.request({
-          //   url: 'https://test.com/onLogin',
-          //   data: {
-          //     code: res.code
-          //   }
-          // })
-        } else {
-          console.log('获取用户登录态失败！' + res.errMsg)
+          //获取openId
+          wx.request({
+            url: this.globalData.URI + '/onLogin',
+            data: {
+              code: res.code
+            },
+            method: 'GET',
+            header: { 'content-type': 'application/json' },
+            success: function (openIdRes) {
+              console.info("登录成功返回的openId：" + openIdRes.data.openid);
+              this.globalData.userInfo.openId = openIdRes.data.openid;
+              // 判断openId是否获取成功
+              if (openIdRes.data.openid != null & openIdRes.data.openid != undefined) {
+                // 有一点需要注意 询问用户 是否授权 那提示 是这API发出的
+                wx.getUserInfo({
+                  success: function (data) {
+                    // 自定义操作
+                    // 绑定数据，渲染页面
+                    
+                  },
+                  fail: function (failData) {
+                    console.info("用户拒绝授权");
+                  }
+                });
+              } else {
+                console.info("获取用户openId失败");
+              }
+            },
+            fail: function (error) {
+              console.info("获取用户openId失败");
+              console.info(error);
+            }
+          })
         }
       }
     })
@@ -43,9 +92,6 @@ App({
         }
       }
     })
-  },
-  globalData: {
-    userInfo: null,
-    
   }
+  
 })

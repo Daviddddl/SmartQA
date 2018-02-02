@@ -1,10 +1,12 @@
 <!--index.wxml-->
-<view >
-  <view class='page__td_spacing page__bd_spacing'> 
-    <button class="weui-btn" type="default" plain="true" bindtap='nav2editcourse'>创建课程</button>  
- </view>
+<import src="../common/course-list" />
 
-  <view class="page__bd page__bd_spacing">
+<view >
+  <view class='page__td page__bd_spacing'> 
+    <button class="weui-btn" type="default" plain="true" bindtap='nav2editcourse'>创建课程</button>  
+  </view>
+
+  <!-- <view class="page__bd page__bd_spacing">
         <view class="kind-list">
             <block wx:for="{{list}}" wx:key="id">
                 <view class="kind-list__item">
@@ -25,6 +27,8 @@
                 </view>
             </block>
         </view>
-    </view>
+    </view> -->
+    <template is='course-list' data="{{list}}" />
+    
 
 </view>

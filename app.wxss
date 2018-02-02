@@ -16,18 +16,21 @@ page{
     font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
 }
 .page__hd {
-    padding: 40px;
+    padding: 20px;
+}
+.page__td {
+    padding-top: 5px;
 }
 .page__bd {
-    padding-bottom: 40px;
+    padding-bottom: 10px;
 }
 .page__td_spacing{
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .page__bd_spacing {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .page__ft{
