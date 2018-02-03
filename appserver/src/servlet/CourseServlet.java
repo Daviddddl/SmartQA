@@ -61,28 +61,28 @@ public class CourseServlet extends HttpServlet {
             case "joincourse":{
                 String name = request.getParameter("name");
                 String password = request.getParameter("password");
-                Integer stuID = Integer.parseInt(request.getParameter("stuID"));
+                Integer stuid = Integer.parseInt(request.getParameter("stuid"));
                 CourseService courseService = new CourseService();
                 try {
-                    if(courseService.checkID(stuID)){
-                        if(courseService.joincourse(name,password,stuID))
+                    if(courseService.checkID(stuid)){
+                        if(courseService.joincourse(name,password,stuid))
                             returnwechat = "加入课程成功！";
                         else
                             returnwechat = "加入课程失败！" + "课程名称或密码有误！";
                     }else
-                        returnwechat = "userID:"+stuID+"有误！";
+                        returnwechat = "userID:"+stuid+"有误！";
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 break;
             }
             case "listallcourse":{
-                Integer userID = Integer.parseInt(request.getParameter("userID"));
+                Integer userid = Integer.parseInt(request.getParameter("userid"));
                 String nickname = request.getParameter("nickname");
                 String remark = request.getParameter("remark");
                 CourseService courseService = new CourseService();
                 try {
-                    String listallcourseres = courseService.listallcourse(userID,nickname,remark);
+                    String listallcourseres = courseService.listallcourse(userid,nickname,remark);
                     if(!listallcourseres.equals(""))
                         returnwechat = listallcourseres;
                     else
@@ -93,10 +93,10 @@ public class CourseServlet extends HttpServlet {
                 break;
             }
             case "listmyowncourse":{
-                Integer userID = Integer.parseInt(request.getParameter("userID"));
+                Integer userid = Integer.parseInt(request.getParameter("userid"));
                 CourseService courseService = new CourseService();
                 try {
-                    String listmyowncourseres = courseService.listmyowncourse(userID);
+                    String listmyowncourseres = courseService.listmyowncourse(userid);
                     if(!listmyowncourseres.equals(""))
                         returnwechat = listmyowncourseres;
                     else
@@ -107,12 +107,12 @@ public class CourseServlet extends HttpServlet {
                 break;
             }
             case "listactivecourse":{
-                Integer userID = Integer.parseInt(request.getParameter("userID"));
+                Integer userid = Integer.parseInt(request.getParameter("userid"));
                 String nickname = request.getParameter("nickname");
                 String remark = request.getParameter("remark");
                 CourseService courseService = new CourseService();
                 try {
-                    String listactivecourseres = courseService.listactivecourse(userID,nickname,remark);
+                    String listactivecourseres = courseService.listactivecourse(userid,nickname,remark);
                     if(!listactivecourseres.equals(""))
                         returnwechat = listactivecourseres;
                     else
