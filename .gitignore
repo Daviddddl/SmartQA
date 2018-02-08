@@ -1,4 +1,82 @@
 @@ -0,0 +1,59 @@
+server/*.class
+
+# Mobile Tools for Java (J2ME)
+server/.mtj.tmp/
+
+# Package Files #
+#*.jar
+server/*.war
+server/*.ear
+
+# virtual machine crash logs, see server/http://www.java.com/en/download/help/error_hotspot.xml
+server/hs_err_pid*
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+server/.DS_Store
+server/.AppleDouble
+server/.LSOverride
+
+# Thumbnails
+server/._*
+
+# Files that might appear on external disk
+server/.Spotlight-V100
+server/.Trashes
+
+# Directories potentially created on remote AFP share
+server/.AppleDB
+server/.AppleDesktop
+server/Network Trash Folder
+server/Temporary Items
+server/.apdisk
+
+# Windows
+# =========================
+
+# Windows image file caches
+server/Thumbs.db
+server/ehthumbs.db
+
+# Folder config file
+server/Desktop.ini
+
+# Recycle Bin used on file shares
+server/$RECYCLE.BIN/
+
+# Windows Installer files
+server/*.cab
+server/*.msi
+server/*.msm
+server/*.msp
+
+# Windows shortcuts
+server/*.lnk
+
+node_modules/
+server/dist/
+server/npm-debug.log*
+server/yarn-debug.log*
+server/yarn-error.log*
+
+# Editor directories and files
+server/.idea/
+server/*.iml
+server/.vscode
+server/*.suo
+server/*.ntvs*
+server/*.njsproj
+server/*.sln
+server/target/
+server/out/
+
+@@ -0,0 +1,59 @@
 appserver/*.class
 
 # Mobile Tools for Java (J2ME)
@@ -75,3 +153,4 @@ appserver/*.njsproj
 appserver/*.sln
 appserver/target/
 appserver/out/
+
