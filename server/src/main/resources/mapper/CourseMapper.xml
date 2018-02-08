@@ -4,4 +4,23 @@
     <select id="getCourseList" resultType="com.smartQA.operation.dataobject.Course">
         SELECT *  FROM `course`
     </select>
+    <insert id="addCourse" parameterType="com.smartQA.operation.dataobject.Course">
+        INSERT INTO `course`(
+        `name`,
+        `password`,
+        `teacher`,
+        `capacity`,
+        `startdate`,
+        `enddate`,
+        `isactive`)
+        VALUES (#{name},#{password},#{teacher},#{capacity},#{startdate},#{enddate},1);
+    </insert>
+
+    <update id="deleteCourse" >
+        UPDATE `course` SET `isactive`=0 WHERE `name`=#{name};
+    </update>
+
+    <select id="getCourse" resultType="com.smartQA.operation.dataobject.Course">
+        SELECT * FROM `course` WHERE `name`=#{name} AND `isactive`=1;
+    </select>
 </mapper>

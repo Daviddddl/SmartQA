@@ -22,5 +22,19 @@
 
 </c:forEach>
 </table>
+
+<form name="addUser" action="/user/addUser" method="get" onsubmit="return checknull()">
+
+    昵称：<input type="text" name="nickName">
+    备注：<input type="text" name="remark">
+    性别：<input type="text" name="gender">
+    语言：<input type="text" name="lang">
+    城市：<input type="text" name="city">
+    省会：<input type="text" name="province">
+    国家：<input type="text" name="country">
+    URL：<input type="text" name="avatarUrl">
+    加入课程：<input type="text" name="joinCourse">
+    <input type="submit">
+</form>
 </body>
 </html>

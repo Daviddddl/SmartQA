@@ -4,4 +4,27 @@
     <select id="getUserList" resultType="com.smartQA.operation.dataobject.User">
         SELECT *  FROM `user`
     </select>
+
+    <insert id="addUser" parameterType="com.smartQA.operation.dataobject.User">
+        INSERT INTO `user`(
+        `id`,
+        `nickname`,
+        `remark`,
+        `gender`,
+        `lang`,
+        `city`,
+        `province`,
+        `country`,
+        `avaarUrl`,
+        `joinCourse`)
+        VALUES ("",#{nickName},#{remark},#{gender},#{lang},#{city},#{province},#{country},#{avatarUrl},#{joinCourse});
+    </insert>
+
+    <delete id="deleteUser" >
+        DELETE `user` WHERE `nickname`=#{nickName};
+    </delete>
+
+    <select id="getUser" resultType="com.smartQA.operation.dataobject.User">
+        SELECT * FROM `user` WHERE `nickname`=#{nickName};
+    </select>
 </mapper>
