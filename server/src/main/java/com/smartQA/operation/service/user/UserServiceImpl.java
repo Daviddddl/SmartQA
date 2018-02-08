@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService{
         return false;
     }
     public User getUser(String nickName) {
-        User User= userDAO.getUser(nickName);
-        return User;
+        User user= userDAO.getUser(nickName);
+        return user;
     }
     public boolean deleteUser(String nickName) {
         userDAO.deleteUser(nickName);
