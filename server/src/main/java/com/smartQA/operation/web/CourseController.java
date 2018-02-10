@@ -52,4 +52,36 @@ public class CourseController {
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
+    @RequestMapping(value = "deleteCourse")
+    public void deleteServer(String name, String password, HttpServletResponse response)throws Exception{
+        JSONObject jsonObject = new JSONObject();
+        boolean result=courseService.deleteCourse(name,password);
+        jsonObject.put("code",200);
+        jsonObject.put("success",result);
+        jsonObject.put("msg","success");
+        jsonObject.put("result",new JSONObject());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "getCourse")
+    public void getServer(String name, HttpServletResponse response)throws Exception{
+        JSONObject jsonObject = new JSONObject();
+        Course course =courseService.getCourse(name);
+        if(course==null){
+            jsonObject.put("code",403);
+            jsonObject.put("success",false);
+            jsonObject.put("msg","success");
+            jsonObject.put("result",new JSONObject());
+        }
+        else {
+            jsonObject.put("code",200);
+            jsonObject.put("success",true);
+            jsonObject.put("msg","success");
+            jsonObject.put("result",new JSONObject(course));
+        }
+
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
 }

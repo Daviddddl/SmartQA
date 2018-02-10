@@ -28,5 +28,33 @@
 
     </c:forEach>
 </table>
+
+<form name="addCourse" action="/course/addCourse" method="get" onsubmit="return checknull()">
+
+    名称：<input type="text" name="name">
+    密码：<input type="text" name="password">
+    教师：<input type="text" name="teacher">
+    容量：<input type="text" name="capacity">
+    学生数量：<input type="text" name="stunum">
+    起始时间：<input type="text" name="startdate">
+    终止时间：<input type="text" name="enddate">
+    活动：<input type="text" name="isactive">
+    <input type="submit">
+</form>
+
+删除：
+<form name="deleteCourse" action="/course/deleteCourse" method="get" onsubmit="return checknull()">
+
+    名称：<input type="text" name="name">
+    密码：<input type="text" name="password">
+    <input type="submit">
+</form>
+
+查询：
+<form name="getCourse" action="/course/getCourse" method="get" onsubmit="return checknull()">
+
+    名称：<input type="text" name="name">
+    <input type="submit">
+</form>
 </body>
 </html>

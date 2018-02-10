@@ -13,14 +13,15 @@
         `startdate`,
         `enddate`,
         `isactive`)
-        VALUES (#{name},#{password},#{teacher},#{capacity},#{startdate},#{enddate},1);
+        VALUES (#{name},#{password},#{teacher},#{capacity},#{startdate},#{enddate},#{isactive});
     </insert>
 
     <update id="deleteCourse" >
-        UPDATE `course` SET `isactive`=0 WHERE `name`=#{name};
+        UPDATE `course` SET `isactive`=0 WHERE `name`=#{name} AND `password`=#{password};
     </update>
 
     <select id="getCourse" resultType="com.smartQA.operation.dataobject.Course">
         SELECT * FROM `course` WHERE `name`=#{name} AND `isactive`=1;
     </select>
+
 </mapper>
