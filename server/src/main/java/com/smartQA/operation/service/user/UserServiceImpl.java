@@ -20,17 +20,15 @@ public class UserServiceImpl implements UserService{
     @Resource
     private UserDAO userDAO;
 
-    public boolean addUser(String nickName, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl, String joinCourse) {
-        userDAO.addUser(nickName, remark, gender, lang, city, province, country, avatarUrl, joinCourse);
-        return false;
+    public boolean addUser(User user) {
+        return userDAO.addUser(user);
     }
     public User getUser(String nickName) {
         User user= userDAO.getUser(nickName);
         return user;
     }
     public boolean deleteUser(String nickName) {
-        userDAO.deleteUser(nickName);
-        return false;
+        return userDAO.deleteUser(nickName);
     }
 
     public List<User> getUserList() {

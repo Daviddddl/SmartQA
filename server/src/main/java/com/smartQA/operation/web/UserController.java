@@ -35,19 +35,19 @@ public class UserController {
     }
 
     @RequestMapping(value = "/addUser")
-    public void addUser(String nickName, String remark, Integer gender, String lang, String city, String province, String country, String avatarUrl, String joinCourse, HttpServletResponse response) throws IOException {
+    public void addUser(User user, HttpServletResponse response) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        boolean res = userService.addUser(nickName, remark, gender, lang, city, province, country, avatarUrl, joinCourse);
+        boolean res = userService.addUser(user);
         if(res){
             jsonObject.put("code",200);
             jsonObject.put("msg","success");
             jsonObject.put("success",res);
-            jsonObject.put("result",new JSONObject());
+            jsonObject.put("result",user.getId()+user.getnickName());
         }else{
             jsonObject.put("code",500);
             jsonObject.put("msg","添加用户失败，请检查");
             jsonObject.put("success",res);
-            jsonObject.put("result",new JSONObject());
+            jsonObject.put("result","error!");
         }
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);

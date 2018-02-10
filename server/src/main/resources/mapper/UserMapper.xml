@@ -7,7 +7,6 @@
 
     <insert id="addUser" parameterType="com.smartQA.operation.dataobject.User">
         INSERT INTO `user`(
-        `id`,
         `nickname`,
         `remark`,
         `gender`,
@@ -15,9 +14,9 @@
         `city`,
         `province`,
         `country`,
-        `avaarUrl`,
+        `avatarUrl`,
         `joinCourse`)
-        VALUES ("",#{nickName},#{remark},#{gender},#{lang},#{city},#{province},#{country},#{avatarUrl},#{joinCourse});
+        VALUES (#{nickName},#{remark},#{gender},#{lang},#{city},#{province},#{country},#{avatarUrl},#{joinCourse});
     </insert>
 
     <delete id="deleteUser" >

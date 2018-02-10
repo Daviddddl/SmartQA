@@ -21,9 +21,8 @@ public class CourseServiceImpl implements CourseService{
     private CourseDAO courseDAO;
 
 
-    public boolean addCourse(String name, String password, Integer teacher, Integer capacity, Integer stunum, String startdate, String enddate, Integer isactive) {
-        courseDAO.addCourse(name,password,teacher,capacity,stunum,startdate,enddate,isactive);
-        return false;
+    public boolean addCourse(Course course) {
+        return courseDAO.addCourse(course);
     }
 
     public Course getCourse(String name) {
@@ -32,8 +31,7 @@ public class CourseServiceImpl implements CourseService{
     }
 
     public boolean deleteCourse(String name, String password) {
-        courseDAO.deleteCourse(name,password);
-        return false;
+        return courseDAO.deleteCourse(name,password);
     }
 
     public List<Course> getCourseList() {

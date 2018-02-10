@@ -35,19 +35,19 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/addCourse")
-    public void addCourse(String name, String password, Integer teacher, Integer capacity, Integer stunum, String startdate, String enddate, Integer isactive, HttpServletResponse response) throws IOException {
+    public void addCourse(Course course, HttpServletResponse response) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        boolean res = courseService.addCourse(name, password, teacher, capacity, stunum, startdate, enddate, isactive);
+        boolean res = courseService.addCourse(course);
         if(res){
             jsonObject.put("code",200);
             jsonObject.put("msg","success");
             jsonObject.put("success",res);
-            jsonObject.put("result",new JSONObject());
+            jsonObject.put("result","添加课程成功！");
         }else{
             jsonObject.put("code",500);
             jsonObject.put("msg","添加课程失败，请检查");
             jsonObject.put("success",res);
-            jsonObject.put("result",new JSONObject());
+            jsonObject.put("result","error");
         }
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
