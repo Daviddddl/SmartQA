@@ -77,7 +77,7 @@ public class DBUtil {
                         resultdata += ","+result.getString(s);
                 resultdata = resultdata.substring(1,resultdata.length());
             }
-            if(sql.contains("update") || sql.contains("UPDATE")){
+            if(sql.contains("update") || sql.contains("UPDATE") || sql.contains("insert") || sql.contains("INSERT")){
                 int updateres = preparedstatement.executeUpdate();
                 resultdata += updateres > 0 ? "更新成功！有"+updateres+"列发生变化！" : "更新失败！";
             }

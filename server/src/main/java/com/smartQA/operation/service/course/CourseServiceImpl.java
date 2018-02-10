@@ -2,9 +2,11 @@ package com.smartQA.operation.service.course;
 
 import com.smartQA.operation.dao.CourseDAO;
 import com.smartQA.operation.dataobject.Course;
+import com.smartQA.operation.service.utils.DBUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -37,5 +39,19 @@ public class CourseServiceImpl implements CourseService{
     public List<Course> getCourseList() {
         List<Course> courses = courseDAO.getCourseList();
         return courses;
+    }
+
+    /**
+     * 创建课程时需要检验教师ID是否在user中
+     * @param teacher
+     * @return
+     */
+    public boolean checkID(Integer teacher) throws SQLException {
+        String sql = "select * from user where id = "+teacher;
+        String sqlres = DBUtil.DBMonitorSQL(sql, "user");
+        if(sqlres.equals(""))
+            return false;
+        else
+            return true;
     }
 }
