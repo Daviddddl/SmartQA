@@ -36,22 +36,26 @@ public class StuOperateService {
         return (String)FileUtil.getQuoCon(getidres).get(0);
     }
 
-    public boolean joinCourse(String name, String password, Integer stuID) throws SQLException {
+    public boolean joinCourse(String name, String password, String nickName, String remark) throws SQLException {
 
+        String stuID = getUserID(nickName, remark);
+        if(stuID.startsWith("error!"))
+            return false;
         String courseupdatesql = "UPDATE course SET stunum = stunum+1 WHERE name = \""+name + "\" and password = \""+ password+"\"";
         String getcoursessql = "select joinCourse from user where id = "+stuID;
         String courseID = getCourseID(name);
         if(!courseID.startsWith("error!")){
             //System.out.println("course表中有该课程！");
             String getcourses = DBUtil.DBMonitorSQL(getcoursessql,"course");
-            ArrayList getcourseres = new ArrayList();
             if(getcourses.startsWith("error!"))
                 return false;
-            for(String res : getcourses.split(","))
-                getcourseres.add(res);
-            if(getcourseres.contains(courseID)){
-                System.out.println("该用户已选过该课程！");
-                return true;
+            String course = (String)FileUtil.getQuoCon(getcourses).get(0);
+            String[] courselist = course.split(",");
+            for(String s : courselist){
+                if(s.equals(courseID)){
+                    System.out.println("该用户已选过该课程！");
+                    return false;
+                }
             }
             String courseupres = DBUtil.DBMonitorSQL(courseupdatesql, "course");
             //System.out.println(courseupres);
@@ -68,15 +72,18 @@ public class StuOperateService {
         return true;
     }
 
-    public boolean quitCourse(Integer userid, String name) throws SQLException {
+    public boolean quitCourse(String nickName, String remark, String name) throws SQLException {
+        String userid = getUserID(nickName,remark);
+        if(userid.startsWith("error!"))
+            return false;
         String courseid = getCourseID(name);
         if(courseid.startsWith("error!"))
             return false;
         String getcoursesql = "select joinCourse from user where id = " + userid;
         String getcourseres = DBUtil.DBMonitorSQL(getcoursesql,"user");
         if(getcourseres.contains(courseid+",")){
-            String upjoinsql = "update user set joinCourse = replace(joinCourse, \'"+courseid+","+"\',\'\') where id = "+ userid;
-            DBUtil.DBMonitorSQL(upjoinsql,"user");
+            String upquitsql = "update user set joinCourse = replace(joinCourse, \'"+courseid+","+"\',\'\') where id = "+ userid;
+            DBUtil.DBMonitorSQL(upquitsql,"user");
             String downnumsql = "update course set stunum = stunum-1 WHERE name = \""+name+"\"";
             DBUtil.DBMonitorSQL(downnumsql,"course");
             return true;
@@ -84,17 +91,21 @@ public class StuOperateService {
         return false;
     }
 
-    public ArrayList<String> listMyCourse(Integer userid) throws SQLException {
+    public ArrayList<String> listMyCourse(String nickName, String remark) throws SQLException {
+        ArrayList<String> courselistres = new ArrayList<>();
+        String userid = getUserID(nickName, remark);
+        if(userid.startsWith("error!")){
+            courselistres.add("error!");
+            return courselistres;
+        }
         String listsql = "select joinCourse from user where id = "+userid;
         String listres = DBUtil.DBMonitorSQL(listsql,"user");
-        ArrayList<String> courselistres = new ArrayList<>();
-        if(listres.startsWith("error!")){
-            courselistres.add(listres);
+        if(listres.startsWith("error!") || listres.length() <= 8){
+            courselistres.add("error! 没有课程！");
             return courselistres;
         }
         String course = (String)FileUtil.getQuoCon(listres).get(0);
         course = course.trim();
-        course = course.substring(2,course.length()-1);
         String[] courselist = course.split(",");
         for(String courseid : courselist){
             String listprosql = "select id,name,teacher from course where id = "+courseid;
@@ -122,6 +133,6 @@ public class StuOperateService {
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(new StuOperateService().listMyCourse(16).get(2));
+        System.out.println(new StuOperateService().joinCourse("course2","23","009","004"));
     }
 }

@@ -16,7 +16,7 @@
         `country`,
         `avatarUrl`,
         `joinCourse`)
-        VALUES (#{nickName},#{remark},#{gender},#{lang},#{city},#{province},#{country},#{avatarUrl},"0,");
+        VALUES (#{nickName},#{remark},#{gender},#{lang},#{city},#{province},#{country},#{avatarUrl},"");
     </insert>
 
     <delete id="deleteUser" >
