@@ -27,7 +27,7 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "joinCourse")
-    public void joinCourse(String name, String password, String stuID, HttpServletResponse response) throws SQLException, IOException {
+    public void joinCourse(String name, String password, Integer stuID, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
         boolean joinres = stuOperateService.joinCourse(name,password,stuID);
         JSONObject jsonObject = new JSONObject();

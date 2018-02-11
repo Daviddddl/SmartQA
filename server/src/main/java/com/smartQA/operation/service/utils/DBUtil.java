@@ -23,10 +23,10 @@ public class DBUtil {
         String password;
         try{
             prop.load(this.getClass().getClassLoader().getResourceAsStream("jdbc.properties"));
-            driver = prop.getProperty("driver");
-            url = prop.getProperty("url");
-            username = prop.getProperty("username");
-            password = prop.getProperty("password");
+            driver = prop.getProperty("jdbc.driver");
+            url = prop.getProperty("jdbc.url");
+            username = prop.getProperty("jdbc.username");
+            password = prop.getProperty("jdbc.password");
             Class.forName(driver);
             return DriverManager.getConnection(url, username, password);
         }catch(Exception e){
@@ -72,14 +72,24 @@ public class DBUtil {
 
             if(sql.contains("select") || sql.contains("SELECT")){
                 result = preparedstatement.executeQuery();// 执行查询，注意括号中不需要再加参数
-                while (result.next())
-                    for(String s : labels)
-                        resultdata += ","+result.getString(s);
-                resultdata = resultdata.substring(1,resultdata.length());
+                if (!result.next())
+                    resultdata = "error! 啥都没有搜索到！";
+                else{
+                    result.beforeFirst();
+                    int line = 0;
+                    while (result.next()) {
+                        resultdata += line + ":  ";
+                        for (String s : labels)
+                            resultdata += "\""+result.getString(s)+"\", ";
+                        resultdata = resultdata.substring(0,resultdata.length()-2);
+                        resultdata += ";\n";
+                        line++;
+                    }
+                }
             }
-            if(sql.contains("update") || sql.contains("UPDATE") || sql.contains("insert") || sql.contains("INSERT")){
+            if(sql.contains("update") || sql.contains("UPDATE") || sql.contains("insert") || sql.contains("INSERT") || sql.contains("delete") || sql.contains("DELETE")){
                 int updateres = preparedstatement.executeUpdate();
-                resultdata += updateres > 0 ? "更新成功！有"+updateres+"列发生变化！" : "更新失败！";
+                resultdata += updateres > 0 ? "更新成功！有"+updateres+"列发生变化！" : "error! 更新失败！";
             }
 
         } catch (SQLException e) {
