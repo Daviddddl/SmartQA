@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form name="joinCourse" action="/stuoperate/joinCourse" method="get" onsubmit="return checknull()">
+<form name="joinCourse" action="./joinCourse" method="get" onsubmit="return checknull()">
     加入课程：<br>
     课程名称：<input type="text" name="name">
     课程密码：<input type="text" name="password">
@@ -21,7 +21,7 @@
     <input type="submit">
 </form>
 
-<form name="quitCourse" action="/stuoperate/quitCourse" method="get" onsubmit="return checknull()">
+<form name="quitCourse" action="./quitCourse" method="get" onsubmit="return checknull()">
     退出课程：<br>
     用户昵称：<input type="text" name="nickName">
     用户备注：<input type="text" name="remark">
@@ -29,7 +29,7 @@
     <input type="submit">
 </form>
 
-<form name="listMyCourse" action="/stuoperate/listMyCourse" method="get" onsubmit="return checknull()">
+<form name="listMyCourse" action="./listMyCourse" method="get" onsubmit="return checknull()">
 
     列出我的课程：<br>
     用户昵称：<input type="text" name="nickName">
@@ -37,7 +37,7 @@
     <input type="submit">
 </form>
 
-<form name="putforwardQues" action="/stuoperate/putforwardQues" method="get" onsubmit="return checknull()">
+<form name="putforwardQues" action="./putforwardQues" method="get" onsubmit="return checknull()">
 
     （暂不可用）<br>
 
@@ -45,7 +45,7 @@
     <input type="submit">
 </form>
 
-<form name="markUnknown" action="/stuoperate/markUnknown" method="get" onsubmit="return checknull()">
+<form name="markUnknown" action="./markUnknown" method="get" onsubmit="return checknull()">
 
     标记不懂：<br>
     课程名称：<input type="text" name="name">
@@ -53,7 +53,7 @@
     <input type="submit">
 </form>
 
-<form name="mySign" action="/stuoperate/mySign" method="get" onsubmit="return checknull()">
+<form name="mySign" action="./mySign" method="get" onsubmit="return checknull()">
 
     （暂不可用）<br>
     我的签到：<br>

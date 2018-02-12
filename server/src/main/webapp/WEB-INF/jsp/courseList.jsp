@@ -29,7 +29,7 @@
     </c:forEach>
 </table>
 
-<form name="addCourse" action="/course/addCourse" method="get" onsubmit="return checknull()">
+<form name="addCourse" action="./addCourse" method="get" onsubmit="return checknull()">
 
     名称：<input type="text" name="name">
     密码：<input type="text" name="password">
@@ -43,7 +43,7 @@
 </form>
 
 删除：
-<form name="deleteCourse" action="/course/deleteCourse" method="get" onsubmit="return checknull()">
+<form name="deleteCourse" action="./deleteCourse" method="get" onsubmit="return checknull()">
 
     名称：<input type="text" name="name">
     密码：<input type="text" name="password">
@@ -51,7 +51,7 @@
 </form>
 
 查询：
-<form name="getCourse" action="/course/getCourse" method="get" onsubmit="return checknull()">
+<form name="getCourse" action="./getCourse" method="get" onsubmit="return checknull()">
 
     名称：<input type="text" name="name">
     <input type="submit">

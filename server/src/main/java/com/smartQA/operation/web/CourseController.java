@@ -27,14 +27,14 @@ public class CourseController {
     @Resource
     private CourseService courseService;
 
-    @RequestMapping(value = "/getCourseList",method = RequestMethod.GET)
+    @RequestMapping(value = "getCourseList",method = RequestMethod.GET)
     public String getCourseList(ModelMap modelMap){
         List<Course> courseList=courseService.getCourseList();
         modelMap.put("courseList",courseList);
         return "courseList";
     }
 
-    @RequestMapping(value = "/addCourse")
+    @RequestMapping(value = "addCourse")
     public void addCourse(Course course, HttpServletResponse response) throws IOException {
         JSONObject jsonObject = new JSONObject();
         boolean res = courseService.addCourse(course);

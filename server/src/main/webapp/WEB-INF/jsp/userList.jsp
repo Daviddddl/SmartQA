@@ -23,7 +23,7 @@
 </c:forEach>
 </table>
 
-<form name="addUser" action="/user/addUser" method="get" onsubmit="return checknull()">
+<form name="addUser" action="./addUser" method="get" onsubmit="return checknull()">
 
     昵称：<input type="text" name="nickName">
     备注：<input type="text" name="remark">
