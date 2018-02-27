@@ -1,14 +1,18 @@
 package com.smartQA.operation.web;
 
 import com.smartQA.operation.service.teaoperate.*;
+import com.smartQA.operation.service.utils.FileUtil;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * 描述:
@@ -111,6 +115,15 @@ public class TeaOperateController {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.checkQues(quesid,stuans);
         JSONObject jsonObject = returnbooljson(res);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "listQues")
+    public void listQues(String name, String chapters, HttpServletResponse response) throws SQLException, IOException {
+        TeaOperateService teaOperateService = new TeaOperateService();
+        ArrayList<String> queslist = teaOperateService.listQues(name, chapters);
+        JSONObject jsonObject = returnstringjson(queslist.toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }

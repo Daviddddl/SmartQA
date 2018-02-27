@@ -4,6 +4,7 @@ import com.smartQA.operation.service.utils.DBUtil;
 import com.smartQA.operation.service.utils.FileUtil;
 import org.springframework.stereotype.Service;
 
+import javax.xml.ws.soap.Addressing;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -125,6 +126,39 @@ public class TeaOperateService {
         String getans = DBUtil.DBMonitorSQL(getanssql, "question");
         ArrayList ans = FileUtil.getQuoCon(getans);
         return ans != null && stuans.equals(ans.get(0));
+        //还得加正确率统计等功能。。。
+
+
+        
+    }
+
+    public boolean quizQues(Integer[] quesid) throws SQLException {
+        String quizsql = "update question set isquiz = 0";
+        DBUtil.DBMonitorSQL(quizsql, "question");
+        for(int i : quesid) {
+            String setactivesql = "update question set isquiz = 1 where id = " + i;
+            String res = DBUtil.DBMonitorSQL(setactivesql, "question");
+            if (res.startsWith("error!"))
+                return false;
+        }
+        return true;
+    }
+
+    public ArrayList<String> listQues(String name, String chapters) throws SQLException {
+        String courseid = getCourseID(name);
+        ArrayList ans = new ArrayList();
+        if(courseid.startsWith("error!")) {
+            ans.add("error!没有题目！");
+            return ans;
+        }
+        String listquessql = "select ques from question where courseid = "+courseid + " and chapters = " + chapters;
+        String listquesans = DBUtil.DBMonitorSQL(listquessql, "question");
+        if(listquesans.startsWith("error!")){
+            ans.add("error!没有题目！");
+            return ans;
+        }
+        ans = FileUtil.getQuoCon(listquesans);
+        return ans;
     }
 
     public boolean checkSign(String name) {
