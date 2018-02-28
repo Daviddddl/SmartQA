@@ -75,8 +75,18 @@ public class StuOperateController {
     public void listMyCourse(String nickName, String remark, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
         ArrayList res = stuOperateService.listMyCourse(nickName, remark);
-        JSONObject jsonObject = returnstringjson(res.toString());
 
+        JSONObject jsonObject = returnstringjson(res.toString());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "listOutline")
+    public void listOutline(String name, String chapters, HttpServletResponse response) throws SQLException, IOException{
+        StuOperateService stuOperateService = new StuOperateService();
+        ArrayList res = stuOperateService.listOutline(name,chapters);
+
+        JSONObject jsonObject = returnstringjson(res.toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -94,7 +104,7 @@ public class StuOperateController {
     @RequestMapping(value = "mySign")
     public void mySign(HttpServletResponse response) throws IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        stuOperateService.mySign();
+        //stuOperateService.mySign();
         boolean res = false;
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");

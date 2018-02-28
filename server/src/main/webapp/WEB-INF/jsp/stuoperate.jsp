@@ -45,6 +45,14 @@
     <input type="submit">
 </form>
 
+<form name="listOutline" action="./listOutline" method="get" onsubmit="return checknull()">
+
+    列出提纲：<br>
+    课程名称：<input type="text" name="name">
+    章节：<input type="text" name="chapters">
+    <input type="submit">
+</form>
+
 <form name="markUnknown" action="./markUnknown" method="get" onsubmit="return checknull()">
 
     标记不懂：<br>

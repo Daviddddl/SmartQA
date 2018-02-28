@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.zip.Adler32;
 
 /**
  * 描述:
@@ -115,7 +116,29 @@ public class StuOperateService {
         return courselistres;
     }
 
-    public void mySign() {
+    public ArrayList<String> listOutline(String coursename, String chapters) throws SQLException {
+        ArrayList<String> outlineans = new ArrayList<>();
+        String couseid = getCourseID(coursename);
+        if(couseid.startsWith("error!")){
+            outlineans.add("error!没有提纲！");
+            return outlineans;
+        }
+        String getoutlinesql = "select * from outline where courseid = "+couseid + " and chapters = "+chapters;
+        String getoutlineres = DBUtil.DBMonitorSQL(getoutlinesql,"outline");
+        if(getoutlineres.startsWith("error")){
+            outlineans.add("error！没有提纲");
+            return outlineans;
+        }
+        outlineans = FileUtil.getQuoCon(getoutlineres);
+        return outlineans;
+    }
+
+    public void mySign(String tealocation, String stulocation, String standtime, String signtime) {
+        //计算学生和老师之间的距离
+        //判断是否在给定的范围内
+
+        //判断学生签到时间是否超时
+
 
     }
 
@@ -130,6 +153,44 @@ public class StuOperateService {
         String marksql = "update outline set uknown = uknown+1 WHERE courseid = "+courseid + " and chapters = " + chapters;
         String upres = DBUtil.DBMonitorSQL(marksql,"outline");
         return !upres.startsWith("error!");
+    }
+
+    public boolean answer(String nickname, String remark, String coursename, String chapters, String quesid, String answer) throws SQLException {
+
+        String courseid = getCourseID(coursename);
+        String userid = getUserID(nickname, remark);
+        String addanssql = "insert into useranswer (userid, courseid, chapters, quesid, stuanswer) values ("+ userid+","+courseid + ","+chapters+"," +quesid + ", \"" +answer +"\")";
+
+        String addansres = DBUtil.DBMonitorSQL(addanssql, "useranswer");
+
+        return true;
+    }
+
+    public ArrayList<String> listquiz(String coursename) throws SQLException {
+        String courseid = getCourseID(coursename);
+        String listquizsql = "select id, ques from question where courseid = "+courseid +" and isquiz = 1";
+        String listquizres = DBUtil.DBMonitorSQL(listquizsql, "question");
+        ArrayList<String> res = new ArrayList<>();
+        if(listquizres.startsWith("error")){
+            res.add("error!没有课堂测试题！");
+            return res;
+        }
+        res = FileUtil.getQuoCon(listquizres);
+        return res;
+    }
+
+    public ArrayList<String> listMyAns(String nickname, String remark, String coursename, String chapters) throws SQLException {
+        String userid = getUserID(nickname,remark);
+        String courseid = getCourseID(coursename);
+        String listmyanssql = "select quesid, stuanswer from useranswer where userid = "+userid +" and courseid = "+courseid+" and chapters = "+ chapters;
+        String listmyansres = DBUtil.DBMonitorSQL(listmyanssql, "useranswer");
+        ArrayList<String> res = new ArrayList<>();
+        if(listmyansres.startsWith("error")){
+            res.add("error! 没有答案");
+            return res;
+        }
+        res = FileUtil.getQuoCon(listmyansres);
+        return res;
     }
 
     public static void main(String[] args) throws SQLException {

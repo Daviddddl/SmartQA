@@ -84,6 +84,14 @@
     <input type="submit">
 </form>
 
+<form name="listQues" action="./listQues" method="get" onsubmit="return checknull()">
+
+    列出题目：<br>
+    课程名称：<input type="text" name="name">
+    章节：<input type="text" name="chapters">
+    <input type="submit">
+</form>
+
 <form name="checkQues" action="./checkQues" method="get" onsubmit="return checknull()">
 
     检查回答：<br>
