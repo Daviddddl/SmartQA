@@ -96,7 +96,6 @@
 
     检查回答：<br>
     题目id：<input type="text" name="quesid">
-    学生答案：<input type="text" name="stuans">
     <input type="submit">
 </form>
 

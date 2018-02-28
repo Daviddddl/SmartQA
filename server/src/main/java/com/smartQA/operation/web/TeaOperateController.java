@@ -111,10 +111,10 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "checkQues")
-    public void checkQues(Integer quesid, String stuans,HttpServletResponse response) throws SQLException, IOException {
+    public void checkQues(Integer quesid,HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.checkQues(quesid,stuans);
-        JSONObject jsonObject = returnbooljson(res);
+        ArrayList res = teaOperateSerivce.checkQues(quesid);
+        JSONObject jsonObject = returnstringjson(res.toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }

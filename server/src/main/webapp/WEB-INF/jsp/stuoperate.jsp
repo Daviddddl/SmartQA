@@ -61,6 +61,35 @@
     <input type="submit">
 </form>
 
+<form name="listQuiz" action="./listQuiz" method="get" onsubmit="return checknull()">
+
+    列出题目：<br>
+    课程名称：<input type="text" name="name">
+    <input type="submit">
+</form>
+
+<form name="ansQuiz" action="./ansQuiz" method="get" onsubmit="return checknull()">
+
+    回答问题：<br>
+    昵称：<input type="text" name="nickname">
+    备注：<input type="text" name="remark">
+    课程名：<input type="text" name="coursename">
+    章节：<input type="text" name="chapters">
+    题号：<input type="text" name="quesid">
+    答案：<input type="text" name="answer">
+    <input type="submit">
+</form>
+
+<form name="listMyAns" action="./listMyAns" method="get" onsubmit="return checknull()">
+
+    列出我的回答：<br>
+    昵称：<input type="text" name="nickname">
+    备注：<input type="text" name="remark">
+    课程名：<input type="text" name="coursename">
+    章节：<input type="text" name="chapters">
+    <input type="submit">
+</form>
+
 <form name="mySign" action="./mySign" method="get" onsubmit="return checknull()">
 
     （暂不可用）<br>

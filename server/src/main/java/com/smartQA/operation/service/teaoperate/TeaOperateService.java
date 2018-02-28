@@ -121,15 +121,11 @@ public class TeaOperateService {
         return false;
     }
 
-    public boolean checkQues(Integer quesid, String stuans) throws SQLException {
-        String getanssql = "select ans from question where id = " + quesid;
-        String getans = DBUtil.DBMonitorSQL(getanssql, "question");
-        ArrayList ans = FileUtil.getQuoCon(getans);
-        return ans != null && stuans.equals(ans.get(0));
-        //还得加正确率统计等功能。。。
-
-
-        
+    public ArrayList<String> checkQues(Integer quesid) throws SQLException {
+        String getressql = "select chapters, ques, ans, ansnum, correct from question where id = " + quesid;
+        String getres = DBUtil.DBMonitorSQL(getressql, "question");
+        ArrayList ans = FileUtil.getQuoCon(getres);
+        return ans;
     }
 
     public boolean quizQues(Integer[] quesid) throws SQLException {

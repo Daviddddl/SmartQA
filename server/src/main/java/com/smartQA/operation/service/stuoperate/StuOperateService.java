@@ -155,20 +155,57 @@ public class StuOperateService {
         return !upres.startsWith("error!");
     }
 
-    public boolean answer(String nickname, String remark, String coursename, String chapters, String quesid, String answer) throws SQLException {
+    public ArrayList<String> ansQuiz(String nickname, String remark, String coursename, String chapters, String[] quesid, String[] answer) throws SQLException {
 
         String courseid = getCourseID(coursename);
         String userid = getUserID(nickname, remark);
-        String addanssql = "insert into useranswer (userid, courseid, chapters, quesid, stuanswer) values ("+ userid+","+courseid + ","+chapters+"," +quesid + ", \"" +answer +"\")";
 
-        String addansres = DBUtil.DBMonitorSQL(addanssql, "useranswer");
+        ArrayList<String> res = new ArrayList<>();
+        if(courseid.startsWith("error!") || userid.startsWith("error!"))
+            res.add("error! 没有该用户ID或课程ID!");
+        if(quesid.length != answer.length) {
+            res.add("error! 问题个数与回答个数不符合!");
+        }else{
+            for(int i = 0; i< quesid.length;i++){
 
-        return true;
+                String checkquesidsql = "select * from question where id = "+i;
+                String checkquesidres = DBUtil.DBMonitorSQL(checkquesidsql,"question");
+                if(checkquesidres.startsWith("error")){
+                    res.add("error! 没有该题号: "+i);
+                    return res;
+                }
+
+                //向学生答案表中插入答题结果
+                String addanssql = "insert into useranswer (userid, courseid, chapters, quesid, stuanswer) values ("+ userid+","+courseid + ","+chapters+"," +quesid[i] + ", \"" +answer[i] +"\")";
+                String addansres = DBUtil.DBMonitorSQL(addanssql, "useranswer");
+
+                //统计答题人数
+                String addansnumsql = "update question set ansnum = ansnum+1 where id =" +quesid[i];
+                String addansnumres = DBUtil.DBMonitorSQL(addansnumsql, "question");
+
+                //之后判断答题结果是否正确
+                String getanssql = "select ans from question where id = " + quesid[i];
+                String getans = DBUtil.DBMonitorSQL(getanssql, "question");
+                if(!getans.startsWith("error")) {
+                    ArrayList ans = FileUtil.getQuoCon(getans);
+                    boolean ansres = ans != null && answer[i].equals(ans.get(0));
+                    if(ansres){
+                        String addcorrectsql = "update question set correct = correct+1 where id = " + quesid[i];
+                        String addcorrectres = DBUtil.DBMonitorSQL(addcorrectsql, "question");
+                    }
+                    res.add(Boolean.toString(ansres));
+                }
+                else
+                    res.add("false");
+            }
+        }
+        return res;
     }
+
 
     public ArrayList<String> listquiz(String coursename) throws SQLException {
         String courseid = getCourseID(coursename);
-        String listquizsql = "select id, ques from question where courseid = "+courseid +" and isquiz = 1";
+        String listquizsql = "select id,ques from question where courseid = "+courseid +" and isquiz = 1";
         String listquizres = DBUtil.DBMonitorSQL(listquizsql, "question");
         ArrayList<String> res = new ArrayList<>();
         if(listquizres.startsWith("error")){
@@ -182,7 +219,7 @@ public class StuOperateService {
     public ArrayList<String> listMyAns(String nickname, String remark, String coursename, String chapters) throws SQLException {
         String userid = getUserID(nickname,remark);
         String courseid = getCourseID(coursename);
-        String listmyanssql = "select quesid, stuanswer from useranswer where userid = "+userid +" and courseid = "+courseid+" and chapters = "+ chapters;
+        String listmyanssql = "select quesid,stuanswer from useranswer where userid = "+userid +" and courseid = "+courseid+" and chapters = "+ chapters;
         String listmyansres = DBUtil.DBMonitorSQL(listmyanssql, "useranswer");
         ArrayList<String> res = new ArrayList<>();
         if(listmyansres.startsWith("error")){

@@ -91,6 +91,48 @@ public class StuOperateController {
         response.getWriter().print(jsonObject);
     }
 
+    @RequestMapping(value = "markUnknown")
+    public void markUnknown(String name, String chapters, HttpServletResponse response) throws SQLException, IOException {
+        StuOperateService stuOperateService = new StuOperateService();
+        boolean res = stuOperateService.markUnkown(name,chapters);
+
+        JSONObject jsonObject = returnbooljson(res);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "listQuiz")
+    public void listQuiz(String name, HttpServletResponse response) throws SQLException, IOException{
+        StuOperateService stuOperateService = new StuOperateService();
+        ArrayList res = stuOperateService.listquiz(name);
+
+        JSONObject jsonObject = returnstringjson(res.toString());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "ansQuiz")
+    public void ansQuiz(String nickname, String remark, String coursename, String chapters, String quesid, String answer, HttpServletResponse response) throws SQLException, IOException {
+        StuOperateService stuOperateService = new StuOperateService();
+        String[] quesidarr = quesid.split(",");
+        String[] answerarr = answer.split(",");
+        ArrayList<String> res = stuOperateService.ansQuiz(nickname, remark, coursename,chapters, quesidarr, answerarr);
+
+        JSONObject jsonObject = returnstringjson(res.toString());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "listMyAns")
+    public void listQuiz(String nickname, String remark, String coursename, String chapters, HttpServletResponse response) throws SQLException, IOException{
+        StuOperateService stuOperateService = new StuOperateService();
+        ArrayList res = stuOperateService.listMyAns(nickname, remark, coursename, chapters);
+
+        JSONObject jsonObject = returnstringjson(res.toString());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
     @RequestMapping(value = "putforwardQues")
     public void putfowardQues(String course, HttpServletResponse response) throws IOException {
         StuOperateService stuOperateService = new StuOperateService();
@@ -111,12 +153,4 @@ public class StuOperateController {
         response.getWriter().print(jsonObject);
     }
 
-    @RequestMapping(value = "markUnknown")
-    public void markUnknown(String name, String chapters, HttpServletResponse response) throws SQLException, IOException {
-        StuOperateService stuOperateService = new StuOperateService();
-        boolean res = stuOperateService.markUnkown(name,chapters);
-        JSONObject jsonObject = returnbooljson(res);
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().print(jsonObject);
-    }
 }
