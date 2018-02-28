@@ -12,13 +12,21 @@ Page({
         id: 'ingcourses',
         name: '正在进行的课程',
         open: false,
-        pages: ['课程a', '课程b']
+        pages: [
+          { id: 1, name: '课程a' },
+          { id: 2, name: '课程b' }
+        ]
       },
       {
         id: 'allcourses',
         name: '所有课程',
         open: false,
-        pages: ['课程a', '课程b', '课程c']
+        pages: [
+          { id: 1, name: '课程a' },
+          { id: 2, name: '课程b' },
+          { id: 3, name: '课程c' },
+          { id: 4, name: '课程d' }
+        ]
       }
     ]
   },

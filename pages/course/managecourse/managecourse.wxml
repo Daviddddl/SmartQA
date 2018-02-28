@@ -1,6 +1,0 @@
-<view class="container">
-  <text>管理课程：</text>
-  <view class="viewName" style="background-color:#fbf9fe">
-  <button class="resetBtn" bindtap="resetBtnClick">取消</button>
-</view>
-</view>

@@ -31,6 +31,7 @@ App({
     wx.setStorageSync('logs', logs)
 
     // 登录
+    /*
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -89,9 +90,12 @@ App({
               }
             }
           })
+        }else{
+          //授权失败
+          console.log("用户信息授权失败。")
         }
       }
-    })
+    })*/
   }
   
 })

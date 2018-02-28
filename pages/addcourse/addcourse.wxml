@@ -30,7 +30,7 @@
                     <view class="weui-label">课堂容量：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入课堂容量" bindinput="courseCapacityInput"/>
+                    <input class="weui-input" type='number' placeholder="请输入课堂容量" bindinput="courseCapacityInput"/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -90,6 +90,6 @@
         <view class="weui-cells__tips" >{{infoMess}}</view> 
         <view class="page__td_spacing page__bd_spacing">
           <button class="weui-btn" type='primary' plain='true' bindtap="createCourseBtnClick">创建</button>
-          <button class="weui-btn" type='warn' plain='true' bindtap="resetBtnClick">重置</button>
+          <button class="weui-btn" type='warn' plain='true' bindtap="resetBtnClick">返回</button>
         </view>
 </view>

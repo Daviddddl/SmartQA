@@ -4,7 +4,10 @@
     "pages/student/student",
     "pages/addcourse/addcourse",
     "pages/mine/mine",
-    "pages/coursepage/coursepage"
+    "pages/coursepage/coursepage",
+    "pages/exerciseedit/exerciseedit",
+    "pages/exercisepublish/exercisepublish",
+    "pages/question/addquestion/addquestion"
   ],
   "window":{
     "backgroundTextStyle":"light",
