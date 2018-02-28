@@ -1,0 +1,9 @@
+<import src="../common/exercise-list" />
+
+ <template is="exercise-list" data="{{questions}}" /> 
+<!-- <view class="weui-panel weui-panel_access">
+    <view class="weui-panel__hd">题目列表</view>
+    <view class="weui-panel__bd">
+      <template is="anochoicequestion" data="{{question}}" wx:for="{{questions}}" wx:for-item="question" wx:key="*this" />
+    </view>
+  </view> -->

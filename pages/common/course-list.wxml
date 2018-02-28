@@ -1,7 +1,7 @@
 
 <template name="item1">
-  <navigator url="../coursepage/coursepage?id={{page.id}}" class="weui-cell weui-cell_access">
-    <view class="weui-cell__bd">{{page}}</view>
+  <navigator url="../coursepage/coursepage?courseid={{page.id}}" class="weui-cell weui-cell_access">
+    <view class="weui-cell__bd">{{page.name}}</view>
     <view class="weui-cell__ft weui-cell__ft_in-access"></view>
   </navigator>
 </template>

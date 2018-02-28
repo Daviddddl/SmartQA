@@ -1,0 +1,7 @@
+
+<view >
+  <view class='page__td page__bd_spacing'> 
+    <button class="weui-btn" type="default" plain="true" bindtap='nav2addquestion'>添加题目</button>  
+  </view>
+
+</view>

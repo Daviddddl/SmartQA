@@ -3,7 +3,7 @@
 
 <view >
   <view class='page__td page__bd_spacing'> 
-    <button class="weui-btn" type="default" plain="true" bindtap='nav2editcourse'>创建课程</button>  
+    <button class="weui-btn" type="default" plain="true" bindtap='nav2addcourse'>创建课程</button>  
   </view>
 
   <!-- <view class="page__bd page__bd_spacing">

@@ -63,7 +63,7 @@ Page({
       wx.request({
         url: app.globalData.URI + '/appserver/servlet/CourseServlet',
         data: {
-          funcID: 1,
+          funcID: "createcourse",
           name: this.data.courseName,
           password: this.data.coursepassWd,
           teacher: this.data.teacherID,
@@ -97,7 +97,7 @@ Page({
       })
     }
     console.log("infoMess: " + this.data.infoMess +
-      "\ncourseName: " + this.data.courseName + 'ss' +
+      "\ncourseName: " + this.data.courseName +
       "\ncoursepassWd: " + this.data.coursepassWd +
       "\nteacherID: " + this.data.teacherID +
       "\ncapacityNum: " + this.data.capacityNum +
