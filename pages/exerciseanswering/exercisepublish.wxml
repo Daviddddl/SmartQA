@@ -8,7 +8,7 @@
           <view class="weui-panel__hd">题目列表</view>
           <view class="weui-panel__bd">
             <checkbox-group bindchange="radioPublishing">
-              <view wx:for="{{questions}}" wx:for-item="question" wx:key="index">
+              <view wx:for="{{questions}}" wx:for-item="question" wx:key="*this">
                 <view class="weui-media-box weui-media-box_text">
                   <label class="radio" style="display: flex">
                     <checkbox data-quesid="{{question.id}}" value="{{question.id}}" checked="{{question.checked}}"/>

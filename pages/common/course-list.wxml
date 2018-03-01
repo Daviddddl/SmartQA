@@ -16,7 +16,7 @@
             </view>
             <view class="kind-list__item-bd {{item.open ? 'kind-list__item-bd_show' : ''}}">
                 <view class="weui-cells {{item.open ? 'weui-cells_show' : ''}}">
-                    <template is="item1" data="{{page}}" wx:for="{{item.pages}}" wx:for-item="page" wx:key="*this">  
+                    <template is="item1" data="{{page}}" wx:for="{{item.pages}}" wx:for-item="page" wx:key="index">  
                     </template>
                 </view>
             </view>

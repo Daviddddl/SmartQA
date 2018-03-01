@@ -68,6 +68,7 @@ Page({
     this.setData({
       inputVal: e.detail.value
     });
+    console.log(this.data.inputVal)
   },
 
   /**

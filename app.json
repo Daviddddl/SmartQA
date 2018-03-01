@@ -2,12 +2,16 @@
   "pages":[
     "pages/index/index",
     "pages/student/student",
-    "pages/addcourse/addcourse",
+    "pages/course/addcourse/addcourse",
+    "pages/course/editcourse/editcourse",
     "pages/mine/mine",
     "pages/coursepage/coursepage",
+    "pages/coursepagestu/coursepagestu",
     "pages/exerciseedit/exerciseedit",
+    "pages/exerciseanswering/exerciseanswering",
     "pages/exercisepublish/exercisepublish",
-    "pages/question/addquestion/addquestion"
+    "pages/question/addquestion/addquestion",
+    "pages/question/editquestion/editquestion"
   ],
   "window":{
     "backgroundTextStyle":"light",

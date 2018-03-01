@@ -86,7 +86,7 @@ Page({
   },
   nav2addcourse: function(){
     wx.navigateTo({
-      url: '../addcourse/addcourse',
+      url: '../course/addcourse/addcourse',
    })
   }
 })
