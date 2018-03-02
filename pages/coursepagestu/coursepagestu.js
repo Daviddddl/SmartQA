@@ -6,13 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    courseid: null,
-    courseName: '',
-    coursepassWd: '',
-    teacherID: '',
-    capacityNum: '',
-    startDate: '',
-    endDate: ''
+    course: {
+
+    }
   },
 
   /**
@@ -47,42 +43,47 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
-  editQuestionBank: function(){
+  registerAttendance: function () {
     wx.navigateTo({
-      url: "../exerciseedit/exerciseedit?courseid=" + this.data.courseid,
+      url: "../exerciseedit/exerciseedit",
     })
   },
-  publishQuestions: function () {
+  answerQuestions: function () {
     wx.navigateTo({
-      url: "../exercisepublish/exercisepublish?courseid=" + this.data.courseid,
+      url: "../exerciseanswering/exerciseanswering",
+    })
+  },
+  historyAnswering: function () {
+    wx.navigateTo({
+      url: "../exercisehistory/exercisehistory",
     })
   }
- 
+
 
 })

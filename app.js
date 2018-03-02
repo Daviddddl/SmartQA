@@ -22,7 +22,7 @@ App({
   },
   globalData: {
     userInfo: {},
-    URI: 'https://www.doveminr.com'
+    URL: 'https://www.doveminr.com/smartQA'
   },
   onLaunch: function () {
     // 展示本地存储能力

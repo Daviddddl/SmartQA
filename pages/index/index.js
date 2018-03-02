@@ -28,47 +28,79 @@ Page({
       }
     ]
   },
-  getAllCourses: () => {
+  
+  onLoad: (options) => {
+
+  },
+
+  onShow: function(){
+    // console.log("show data:")
+    var that = this
     wx.request({
-      url: app.globalData.URI + '/appserver/servlet/CourseServlet',
+      url: app.globalData.URL + '/teaoperate/listMyOwnCourse',
       data: {
-        funcID: "listallcourse",
-        userID: 1,
-        nickname: "DAVIDDDL_狄",
-        remark: "123",
+        userid: 16,
       },
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        wx.showToast({
-          title: '创建成功',
-          icon: 'success',
-          duration: 1500
+        var allcourses = res.data.result
+        var activecourses = allcourses.filter((course)=>course.isactive == "1")
+        var newlist = that.data.list
+        // console.log(newlist)
+        newlist[0].pages = activecourses
+        newlist[1].pages = allcourses
+        that.setData({
+          list: newlist
         })
-        console.log(res.data);
+        console.log("... show teacher courses success...")
       },
       fail: function (res) {
         wx.showToast({
-          title: '创建失败',
+          title: '加载失败',
           image: '../../images/icon_fail.png',
           duration: 1500
         })
-        console.log(".....fail.....");
+        console.log(".....show teacher courses fail.....");
       },
-      complete: function (res) {
-        console.log(".....complete.....");
-      }
-    
+
     })
   },
-
-  onLoad: function(){
-
-  },
   onPullDownRefresh: function(){
-    this.getAllCourses()
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/listMyOwnCourse',
+      data: {
+        userid: 16,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var allcourses = res.data.result
+        var activecourses = allcourses.filter((course) => course.isactive == "1")
+        var newlist = that.data.list
+        // console.log(newlist)
+        newlist[0].pages = activecourses
+        newlist[1].pages = allcourses
+        that.setData({
+          list: newlist
+        })
+        console.log("...refresh teacher courses success...")
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....refresh teacher courses fail.....");
+      },
+
+    })
   },
   
   kindToggle: function (e) {
@@ -86,7 +118,7 @@ Page({
   },
   nav2addcourse: function(){
     wx.navigateTo({
-      url: '../addcourse/addcourse',
+      url: '../course/addcourse/addcourse',
    })
   }
 })

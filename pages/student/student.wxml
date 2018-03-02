@@ -19,29 +19,48 @@
             <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
         </view>
         <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+            <navigator url="1" class="weui-cell" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">
                     <view>实时搜索文本</view>
                 </view>
             </navigator>
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+            <navigator url="2" class="weui-cell" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">
                     <view>实时搜索文本</view>
                 </view>
             </navigator>
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+            <navigator url="3" class="weui-cell" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">
                     <view>实时搜索文本</view>
                 </view>
             </navigator>
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+            <navigator url="4" class="weui-cell" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">
                     <view>实时搜索文本</view>
                 </view>
             </navigator>
         </view>
         <view wx:else>
-            <template is='course-list' data="{{list}}" />
+            <view class="page__td_spacing page__bd_spacing">
+              <block wx:for="{{list}}" wx:key="id">
+                  <view class="kind-list__item">
+                      <view id="{{item.id}}" class="weui-flex kind-list__item-hd {{item.open ? 'kind-list__item-hd_show' : ''}}" bindtap="kindToggle">
+                          <view class="weui-flex__item">{{item.name}}</view>
+                          <image class="kind-list__img" src="../../images/icon_nav_3lines.png"></image>
+                      </view>
+                      <view class="kind-list__item-bd {{item.open ? 'kind-list__item-bd_show' : ''}}">
+                        <view class="weui-cells {{item.open ? 'weui-cells_show' : ''}}">
+                          <view wx:for="{{item.pages}}" wx:for-item="page" wx:key="id">  
+                            <navigator url="../coursepagestu/coursepagestu?courseid={{page.id}}" class="weui-cell weui-cell_access">
+                              <view class="weui-cell__bd">{{page.name}}</view>
+                              <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                            </navigator>
+                          </view>
+                        </view>
+                      </view>
+                  </view>
+              </block>
+            </view>
         </view>
     </view>
 </view>

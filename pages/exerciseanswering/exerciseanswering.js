@@ -14,8 +14,7 @@ Page({
           { name: "B.wohao", value: "B" },
           { name: "C.tahao", value: "C" },
           { name: "D.nihao", value: "D" }
-        ],
-        ans: "A" 
+        ]
         },
       {
         id: 1,
@@ -25,8 +24,7 @@ Page({
           { name: "B.wohao", value: "B" },
           { name: "C.tahao", value: "C" },
           { name: "D.nihao", value: "D" }
-        ],
-        ans: "B" 
+        ]
       },
       {
         id: 2,
@@ -36,21 +34,36 @@ Page({
           { name: "B.wohao", value: "B" },
           { name: "C.tahao", value: "C" },
           { name: "D.nihao", value: "D" }
-        ],
-        ans: "C" 
+        ]
       }
     ],
-    chosenquesids: []
+    stuanswers: [{},{},{}]
   },
 
-  radioPublishing: function(e){
+  radioChange: function (e) {
+    // console.log('radio发生change事件，携带value值为：', e.detail.value);
+
+    var quesidx = e.currentTarget.dataset.quesidx;
+    var newquestions = this.data.questions;
+    var radioItems = newquestions[quesidx].options;
+    for (var i = 0, len = radioItems.length; i < len; ++i) {
+      radioItems[i].checked = radioItems[i].name == e.detail.value;
+    }
+    let quesid = newquestions[quesidx].id
+    newquestions[quesidx].options = radioItems
+    var answer = { id: quesid, choice: e.detail.value }
+    this.data.stuanswers[quesidx] = answer
+    var refreshanswers = this.data.stuanswers   
     this.setData({
-      chosenquesids: e.detail.value
+      questions: newquestions,
+      stuanswers: refreshanswers
     });
   },
 
-  publishQuestions: function () {
-    
+  submitAnswers: function(){
+    //提交答案
+
+    console.log(this.data.stuanswers)
   },
 
   /**
@@ -107,21 +120,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-  radioChange: function (e) {
-   // console.log('radio发生change事件，携带value值为：', e.detail.value);
-    
-    var quesidx = e.currentTarget.dataset.quesidx;
-    console.log(quesidx)
-    var newquestions = this.data.questions;
-    var radioItems = newquestions[quesidx].ans;
-    for (var i = 0, len = radioItems.length; i < len; ++i) {
-      radioItems[i].checked = radioItems[i].value == e.detail.value;
-    }
-    newquestions[quesidx].ans = radioItems
-    this.setData({
-      questions: newquestions
-    });
-    //console.log(this.data.questions)
-  },
+  }
 })

@@ -1,0 +1,30 @@
+<view>
+    
+    <!-- <scroll-view scroll-y="true" style="height: 415px"> -->
+        <view class="weui-panel weui-panel_access">
+          <view class="weui-panel__hd">题目列表</view>
+          <view class="weui-panel__bd">
+              <view wx:for="{{questions}}" wx:for-item="question" wx:key="index">
+                <view class="weui-media-box weui-media-box_text">
+                    <text class="label_text">{{question.ques}}</text>
+                  <view>
+                    <radio-group data-quesidx="{{index}}" bindchange="radioChange">
+                      <label class="weui-cell weui-check__label" wx:for="{{question.options}}" wx:key="index">
+                          <radio class="weui-check" value="{{item.name}}" checked="{{item.checked}}"/>
+                          <view class="weui-cell__bd">{{item.name}}</view>
+                           <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                              <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                          </view> 
+                      </label>
+                    </radio-group> 
+                    <!-- <view class="weui-cell__bd">正确答案：{{question.ans}}</view> -->
+                  </view>
+                </view>
+              </view>
+          </view>
+        </view>
+    <!-- </scroll-view> -->
+    <view class='page__td_spacing page__bd_spacing'> 
+      <button class="weui-btn" type="default" plain="true" bindtap='submitAnswers'>提交</button>  
+    </view>
+</view>
