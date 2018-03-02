@@ -120,6 +120,7 @@ Page({
    */
   onLoad: function (options) {
     let quesjson = options.quesjson;
+    console.log(quesjson)
     var curquestion = JSON.parse(quesjson)
     this.setData({
       quesid: curquestion.id,

@@ -8,6 +8,7 @@
     "pages/coursepage/coursepage",
     "pages/coursepagestu/coursepagestu",
     "pages/exerciseedit/exerciseedit",
+    "pages/exercisehistory/exercisehistory",
     "pages/exerciseanswering/exerciseanswering",
     "pages/exercisepublish/exercisepublish",
     "pages/question/addquestion/addquestion",

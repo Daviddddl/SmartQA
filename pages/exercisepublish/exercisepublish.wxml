@@ -1,4 +1,3 @@
-<import src="../common/exercise-list" />
 <view>
     <view class='page__td_spacing page__bd_spacing'> 
       <button class="weui-btn" type="default" plain="true" bindtap='publishQuestions'>发布</button>  

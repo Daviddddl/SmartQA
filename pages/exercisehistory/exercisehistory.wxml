@@ -25,6 +25,6 @@
         </view>
     <!-- </scroll-view> -->
     <view class='page__td_spacing page__bd_spacing'> 
-      <button class="weui-btn" type="default" plain="true" bindtap='submitAnswers'>提交</button>  
+      <button class="weui-btn" type="default" plain="true" bindtap='goBack'>返回</button>  
     </view>
 </view>

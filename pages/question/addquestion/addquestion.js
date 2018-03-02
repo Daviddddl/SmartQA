@@ -30,6 +30,7 @@ Page({
     this.setData({
       ques: e.detail.value.trim()
     })
+    console.log(this.data)
   },
   quesOptionInput: function (e) {
     var optidx = e.currentTarget.dataset.optidx;
@@ -49,6 +50,7 @@ Page({
   },
 
   addQuestionClickfunction() {
+    console.log(this.data)
     if (this.data.ques.length == 0 || this.data.answer.length == 0) {
       this.setData({
         infoMess: '温馨提示：题目或答案不能为空！',

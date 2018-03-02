@@ -75,12 +75,12 @@ Page({
   },
   editQuestionBank: function(){
     wx.navigateTo({
-      url: "../exerciseedit/exerciseedit",
+      url: "../exerciseedit/exerciseedit?courseid=" + this.data.courseid,
     })
   },
   publishQuestions: function () {
     wx.navigateTo({
-      url: "../exercisepublish/exercisepublish",
+      url: "../exercisepublish/exercisepublish?courseid=" + this.data.courseid,
     })
   }
  

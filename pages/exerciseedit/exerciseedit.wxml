@@ -6,7 +6,7 @@
   <view class="weui-panel weui-panel_access">
           <view class="weui-panel__hd">题库列表</view>
           <view class="weui-panel__bd">
-              <view wx:for="{{questions}}" wx:for-item="question" wx:key="*this">
+              <view wx:for="{{questions}}" wx:for-item="question" wx:key="index">
                   <view class="weui-media-box weui-media-box_text">
                     <!-- <navigator url="../question/editquestion/editquestion?quesid={{question.id}}"> -->
                         <view class="weui-flex" data-quesidx='{{index}}' bindtap='nav2editquestion'>

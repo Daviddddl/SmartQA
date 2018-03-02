@@ -53,11 +53,52 @@ Page({
     })
   },
 
+  //教师获取课程的题目
+  getCourseQuestions: () =>{
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/listQues',
+      data: {
+        courseid: this.data.courseid,
+        chapters: 1
+
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        wx.showToast({
+          title: '创建成功',
+          icon: 'success',
+          duration: 1500
+        })
+        console.log(res.data);
+        
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '创建失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      },
+      complete: function (res) {
+        console.log(".....complete.....");
+      }
+
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    let curcourseid = options.courseid;
+    this.setData({
+      courseid: curcourseid
+    });
+
   },
 
   /**

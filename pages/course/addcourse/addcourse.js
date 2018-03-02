@@ -12,10 +12,15 @@ Page({
     teacherID: '',
     capacityNum: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    outlines: [
+      { title: '第一章 ', content: '', chapterid: 1 }
+    ],
+    casArray: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+    casIndex: 0
   },
 
-  //课程名和密码输入框事件
+  //课程名和密码等输入框事件
   courseNameInput: function (e) {
     this.setData({
       courseName: e.detail.value.trim()
@@ -36,7 +41,7 @@ Page({
       teacherID: e.detail.value.trim()
     })
   },
-  //  点击开始日期组件确定事件  
+  // 点击开始日期组件确定事件  
   startDatePick: function (e) {
     this.setData({
       startDate: e.detail.value
@@ -44,14 +49,71 @@ Page({
   },
   //  点击结束日期组件确定事件  
   endDatePick: function (e) {
+    console.log(this)
     this.setData({
       endDate: e.detail.value
     })
   },
+  // 编辑大纲事件
+  outlineTitleInput: (e)=>{
+    console.log(e)
+    let outlineidx = e.currentTarget.dataset.outlineidx
+    var newoutlines = this.data.outlines
+    newoutlines[outlineidx].title = e.detail.value
+    this.setData({
+      outlines: newoutlines
+    })
+  },
+  outlineContentInput: (e) => {
+    console.log(this)
+    let outlineidx = e.currentTarget.dataset.outlineidx
+    console.log(outlineidx)
+    // var newoutlines = this.data.outlines
+    // newoutlines[outlineidx].content = e.detail.value
+    // this.setData({
+    //   outlines: newoutlines
+    // })
+  },
+  outlineContentBlur: (e)=>{
+    console.log("blur::::::")
+    console.log(e)
+    console.log(this)
+  },
+  //添加删除章节
+  addChapter: function () {
+    var lists = this.data.outlines;
+    var newData = {};
+    lists.push(newData);//实质是添加lists数组内容，使for循环多一次  
+    this.setData({
+      outlines: lists,
+    })
+  },
+  delChapter: function () {
+    var lists = this.data.outlines;
+    lists.pop();      //实质是删除lists数组内容，使for循环少一次  
+    this.setData({
+      outlines: lists,
+    })
+  }, 
+  //下拉框选择事件
+  bindCasPickerChange: function (e) {
+    console.log(e)
+    let outlineidx = e.currentTarget.dataset.outlineidx
+    let curcasindex = e.detail.value
+    let curchapterid = this.data.casArray[curcasindex]
+    var newoutlines = this.data.outlines
+    newoutlines[outlineidx].chapterid = curchapterid
+    this.setData({
+      outlines: newoutlines,
+      casIndex: e.detail.value
+    })
+    console.log(this.data)
+  },
 
   //创建课程按钮点击事件，调用参数要用：this.data.参数；
   //设置参数值，要使用this.setData({}）方法
-  createCourseBtnClick: function () {
+  createCourseBtnClick: function (e) {
+    console.log(e)
     if (this.data.courseName.length == 0 || this.data.coursepassWd.length == 0 || this.data.capacityNum.length == 0) {
       this.setData({
         infoMess: '温馨提示：课程名、密码和容量不能为空！',

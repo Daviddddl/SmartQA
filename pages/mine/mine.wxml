@@ -1,20 +1,30 @@
 <!--mine.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+<view class="page">
+    <view class="container">
+      <view class="userinfo">
+        <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+        <block wx:else>
+          <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </block>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="weui-label">备注名：</view>
+        </view>
+        <view class="weui-cell__bd">
+            <input class="weui-input" name="courseName" placeholder="请输入备注名" bindinput="remarkNameInput"/>
+        </view>
+    </view>
+
+
+  <view class="page__td_spacing page__hd_spacing">
+      <button class="weui-btn"  type="default" bindtap='publishQuestions'>修改备注</button>
   </view>
+
 </view>
-  <view class="itemView">备注名：
-    <input class="input" name="courseName" placeholder="请输入个人备注名"
-    bindinput="remarkNameInput"/>
-  </view>
-  <view>
-    <button bindtap='createuser'>新增用户</button>
-  </view>
 <view>{{infoMess}}</view>
 <view>{{nickName}}</view>
 <view>{{remarkName}}</view>

@@ -78,6 +78,11 @@ Page({
     wx.navigateTo({
       url: "../exerciseanswering/exerciseanswering",
     })
+  },
+  historyAnswering: function () {
+    wx.navigateTo({
+      url: "../exercisehistory/exercisehistory",
+    })
   }
 
 

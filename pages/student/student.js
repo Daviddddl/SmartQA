@@ -74,8 +74,42 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    
+  onLoad: (options)=>{
+
+  },
+  onShow: function () {
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/stuoperate/listMyCourse',
+      data: {
+        userid: 17,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var allcourses = res.data.result
+        var activecourses = allcourses.filter((course) => course.isactive == "1")
+        var newlist = that.data.list
+        // console.log(newlist)
+        newlist[0].pages = activecourses
+        newlist[1].pages = allcourses
+        that.setData({
+          list: newlist
+        })
+        console.log("...show student courses success...")
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....show student courses fail.....");
+      },
+
+    })
   },
 
   /**
@@ -96,7 +130,38 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/stuoperate/listMyCourse',
+      data: {
+        userid: 17,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var allcourses = res.data.result
+        var activecourses = allcourses.filter((course) => course.isactive == "1")
+        var newlist = that.data.list
+        // console.log(newlist)
+        newlist[0].pages = activecourses
+        newlist[1].pages = allcourses
+        that.setData({
+          list: newlist
+        })
+        console.log("...refresh student courses success...")
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....refresh student courses fail.....");
+      },
+
+    })
   },
 
   /**

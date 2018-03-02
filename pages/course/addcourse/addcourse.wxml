@@ -1,5 +1,7 @@
 <view>
-  <view class="weui-cells__title">课程信息</view>
+    <form bindsubmit="createCourseBtnClick">
+        <!-- 课程信息 -->
+        <view class="weui-cells__title">课程信息</view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_input">
                 <view class="weui-cell__hd">
@@ -14,7 +16,7 @@
                     <view class="weui-label">选课密码：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" password placeholder="请输入选课密码" bindinput="coursepassWdInput"/>
+                    <input class="weui-input" name="coursepassWd" placeholder="请输入选课密码" bindinput="coursepassWdInput"/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -22,7 +24,7 @@
                     <view class="weui-label">教师ID：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入个人ID" bindinput="teacherInput" />
+                    <input class="weui-input" name="teacherID" value="16" placeholder="请输入个人ID" bindinput="teacherInput" />
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -30,7 +32,7 @@
                     <view class="weui-label">课堂容量：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" type='number' placeholder="请输入课堂容量" bindinput="courseCapacityInput"/>
+                    <input class="weui-input" type='number' name="capacityNum" placeholder="请输入课堂容量" bindinput="courseCapacityInput"/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -38,7 +40,7 @@
                     <view class="weui-label">开始日期</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <picker mode="date" value="{{startDate}}" start="2018-01-01" end="2099-12-31" bindchange="startDatePick">
+                    <picker mode="date" name="startdate" value="{{startDate}}" start="2018-01-01" end="2099-12-31" bindchange="startDatePick">
                         <view class="weui-input">{{startDate}}</view>
                     </picker>
                 </view>
@@ -53,43 +55,50 @@
                     </picker>
                 </view>
             </view>  
-            
-            <!-- <view class="weui-cell weui-cell_input weui-cell_vcode">
-                <view class="weui-cell__hd">
-                    <view class="weui-label">手机号</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入手机号" />
-                </view>
-                <view class="weui-cell__ft">
-                    <view class="weui-vcode-btn">获取验证码</view>
-                </view>
-            </view> -->
-            <!-- <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="weui-label">时间</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
-                        <view class="weui-input">{{time}}</view>
-                    </picker>
-                </view>
-            </view> -->
-            <!-- <view class="weui-cell weui-cell_input weui-cell_vcode">
-                <view class="weui-cell__hd">
-                    <view class="weui-label">验证码</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入验证码" />
-                </view>
-                <view class="weui-cell__ft">
-                    <image class="weui-vcode-img" src="../images/vcode.jpg" style="width: 108px"></image>
-                </view>
-            </view> -->
         </view>
+        
+        <!-- 添加选项 -->
+        <view class="weui-cells__title">课程大纲：</view>
+          <view  wx:for="{{outlines}}" wx:key="index">
+        
+        <view class="weui-cells weui-cells_after-title">
+          <!-- <view  wx:for="{{outlines}}" wx:key="index"> -->
+              <view class="weui-cell weui-cell_input">
+                  <view class="weui-cell__hd">
+                      <view class="weui-label">章节号：</view>
+                  </view>
+                  <view class="weui-cell__bd">
+                      <!-- <picker value="{{casIndex}}" range="{{casArray}}" data-outlineidx="{{index}}" bindchange="bindCasPickerChange">
+                          <view class="weui-input">{{item.chapterid}}</view>
+                      </picker> -->
+                  </view>
+              </view> 
+              <view class="weui-cell weui-cell_input" style="display: flex;">
+                  <view class="weui-cell__hd">
+                      <view class="weui-label">标题：</view>
+                  </view>
+                  <view class="weui-cell__bd">
+                      <input class="weui-input" focus='true' placeholder="请输入标题" data-outlineidx="{{index}}" bindinput="outlineTitleInput"/>
+                  </view>
+              </view>
+              <view class="weui-cell weui-cell_input" style="display: flex;">
+                  <view class="weui-cell__hd">
+                      <view class="weui-label">内容：</view>
+                  </view>
+                  <view class="weui-cell__bd">              
+                      <textarea class="weui-textarea" name="outlineContent" style="height: 5.3em; padding: 5px;" bindblur='outlineContentBlur'/>
+                  </view>
+              </view>              
+          </view>
+        </view>
+        <!-- 提示信息           -->
         <view class="weui-cells__tips" >{{infoMess}}</view> 
+        <!-- 按钮 -->
         <view class="page__td_spacing page__bd_spacing">
-          <button class="weui-btn" type='primary' plain='true' bindtap="createCourseBtnClick">创建</button>
+          <button class="weui-btn" type='default' plain='true' bindtap="addChapter">添加章节</button>
+          <button class="weui-btn" type='default' plain='true' bindtap="delChapter">删除章节</button>
+          <button class="weui-btn" type='primary' plain='true' form-type='submit'>创建课程</button>
           <button class="weui-btn" type='warn' plain='true' bindtap="resetBtnClick">返回</button>
         </view>
+    </form>
 </view>
