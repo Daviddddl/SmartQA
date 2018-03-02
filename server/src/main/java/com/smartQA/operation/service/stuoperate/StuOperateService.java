@@ -2,10 +2,16 @@ package com.smartQA.operation.service.stuoperate;
 
 import com.smartQA.operation.service.utils.DBUtil;
 import com.smartQA.operation.service.utils.FileUtil;
+import com.smartQA.operation.web.StuOperateController;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Service;
 
+import javax.management.ObjectName;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.zip.Adler32;
 
 /**
@@ -37,13 +43,10 @@ public class StuOperateService {
         return (String)FileUtil.getQuoCon(getidres).get(0);
     }
 
-    public boolean joinCourse(String name, String password, String nickName, String remark) throws SQLException {
+    public boolean joinCourse(String name, String password, String userid) throws SQLException {
 
-        String stuID = getUserID(nickName, remark);
-        if(stuID.startsWith("error!"))
-            return false;
         String courseupdatesql = "UPDATE course SET stunum = stunum+1 WHERE name = \""+name + "\" and password = \""+ password+"\"";
-        String getcoursessql = "select joinCourse from user where id = "+stuID;
+        String getcoursessql = "select joinCourse from user where id = "+userid;
         String courseID = getCourseID(name);
         if(!courseID.startsWith("error!")){
             //System.out.println("course表中有该课程！");
@@ -60,7 +63,7 @@ public class StuOperateService {
             }
             String courseupres = DBUtil.DBMonitorSQL(courseupdatesql, "course");
             //System.out.println(courseupres);
-            String stuupdatesql = "UPDATE user SET joinCourse = CONCAT(joinCourse, \""+courseID+",\") WHERE id = "+stuID;
+            String stuupdatesql = "UPDATE user SET joinCourse = CONCAT(joinCourse, \""+courseID+",\") WHERE id = "+userid;
             //System.out.println(stuupdatesql);
             if(courseupres.startsWith("error!"))
                 return false;
@@ -73,63 +76,110 @@ public class StuOperateService {
         return true;
     }
 
-    public boolean quitCourse(String nickName, String remark, String name) throws SQLException {
-        String userid = getUserID(nickName,remark);
-        if(userid.startsWith("error!"))
-            return false;
-        String courseid = getCourseID(name);
-        if(courseid.startsWith("error!"))
-            return false;
+    public boolean quitCourse(String userid, String courseid) throws SQLException {
+
         String getcoursesql = "select joinCourse from user where id = " + userid;
         String getcourseres = DBUtil.DBMonitorSQL(getcoursesql,"user");
         if(getcourseres.contains(courseid+",")){
             String upquitsql = "update user set joinCourse = replace(joinCourse, \'"+courseid+","+"\',\'\') where id = "+ userid;
             DBUtil.DBMonitorSQL(upquitsql,"user");
-            String downnumsql = "update course set stunum = stunum-1 WHERE name = \""+name+"\"";
+            String downnumsql = "update course set stunum = stunum-1 WHERE id = \""+courseid+"\"";
             DBUtil.DBMonitorSQL(downnumsql,"course");
             return true;
         }
         return false;
     }
 
-    public ArrayList<String> listMyCourse(String nickName, String remark) throws SQLException {
+    public ArrayList<HashMap> listMyCourse(String userid) throws SQLException {
         ArrayList<String> courselistres = new ArrayList<>();
-        String userid = getUserID(nickName, remark);
-        if(userid.startsWith("error!")){
-            courselistres.add("error!");
-            return courselistres;
-        }
         String listsql = "select joinCourse from user where id = "+userid;
         String listres = DBUtil.DBMonitorSQL(listsql,"user");
-        if(listres.startsWith("error!") || listres.length() <= 8){
-            courselistres.add("error! 没有课程！");
-            return courselistres;
-        }
+        if(listres.startsWith("error!") || listres.length() <= 8)
+            return null;
         String course = (String)FileUtil.getQuoCon(listres).get(0);
         course = course.trim();
         String[] courselist = course.split(",");
         for(String courseid : courselist){
-            String listprosql = "select id,name,teacher from course where id = "+courseid;
+            String listprosql = "select id,name,isactive from course where id = "+courseid;
             String res = DBUtil.DBMonitorSQL(listprosql,course);
             courselistres.add(res);
         }
-        return courselistres;
+
+        ArrayList arrayList = FileUtil.getQuoCon(courselistres.toString());
+        ArrayList<HashMap> courses = new ArrayList<>();
+        for(int i = 0 ; i<arrayList.size();i++){
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", (String)arrayList.get(i));
+            map.put("name", (String)arrayList.get(++i));
+            map.put("isactive", (String)arrayList.get(++i));
+            //map.put("teacherid", (String)arrayList.get(++i));
+            courses.add(map);
+        }
+        return courses;
     }
 
-    public ArrayList<String> listOutline(String coursename, String chapters) throws SQLException {
-        ArrayList<String> outlineans = new ArrayList<>();
-        String couseid = getCourseID(coursename);
-        if(couseid.startsWith("error!")){
-            outlineans.add("error!没有提纲！");
-            return outlineans;
+    public ArrayList<HashMap> courseDetail(String userid, String courseid) throws SQLException {
+        ArrayList<HashMap> detailres = new ArrayList<>();
+        String detailsql = "select * from course where id = "+courseid;
+        String getdetailres = DBUtil.DBMonitorSQL(detailsql,"course");
+        if(getdetailres.startsWith("error"))
+            return null;
+        ArrayList res = FileUtil.getQuoCon(getdetailres);
+        for(int i = 0 ;i < res.size(); i++){
+            HashMap<String, String> map = new HashMap<>();
+            String id = (String)res.get(i);
+            //map.put("courseid", id);
+            map.put("coursename", (String)res.get(++i));
+            String coursepwd = (String)res.get(++i);
+            String teacherid = (String)res.get(++i);
+            String teachername = DBUtil.DBMonitorSQL("select nickname,remark from user where id = "+teacherid,"user");
+            ArrayList teaname = FileUtil.getQuoCon(teachername);
+            map.put("teacher_nickname",(String)teaname.get(0));
+            map.put("teacher_remark",(String)teaname.get(1));
+            String capacity = (String)res.get(++i);
+            map.put("capacity",capacity);
+            String stunum = (String)res.get(++i);
+            //map.put("stunum", stunum);
+            String starttime = (String)res.get(++i);
+            String endtime = (String)res.get(++i);
+            map.put("starttime",starttime);
+            map.put("endtime",endtime);
+            String isactive = (String)res.get(++i);
+            map.put("outline",listallOutline(courseid).toString());
+
+            detailres.add(map);
         }
-        String getoutlinesql = "select * from outline where courseid = "+couseid + " and chapters = "+chapters;
+        return detailres;
+    }
+
+    public ArrayList<HashMap> listallOutline(String courseid) throws SQLException {
+        String coursenumsql = "select chapters from outline where courseid = " + courseid;
+        String chaptersres = DBUtil.DBMonitorSQL(coursenumsql,"outline");
+        ArrayList chapters = FileUtil.getQuoCon(chaptersres);
+        ArrayList<HashMap> res = new ArrayList<>();
+        for(int i = 0; i<chapters.size();i++){
+            ArrayList outline = listOutline(courseid,(String)chapters.get(i));
+            for(int j = 0 ; j < outline.size(); j++)
+                res.add((HashMap) outline.get(j));
+        }
+        return res;
+    }
+
+    public ArrayList<HashMap> listOutline(String courseid, String chapters) throws SQLException {
+        ArrayList<HashMap> outlineans = new ArrayList<>();
+
+        String getoutlinesql = "select chapters,title,content from outline where courseid = "+courseid + " and chapters = "+chapters;
         String getoutlineres = DBUtil.DBMonitorSQL(getoutlinesql,"outline");
-        if(getoutlineres.startsWith("error")){
-            outlineans.add("error！没有提纲");
-            return outlineans;
+        if(getoutlineres.startsWith("error"))
+            return null;
+        ArrayList res = FileUtil.getQuoCon(getoutlineres);
+        for(int i = 0 ;i <res.size();i++){
+            HashMap<String, String> map = new HashMap<>();
+            map.put("chapterid", (String)res.get(i));
+            map.put("title", (String)res.get(++i));
+            map.put("content", (String)res.get(++i));
+            outlineans.add(map);
         }
-        outlineans = FileUtil.getQuoCon(getoutlineres);
         return outlineans;
     }
 
@@ -155,10 +205,7 @@ public class StuOperateService {
         return !upres.startsWith("error!");
     }
 
-    public ArrayList<String> ansQuiz(String nickname, String remark, String coursename, String chapters, String[] quesid, String[] answer) throws SQLException {
-
-        String courseid = getCourseID(coursename);
-        String userid = getUserID(nickname, remark);
+    public ArrayList<String> ansQuiz(String userid, String courseid, String chapters, String[] quesid, String[] answer) throws SQLException {
 
         ArrayList<String> res = new ArrayList<>();
         if(courseid.startsWith("error!") || userid.startsWith("error!"))
@@ -216,9 +263,8 @@ public class StuOperateService {
         return res;
     }
 
-    public ArrayList<String> listMyAns(String nickname, String remark, String coursename, String chapters) throws SQLException {
-        String userid = getUserID(nickname,remark);
-        String courseid = getCourseID(coursename);
+    public ArrayList<String> listMyAns(String userid, String courseid, String chapters) throws SQLException {
+
         String listmyanssql = "select quesid,stuanswer from useranswer where userid = "+userid +" and courseid = "+courseid+" and chapters = "+ chapters;
         String listmyansres = DBUtil.DBMonitorSQL(listmyanssql, "useranswer");
         ArrayList<String> res = new ArrayList<>();
@@ -231,6 +277,20 @@ public class StuOperateService {
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(new StuOperateService().joinCourse("course2","23","009","004"));
+        StuOperateService stuOperateService = new StuOperateService();
+
+        ArrayList arrayList = stuOperateService.courseDetail("17","71");
+
+        System.out.println(arrayList);
+        /*JSONObject jsonObject = new JSONObject();
+
+        if(arrayList == null){
+            jsonObject = new StuOperateController().returnarrjson(false,new JSONArray(arrayList));
+            System.out.println(jsonObject);
+        }else{
+            System.out.println(arrayList);
+        }*/
     }
+
+
 }

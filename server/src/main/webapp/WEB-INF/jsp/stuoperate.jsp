@@ -23,17 +23,15 @@
 
 <form name="quitCourse" action="./quitCourse" method="get" onsubmit="return checknull()">
     退出课程：<br>
-    用户昵称：<input type="text" name="nickName">
-    用户备注：<input type="text" name="remark">
-    课程名称：<input type="text" name="name">
+    用户id：<input type="text" name="userid">
+    课程id：<input type="text" name="courseid">
     <input type="submit">
 </form>
 
 <form name="listMyCourse" action="./listMyCourse" method="get" onsubmit="return checknull()">
 
     列出我的课程：<br>
-    用户昵称：<input type="text" name="nickName">
-    用户备注：<input type="text" name="remark">
+    用户id：<input type="text" name="userid">
     <input type="submit">
 </form>
 
@@ -48,8 +46,16 @@
 <form name="listOutline" action="./listOutline" method="get" onsubmit="return checknull()">
 
     列出提纲：<br>
-    课程名称：<input type="text" name="name">
-    章节：<input type="text" name="chapters">
+    课程id：<input type="text" name="courseid">
+    <input type="submit">
+</form>
+
+<form name="courseDetail" action="./courseDetail" method="get" onsubmit="return checknull()">
+
+    列出课程详细信息：<br>
+    用户id：<input type="text" name="userid">
+    课程id：<input type="text" name="courseid">
+
     <input type="submit">
 </form>
 

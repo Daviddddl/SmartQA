@@ -12,6 +12,13 @@
 </head>
 <body>
 
+<form name="listMyOwnCourse" action="./listMyOwnCourse" method="get" onsubmit="return checknull()">
+
+    列出课程：<br>
+    用户id：<input type="text" name="userid">
+    <input type="submit">
+</form>
+
 <form name="addOutline" action="./addOutline" method="get" onsubmit="return checknull()">
 
     加入提纲：<br>
@@ -91,6 +98,14 @@
     章节：<input type="text" name="chapters">
     <input type="submit">
 </form>
+
+<form name="quizQues" action="./quizQues" method="get" onsubmit="return checknull()">
+
+    发布题目：<br>
+    题号：<input type="text" name="quesid">
+    <input type="submit">
+</form>
+
 
 <form name="checkQues" action="./checkQues" method="get" onsubmit="return checknull()">
 
