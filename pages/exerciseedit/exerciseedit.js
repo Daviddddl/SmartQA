@@ -82,9 +82,6 @@ Page({
           duration: 1500
         })
         console.log(".....fail.....");
-      },
-      complete: function (res) {
-        console.log(".....complete.....");
       }
 
     })

@@ -1,0 +1,41 @@
+<view>
+    <!-- 添加选项 -->
+      <view class="weui-cells__title">课程大纲：</view>
+      <!-- <view  wx:for="{{outlines}}" wx:key="index">  -->
+        
+          <view class="weui-cells weui-cells_after-title"> 
+              <view class="weui-cell weui-cell_input">
+                  <view class="weui-cell__hd">
+                      <view class="weui-label">章节号：</view>
+                  </view>
+                  <view class="weui-cell__bd">
+                       <picker value="{{casIndex}}" range="{{casArray}}" bindchange="bindCasPickerChange">
+                          <view class="weui-input">{{chapterid}}</view>
+                      </picker> 
+                  </view>
+              </view> 
+              <view class="weui-cell weui-cell_input" style="display: flex;">
+                  <view class="weui-cell__hd">
+                      <view class="weui-label">标题：</view>
+                  </view>
+                  <view class="weui-cell__bd">
+                      <input class="weui-input" value="{{title}}" placeholder="请输入标题" bindinput="outlineTitleInput"/>
+                  </view>
+              </view>
+              <view class="weui-cell weui-cell_input" style="display: flex;">
+                  <view class="weui-cell__hd">
+                      <view class="weui-label">内容：</view>
+                  </view>
+                  <view class="weui-cell__bd">              
+                      <textarea class="weui-textarea" value="{{content}}" name="outlineContent" style="height: 5.3em; padding: 5px;" bindinput='outlineContentInput'/>
+                  </view>
+              </view>              
+          </view>
+    <!-- </view>  -->
+        <view class="weui-cells__tips" >{{infoMess}}</view> 
+        <view class="page__td_spacing page__bd_spacing">
+          <button class="weui-btn" type='primary' plain='true' bindtap="createCourseBtnClick">确认修改</button>
+          <button class="weui-btn" type='warn' plain='true' bindtap="delChapter">删除</button>
+          <button class="weui-btn" type='default' plain='true' bindtap="resetBtnClick">返回</button>
+        </view>
+</view>

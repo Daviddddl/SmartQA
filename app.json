@@ -12,7 +12,8 @@
     "pages/exerciseanswering/exerciseanswering",
     "pages/exercisepublish/exercisepublish",
     "pages/question/addquestion/addquestion",
-    "pages/question/editquestion/editquestion"
+    "pages/question/editquestion/editquestion",
+    "pages/outline/editoutline/editoutline"
   ],
   "window":{
     "backgroundTextStyle":"light",
