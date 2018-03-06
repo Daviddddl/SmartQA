@@ -53,9 +53,9 @@ public class CourseController {
         response.getWriter().print(jsonObject);
     }
     @RequestMapping(value = "deleteCourse")
-    public void deleteCourse(String name, String password, HttpServletResponse response)throws Exception{
+    public void deleteCourse(String courseid, String password, HttpServletResponse response)throws Exception{
         JSONObject jsonObject = new JSONObject();
-        boolean result=courseService.deleteCourse(name,password);
+        boolean result=courseService.deleteCourse(courseid,password);
         jsonObject.put("code",200);
         jsonObject.put("success",result);
         jsonObject.put("msg","success");
@@ -65,9 +65,9 @@ public class CourseController {
     }
 
     @RequestMapping(value = "getCourse")
-    public void getCourse(String name, HttpServletResponse response)throws Exception{
+    public void getCourse(String courseid, HttpServletResponse response)throws Exception{
         JSONObject jsonObject = new JSONObject();
-        Course course =courseService.getCourse(name);
+        Course course =courseService.getCourse(courseid);
         if(course==null){
             jsonObject.put("code",403);
             jsonObject.put("success",false);

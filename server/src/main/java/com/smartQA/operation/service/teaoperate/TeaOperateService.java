@@ -61,8 +61,22 @@ public class TeaOperateService {
     }
 
 
-    public boolean addOutline(String name, Integer chapters, String content) throws SQLException {
-        String courseid = getCourseID(name);
+    public ArrayList<HashMap> listOutline(String courseid, String chapters) throws SQLException {
+        ArrayList<HashMap> maps = new ArrayList<>();
+
+        String listoutlinesql = "select * from outline where courseid="+courseid + " and chapters="+chapters;
+        String listres = DBUtil.DBMonitorSQL(listoutlinesql, "outline");
+        if(listres.startsWith("error!") || listres.length() <= 8)
+            return null;
+        ArrayList listarr = FileUtil.getQuoCon(listres);
+        for(int i = 0; i< listarr.size(); i++){
+            //String
+        }
+        return maps;
+    }
+
+
+    public boolean addOutline(String courseid, Integer chapters, String content) throws SQLException {
         if(courseid.startsWith("error!"))
             return false;
         String addfindsql = "select * from course where id = " + courseid;
@@ -81,8 +95,7 @@ public class TeaOperateService {
         return false;
     }
 
-    public boolean deleteOutline(String name, Integer chapters) throws SQLException {
-        String courseid = getCourseID(name);
+    public boolean deleteOutline(String courseid, Integer chapters) throws SQLException {
         if(courseid.startsWith("error!"))
             return false;
         String defindsql = "delete from outline where courseid = "+courseid+" and chapters = " + chapters;
@@ -93,8 +106,7 @@ public class TeaOperateService {
             return true;
     }
 
-    public String findOutline(String name, Integer chapters) throws SQLException {
-        String courseid = getCourseID(name);
+    public String findOutline(String courseid, Integer chapters) throws SQLException {
         if(courseid.startsWith("error!"))
             return "error!";
         String listsql = "select * from outline where courseid = "+courseid + " and chapters = "+chapters;
@@ -103,13 +115,12 @@ public class TeaOperateService {
         return listres;
     }
 
-    public boolean changeOutline(String name, Integer chapters, String content) {
+    public boolean changeOutline(String courseid, Integer chapters, String content) {
 
         return false;
     }
 
-    public boolean addQues(String name, Integer chapters, String ques, String ans) throws SQLException {
-        String courseid = getCourseID(name);
+    public boolean addQues(String courseid, Integer chapters, String ques, String ans) throws SQLException {
         if(courseid.startsWith("error!"))
             return false;
         String addfindsql = "select * from course where id = " + courseid;
@@ -127,8 +138,7 @@ public class TeaOperateService {
         return false;
     }
 
-    public boolean deleteQues(String name, Integer chapters) throws SQLException {
-        String courseid = getCourseID(name);
+    public boolean deleteQues(String courseid, Integer chapters) throws SQLException {
         if(courseid.startsWith("error!"))
             return false;
         String defindsql = "delete from question where courseid = "+courseid+" and chapters = " + chapters;
@@ -139,8 +149,7 @@ public class TeaOperateService {
             return true;
     }
 
-    public String findQues(String name, Integer chapters) throws SQLException {
-        String courseid = getCourseID(name);
+    public String findQues(String courseid, Integer chapters) throws SQLException {
         if(courseid.startsWith("error!"))
             return "error!";
         String listsql = "select * from question where courseid = "+courseid + " and chapters = "+chapters;
@@ -148,7 +157,7 @@ public class TeaOperateService {
         return DBUtil.DBMonitorSQL(listsql,"question");
     }
 
-    public boolean changeQues(String name, String chapters, String content) {
+    public boolean changeQues(String courseid, String chapters, String content) {
 
         return false;
     }
@@ -194,10 +203,10 @@ public class TeaOperateService {
         return false;
     }
 
-    public String getRandStu(String name) throws SQLException {
+    public String getRandStu(String courseid) throws SQLException {
         Random random = new Random();
         Integer rand = Math.abs(random.nextInt());
-        String stulist = getStu(name);
+        String stulist = getStu(courseid);
         if(stulist.startsWith("error!"))
             return "error!";
         String[] stul = FileUtil.replaceBlank(stulist).split(";");
@@ -206,8 +215,7 @@ public class TeaOperateService {
         return stul[rand%stul.length];
     }
 
-    public String getStu(String name) throws SQLException {
-        String courseid = getCourseID(name);
+    public String getStu(String courseid) throws SQLException {
         if(courseid.startsWith("error!"))
             return "error!";
         String listsql = "select id,nickname,remark from user where joinCourse like '"+courseid+",%';";

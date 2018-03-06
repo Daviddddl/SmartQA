@@ -64,9 +64,9 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "joinCourse")
-    public void joinCourse(String name, String password, String userid, HttpServletResponse response) throws SQLException, IOException {
+    public void joinCourse(String courseid, String password, String userid, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        boolean joinres = stuOperateService.joinCourse(name,password,userid);
+        boolean joinres = stuOperateService.joinCourse(courseid,password,userid);
         JSONObject jsonObject = returnbooljson(joinres);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
@@ -111,9 +111,23 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "listOutline")
-    public void listOutline(String name, String chapters, HttpServletResponse response) throws SQLException, IOException{
+    public void listOutline(String courseid, String chapters, HttpServletResponse response) throws SQLException, IOException{
         StuOperateService stuOperateService = new StuOperateService();
-        ArrayList res = stuOperateService.listOutline(name,chapters);
+        ArrayList res = stuOperateService.listOutline(courseid,chapters);
+        JSONObject jsonObject = new JSONObject();
+        if(res == null){
+            jsonObject = returnarrjson(false, new JSONArray(res));
+        }else {
+            jsonObject = returnarrjson(true, new JSONArray(res));
+        }
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "listAllOutline")
+    public void listAllOutline(String courseid, HttpServletResponse response) throws SQLException, IOException{
+        StuOperateService stuOperateService = new StuOperateService();
+        ArrayList res = stuOperateService.listallOutline(courseid);
         JSONObject jsonObject = new JSONObject();
         if(res == null){
             jsonObject = returnarrjson(false, new JSONArray(res));
@@ -125,9 +139,9 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "markUnknown")
-    public void markUnknown(String name, String chapters, HttpServletResponse response) throws SQLException, IOException {
+    public void markUnknown(String courseid, String chapters, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        boolean res = stuOperateService.markUnkown(name,chapters);
+        boolean res = stuOperateService.markUnkown(courseid,chapters);
 
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
@@ -135,9 +149,9 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "listQuiz")
-    public void listQuiz(String name, HttpServletResponse response) throws SQLException, IOException{
+    public void listQuiz(String courseid, HttpServletResponse response) throws SQLException, IOException{
         StuOperateService stuOperateService = new StuOperateService();
-        ArrayList res = stuOperateService.listquiz(name);
+        ArrayList res = stuOperateService.listquiz(courseid);
 
         JSONObject jsonObject = returnstringjson(true, res.toString());
         response.setContentType("application/json;charset=UTF-8");
@@ -167,9 +181,9 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "putforwardQues")
-    public void putfowardQues(String course, HttpServletResponse response) throws IOException {
+    public void putfowardQues(String courseid, HttpServletResponse response) throws IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        stuOperateService.putforwardQues(course);
+        stuOperateService.putforwardQues(courseid);
         boolean res = false;
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");

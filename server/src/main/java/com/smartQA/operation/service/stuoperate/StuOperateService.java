@@ -43,12 +43,11 @@ public class StuOperateService {
         return (String)FileUtil.getQuoCon(getidres).get(0);
     }
 
-    public boolean joinCourse(String name, String password, String userid) throws SQLException {
+    public boolean joinCourse(String courseid, String password, String userid) throws SQLException {
 
-        String courseupdatesql = "UPDATE course SET stunum = stunum+1 WHERE name = \""+name + "\" and password = \""+ password+"\"";
+        String courseupdatesql = "UPDATE course SET stunum = stunum+1 WHERE id = \""+courseid + "\" and password = \""+ password+"\"";
         String getcoursessql = "select joinCourse from user where id = "+userid;
-        String courseID = getCourseID(name);
-        if(!courseID.startsWith("error!")){
+        if(!courseid.startsWith("error!")){
             //System.out.println("course表中有该课程！");
             String getcourses = DBUtil.DBMonitorSQL(getcoursessql,"course");
             if(getcourses.startsWith("error!"))
@@ -56,14 +55,14 @@ public class StuOperateService {
             String course = (String)FileUtil.getQuoCon(getcourses).get(0);
             String[] courselist = course.split(",");
             for(String s : courselist){
-                if(s.equals(courseID)){
+                if(s.equals(courseid)){
                     System.out.println("该用户已选过该课程！");
                     return false;
                 }
             }
             String courseupres = DBUtil.DBMonitorSQL(courseupdatesql, "course");
             //System.out.println(courseupres);
-            String stuupdatesql = "UPDATE user SET joinCourse = CONCAT(joinCourse, \""+courseID+",\") WHERE id = "+userid;
+            String stuupdatesql = "UPDATE user SET joinCourse = CONCAT(joinCourse, \""+courseid+",\") WHERE id = "+userid;
             //System.out.println(stuupdatesql);
             if(courseupres.startsWith("error!"))
                 return false;
@@ -72,7 +71,7 @@ public class StuOperateService {
                 return false;
 
         }else
-            System.out.println(courseID);
+            System.out.println(courseid);
         return true;
     }
 
@@ -196,8 +195,7 @@ public class StuOperateService {
 
     }
 
-    public boolean markUnkown(String name, String chapters) throws SQLException {
-        String courseid = getCourseID(name);
+    public boolean markUnkown(String courseid, String chapters) throws SQLException {
         if(courseid.startsWith("error!"))
             return false;
         String marksql = "update outline set uknown = uknown+1 WHERE courseid = "+courseid + " and chapters = " + chapters;
@@ -250,8 +248,7 @@ public class StuOperateService {
     }
 
 
-    public ArrayList<String> listquiz(String coursename) throws SQLException {
-        String courseid = getCourseID(coursename);
+    public ArrayList<String> listquiz(String courseid) throws SQLException {
         String listquizsql = "select id,ques from question where courseid = "+courseid +" and isquiz = 1";
         String listquizres = DBUtil.DBMonitorSQL(listquizsql, "question");
         ArrayList<String> res = new ArrayList<>();
@@ -279,7 +276,7 @@ public class StuOperateService {
     public static void main(String[] args) throws SQLException {
         StuOperateService stuOperateService = new StuOperateService();
 
-        ArrayList arrayList = stuOperateService.courseDetail("17","71");
+        ArrayList arrayList = stuOperateService.listMyAns("17","7","1");
 
         System.out.println(arrayList);
         /*JSONObject jsonObject = new JSONObject();

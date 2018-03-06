@@ -27,13 +27,13 @@ public class CourseServiceImpl implements CourseService{
         return courseDAO.addCourse(course);
     }
 
-    public Course getCourse(String name) {
-        Course course = courseDAO.getCourse(name);
+    public Course getCourse(String courseid) {
+        Course course = courseDAO.getCourse(courseid);
         return course;
     }
 
-    public boolean deleteCourse(String name, String password) {
-        return courseDAO.deleteCourse(name,password);
+    public boolean deleteCourse(String courseid, String password) {
+        return courseDAO.deleteCourse(courseid,password);
     }
 
     public List<Course> getCourseList() {

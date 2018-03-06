@@ -45,7 +45,7 @@
 删除：
 <form name="deleteCourse" action="./deleteCourse" method="get" onsubmit="return checknull()">
 
-    名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     密码：<input type="text" name="password">
     <input type="submit">
 </form>
@@ -53,7 +53,7 @@
 查询：
 <form name="getCourse" action="./getCourse" method="get" onsubmit="return checknull()">
 
-    名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     <input type="submit">
 </form>
 </body>

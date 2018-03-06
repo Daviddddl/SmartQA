@@ -22,7 +22,7 @@
 <form name="addOutline" action="./addOutline" method="get" onsubmit="return checknull()">
 
     加入提纲：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     提纲：<input type="textarea" cols="30" rows="10" name="content">
     <input type="submit">
@@ -31,7 +31,7 @@
 <form name="deleteOutline" action="./deleteOutline" method="get" onsubmit="return checknull()">
 
     删除提纲：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     <input type="submit">
 </form>
@@ -40,7 +40,7 @@
     （暂不可用）<br>
 
     改变提纲：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     提纲：<input type="textarea" cols="30" rows="10" name="content">
     <input type="submit">
@@ -49,7 +49,7 @@
 <form name="findOutline" action="./findOutline" method="get" onsubmit="return checknull()">
 
     搜索提纲：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     <input type="submit">
 </form>
@@ -57,7 +57,7 @@
 <form name="addQues" action="./addQues" method="get" onsubmit="return checknull()">
 
     添加问题：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     题目：<input type="textarea" cols="30" rows="10" name="ques">
     答案：<input type="textarea" cols="30" rows="10" name="ans">
@@ -67,7 +67,7 @@
 <form name="deleteQues" action="./deleteQues" method="get" onsubmit="return checknull()">
 
     删除问题：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     <input type="submit">
 </form>
@@ -77,7 +77,7 @@
     （暂不可用）<br>
 
     改变问题：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     提纲：<input type="textarea" cols="30" rows="10" name="content">
     <input type="submit">
@@ -86,7 +86,7 @@
 <form name="findQues" action="./findQues" method="get" onsubmit="return checknull()">
 
     寻找问题：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     <input type="submit">
 </form>
@@ -94,7 +94,7 @@
 <form name="listQues" action="./listQues" method="get" onsubmit="return checknull()">
 
     列出题目：<br>
-    课程名称：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     章节：<input type="text" name="chapters">
     <input type="submit">
 </form>
@@ -119,21 +119,21 @@
     （暂不可用）<br>
 
     检查签到：<br>
-    课程名：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     <input type="submit">
 </form>
 
 <form name="getRandStu" action="./getRandStu" method="get" onsubmit="return checknull()">
 
     随机学生：<br>
-    课程名：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     <input type="submit">
 </form>
 
 <form name="getStu" action="./getStu" method="get" onsubmit="return checknull()">
 
     全部学生：<br>
-    课程名：<input type="text" name="name">
+    课程id：<input type="text" name="courseid">
     <input type="submit">
 </form>
 

@@ -59,72 +59,72 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "addOutline")
-    public void addOutline(String name, Integer chapters, String content, HttpServletResponse response) throws SQLException, IOException {
+    public void addOutline(String courseid, Integer chapters, String content, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.addOutline(name,chapters,content);
+        boolean res = teaOperateSerivce.addOutline(courseid,chapters,content);
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "deleteOutline")
-    public void deleteOutline(String name, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
+    public void deleteOutline(String courseid, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.deleteOutline(name,chapters);
+        boolean res = teaOperateSerivce.deleteOutline(courseid,chapters);
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "changeOutline")
-    public void changeOutline(String name, Integer chapters, String content, HttpServletResponse response) throws IOException {
+    public void changeOutline(String courseid, Integer chapters, String content, HttpServletResponse response) throws IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.changeOutline(name,chapters,content);
+        boolean res = teaOperateSerivce.changeOutline(courseid,chapters,content);
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "findOutline")
-    public void findOutline(String name, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
+    public void findOutline(String courseid, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        String res = teaOperateSerivce.findOutline(name,chapters);
+        String res = teaOperateSerivce.findOutline(courseid,chapters);
         JSONObject jsonObject = returnstringjson(true,res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "addQues")
-    public void addQues(String name, Integer chapters, String ques, String ans, HttpServletResponse response) throws SQLException, IOException {
+    public void addQues(String courseid, Integer chapters, String ques, String ans, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.addQues(name,chapters,ques,ans);
+        boolean res = teaOperateSerivce.addQues(courseid,chapters,ques,ans);
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "deleteQues")
-    public void deleteQues(String name, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
+    public void deleteQues(String courseid, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.deleteQues(name,chapters);
+        boolean res = teaOperateSerivce.deleteQues(courseid,chapters);
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "findQues")
-    public void findQues(String name, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
+    public void findQues(String courseid, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        String res = teaOperateSerivce.findQues(name,chapters);
+        String res = teaOperateSerivce.findQues(courseid,chapters);
         JSONObject jsonObject = returnstringjson(true,res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "changeQues")
-    public void changeQues(String name, String chapters, String content, HttpServletResponse response) throws IOException {
+    public void changeQues(String courseid, String chapters, String content, HttpServletResponse response) throws IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.changeQues(name,chapters,content);
+        boolean res = teaOperateSerivce.changeQues(courseid,chapters,content);
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
@@ -162,27 +162,27 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "checkSign")
-    public void checkSign(String name, HttpServletResponse response) throws IOException {
+    public void checkSign(String courseid, HttpServletResponse response) throws IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        boolean res = teaOperateSerivce.checkSign(name);
+        boolean res = teaOperateSerivce.checkSign(courseid);
         JSONObject jsonObject = returnbooljson(res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "getStu")
-    public void getStu(String name, HttpServletResponse response) throws SQLException, IOException {
+    public void getStu(String courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        String res = teaOperateSerivce.getStu(name);
+        String res = teaOperateSerivce.getStu(courseid);
         JSONObject jsonObject = returnstringjson(true, res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "getRandStu")
-    public void getRandStu(String name, HttpServletResponse response) throws SQLException, IOException {
+    public void getRandStu(String courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        String res = teaOperateSerivce.getRandStu(name);
+        String res = teaOperateSerivce.getRandStu(courseid);
         JSONObject jsonObject = returnstringjson(true, res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
