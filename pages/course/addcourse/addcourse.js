@@ -49,71 +49,21 @@ Page({
   },
   //  点击结束日期组件确定事件  
   endDatePick: function (e) {
-    console.log(this)
     this.setData({
       endDate: e.detail.value
     })
   },
-  // 编辑大纲事件
-  outlineTitleInput: (e)=>{
-    console.log(e)
-    let outlineidx = e.currentTarget.dataset.outlineidx
-    var newoutlines = this.data.outlines
-    newoutlines[outlineidx].title = e.detail.value
-    this.setData({
-      outlines: newoutlines
-    })
-  },
-  outlineContentInput: (e) => {
-    console.log(this)
-    let outlineidx = e.currentTarget.dataset.outlineidx
-    console.log(outlineidx)
-    // var newoutlines = this.data.outlines
-    // newoutlines[outlineidx].content = e.detail.value
-    // this.setData({
-    //   outlines: newoutlines
-    // })
-  },
+ 
   outlineContentBlur: (e)=>{
     console.log("blur::::::")
     console.log(e)
     console.log(this)
   },
-  //添加删除章节
-  addChapter: function () {
-    var lists = this.data.outlines;
-    var newData = {};
-    lists.push(newData);//实质是添加lists数组内容，使for循环多一次  
-    this.setData({
-      outlines: lists,
-    })
-  },
-  delChapter: function () {
-    var lists = this.data.outlines;
-    lists.pop();      //实质是删除lists数组内容，使for循环少一次  
-    this.setData({
-      outlines: lists,
-    })
-  }, 
-  //下拉框选择事件
-  bindCasPickerChange: function (e) {
-    console.log(e)
-    let outlineidx = e.currentTarget.dataset.outlineidx
-    let curcasindex = e.detail.value
-    let curchapterid = this.data.casArray[curcasindex]
-    var newoutlines = this.data.outlines
-    newoutlines[outlineidx].chapterid = curchapterid
-    this.setData({
-      outlines: newoutlines,
-      casIndex: e.detail.value
-    })
-    console.log(this.data)
-  },
-
+  
   //创建课程按钮点击事件，调用参数要用：this.data.参数；
   //设置参数值，要使用this.setData({}）方法
   createCourseBtnClick: function (e) {
-    console.log(e)
+    // console.log(e.detail.value.courseName.trim())
     if (this.data.courseName.length == 0 || this.data.coursepassWd.length == 0 || this.data.capacityNum.length == 0) {
       this.setData({
         infoMess: '温馨提示：课程名、密码和容量不能为空！',
@@ -123,15 +73,22 @@ Page({
         infoMess: '温馨提示',
       })
       wx.request({
-        url: app.globalData.URI + '/appserver/servlet/CourseServlet',
+        url: app.globalData.URL + '/course/addCourse',
         data: {
-          funcID: "createcourse",
-          name: this.data.courseName,
-          password: this.data.coursepassWd,
-          teacher: this.data.teacherID,
-          capacity: this.data.capacityNum,
-          startdate: this.data.startDate,
-          enddate: this.data.endDate
+          // name: this.data.courseName,
+          // password: this.data.coursepassWd,
+          // teacher: this.data.teacherID,
+          // capacity: this.data.capacityNum,
+          // startdate: this.data.startDate,
+          // enddate: this.data.endDate
+          name: e.detail.value.courseName.trim(),
+          password: e.detail.value.coursepassWd.trim(),
+          teacher: e.detail.value.teacherID.trim(),
+          capacity: e.detail.value.capacityNum.trim(),
+          stunum: 0,
+          startdate: e.detail.value.startdate,
+          enddate: e.detail.value.enddate,
+          isactive: 1
         },
         method: 'GET',
         header: {
@@ -152,19 +109,16 @@ Page({
             duration: 1500
           })
           console.log(".....fail.....");
-        },
-        complete: function (res) {
-          console.log(".....complete.....");
         }
       })
     }
-    console.log("infoMess: " + this.data.infoMess +
-      "\ncourseName: " + this.data.courseName +
-      "\ncoursepassWd: " + this.data.coursepassWd +
-      "\nteacherID: " + this.data.teacherID +
-      "\ncapacityNum: " + this.data.capacityNum +
-      "\nstartDate: " + this.data.startDate +
-      "\nendDate: " + this.data.endDate + "\n")
+    // console.log("infoMess: " + this.data.infoMess +
+    //   "\ncourseName: " + this.data.courseName +
+    //   "\ncoursepassWd: " + this.data.coursepassWd +
+    //   "\nteacherID: " + this.data.teacherID +
+    //   "\ncapacityNum: " + this.data.capacityNum +
+    //   "\nstartDate: " + this.data.startDate +
+    //   "\nendDate: " + this.data.endDate + "\n")
   },
   //重置按钮点击事件
   resetBtnClick: function (e) {

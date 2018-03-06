@@ -50,53 +50,18 @@
                     <view class="weui-label">结束日期</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <picker mode="date" value="{{endDate}}" start="2018-01-01" end="2099-12-31" bindchange="endDatePick">
+                    <picker mode="date" name='enddate' value="{{endDate}}" start="2018-01-01" end="2099-12-31" bindchange="endDatePick">
                         <view class="weui-input">{{endDate}}</view>
                     </picker>
                 </view>
             </view>  
         </view>
         
-        <!-- 添加选项 -->
-        <view class="weui-cells__title">课程大纲：</view>
-          <view  wx:for="{{outlines}}" wx:key="index">
         
-        <view class="weui-cells weui-cells_after-title">
-          <!-- <view  wx:for="{{outlines}}" wx:key="index"> -->
-              <view class="weui-cell weui-cell_input">
-                  <view class="weui-cell__hd">
-                      <view class="weui-label">章节号：</view>
-                  </view>
-                  <view class="weui-cell__bd">
-                      <!-- <picker value="{{casIndex}}" range="{{casArray}}" data-outlineidx="{{index}}" bindchange="bindCasPickerChange">
-                          <view class="weui-input">{{item.chapterid}}</view>
-                      </picker> -->
-                  </view>
-              </view> 
-              <view class="weui-cell weui-cell_input" style="display: flex;">
-                  <view class="weui-cell__hd">
-                      <view class="weui-label">标题：</view>
-                  </view>
-                  <view class="weui-cell__bd">
-                      <input class="weui-input" focus='true' placeholder="请输入标题" data-outlineidx="{{index}}" bindinput="outlineTitleInput"/>
-                  </view>
-              </view>
-              <view class="weui-cell weui-cell_input" style="display: flex;">
-                  <view class="weui-cell__hd">
-                      <view class="weui-label">内容：</view>
-                  </view>
-                  <view class="weui-cell__bd">              
-                      <textarea class="weui-textarea" name="outlineContent" style="height: 5.3em; padding: 5px;" bindblur='outlineContentBlur'/>
-                  </view>
-              </view>              
-          </view>
-        </view>
         <!-- 提示信息           -->
         <view class="weui-cells__tips" >{{infoMess}}</view> 
         <!-- 按钮 -->
         <view class="page__td_spacing page__bd_spacing">
-          <button class="weui-btn" type='default' plain='true' bindtap="addChapter">添加章节</button>
-          <button class="weui-btn" type='default' plain='true' bindtap="delChapter">删除章节</button>
           <button class="weui-btn" type='primary' plain='true' form-type='submit'>创建课程</button>
           <button class="weui-btn" type='warn' plain='true' bindtap="resetBtnClick">返回</button>
         </view>

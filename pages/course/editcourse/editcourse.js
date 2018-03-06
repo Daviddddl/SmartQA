@@ -7,6 +7,7 @@ Page({
    */
   data: {
     infoMess: '温馨提示',
+    courseid: null,
     courseName: '',
     coursepassWd: '',
     teacherID: '',
@@ -52,6 +53,7 @@ Page({
   //创建课程按钮点击事件，调用参数要用：this.data.参数；
   //设置参数值，要使用this.setData({}）方法
   createCourseBtnClick: function () {
+    console.log(this.data)
     if (this.data.courseName.length == 0 || this.data.coursepassWd.length == 0 || this.data.capacityNum.length == 0) {
       this.setData({
         infoMess: '温馨提示：课程名、密码和容量不能为空！',
@@ -77,7 +79,7 @@ Page({
         },
         success: function (res) {
           wx.showToast({
-            title: '创建成功',
+            title: '修改成功',
             icon: 'success',
             duration: 1500
           })
@@ -85,14 +87,11 @@ Page({
         },
         fail: function (res) {
           wx.showToast({
-            title: '创建失败',
+            title: '修改失败',
             image: '../../images/icon_fail.png',
             duration: 1500
           })
           console.log(".....fail.....");
-        },
-        complete: function (res) {
-          console.log(".....complete.....");
         }
       })
     }
@@ -106,15 +105,6 @@ Page({
   },
   //重置按钮点击事件
   resetBtnClick: function (e) {
-    this.setData({
-      infoMess: '',
-      courseName: '',
-      coursepassWd: '',
-      teacherID: '',
-      capacityNum: '',
-      startDate: '',
-      endDate: ''
-    })
     wx.navigateBack({
       delta: 1
     })
@@ -124,7 +114,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    var coursejson = options.coursejson
+    var course = JSON.parse(coursejson)
+    console.log(course)
+    this.setData({
+      courseid: course.courseid,
+      courseName: course.coursename,
+      coursepassWd: course.coursepasswd,
+      teacherID: course.teacherid,
+      capacityNum: course.capacitynum,
+      startDate: course.startdate,
+      endDate: course.enddate
+    })
   },
 
   /**

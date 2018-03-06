@@ -2,22 +2,29 @@
 App({
   getAllCourses: function (userID) {
     wx.request({
-      url: this.globalData.URI + '/getAllCourses',
+      url: this.globalData.URL + '/getAllCourses',
       data: {
         userID: userID
       },
       method: 'GET',
       header: { 'content-type': 'application/json' },
       success: function (res) {
-        if (res.statusCode === 200) {
-          return res.data
-        } else {
-          console.log("get all courses failed.")
-        }
+        wx.showToast({
+          title: '创建成功',
+          icon: 'success',
+          duration: 1500
+        })
+        console.log(res.data);
+
       },
       fail: function (res) {
-        console.log("get all courses failed.")
-      }
+        wx.showToast({
+          title: '创建失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      },
     })
   },
   globalData: {
