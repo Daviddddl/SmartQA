@@ -36,7 +36,7 @@
           <button class="weui-btn" type='default' plain='true' bindtap="addOption">添加选项</button>
           <button class="weui-btn" type='default' plain='true' bindtap="delOption">删除选项</button>
           <button class="weui-btn" type='primary' plain='true' bindtap="editQuestionClick">确定修改</button>
-          <button class="weui-btn" type='primary' plain='true' bindtap="delQuestionClick">删除此题</button>
-          <button class="weui-btn" type='warn' plain='true' bindtap="resetBtnClick">返回</button>
+          <button class="weui-btn" type='warn' plain='true' bindtap="delQuestionClick">删除此题</button>
+          <button class="weui-btn" type='default' plain='true' bindtap="resetBtnClick">返回</button>
         </view>
 </view>

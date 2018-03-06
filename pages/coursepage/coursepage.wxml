@@ -86,7 +86,7 @@
     </view>
     <view class="page__td_spacing page__bd_spacing">
       <button class="weui-btn" type='default' plain='true' bindtap="addChapter">添加章节</button>
-      <button class="weui-btn" type='default' plain='true' bindtap="editCourseInfo">编辑课程信息</button>    
+      <button class="weui-btn" type='default' plain='true' bindtap="nav2editcourse">编辑课程信息</button>    
       <button class="weui-btn" type='default' plain='true' bindtap="editQuestionBank">编辑题库</button>
       <button class="weui-btn" type='default' plain='true' bindtap="publishQuestions">发布题目</button>
       <button class="weui-btn" type='default' plain='true' bindtap="checkAttendance">考勤</button>

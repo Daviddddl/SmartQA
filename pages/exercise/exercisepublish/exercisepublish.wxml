@@ -2,7 +2,7 @@
     <view class='page__td_spacing page__bd_spacing'> 
       <button class="weui-btn" type="default" plain="true" bindtap='publishQuestions'>发布</button>  
     </view>
-    <scroll-view scroll-y="true" style="height: 415px">
+    <scroll-view scroll-y="true" style="height: 540px">
         <view class="weui-panel weui-panel_access">
           <view class="weui-panel__hd">题目列表</view>
           <view class="weui-panel__bd">

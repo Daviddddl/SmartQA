@@ -20,6 +20,21 @@ Page({
    
   },
 
+  nav2editcourse: function(e){
+    var course = {};
+    course.courseid = this.data.courseid
+    course.coursename = this.data.coursename
+    course.coursepasswd = this.data.coursepasswd
+    course.capacitynum = this.data.capacitynum
+    course.teacherid = this.data.teacherid
+    course.startdate = this.data.startdate
+    course.enddate = this.data.enddate
+    var coursejson = JSON.stringify(course)
+    wx.navigateTo({
+      url: '../course/editcourse/editcourse?coursejson=' + coursejson,
+    })
+  },
+
   nav2editoutline: function(e) {
     let outidx = e.currentTarget.dataset.outidx;
     let courseid = this.data.courseid;
@@ -109,12 +124,12 @@ Page({
   },
   editQuestionBank: function(){
     wx.navigateTo({
-      url: "../exerciseedit/exerciseedit?courseid=" + this.data.courseid,
+      url: "../exercise/exerciseedit/exerciseedit?courseid=" + this.data.courseid,
     })
   },
   publishQuestions: function () {
     wx.navigateTo({
-      url: "../exercisepublish/exercisepublish?courseid=" + this.data.courseid,
+      url: "../exercise/exercisepublish/exercisepublish?courseid=" + this.data.courseid,
     })
   }
  

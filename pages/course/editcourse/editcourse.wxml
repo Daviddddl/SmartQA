@@ -6,7 +6,7 @@
                     <view class="weui-label">课程名：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" name="courseName" placeholder="请输入课程名称" bindinput="courseNameInput"/>
+                    <input class="weui-input" value="{{courseName}}" name="courseName" placeholder="请输入课程名称" bindinput="courseNameInput"/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -14,7 +14,7 @@
                     <view class="weui-label">选课密码：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" password placeholder="请输入选课密码" bindinput="coursepassWdInput"/>
+                    <input class="weui-input" value="{{coursepassWd}}" placeholder="请输入选课密码" bindinput="coursepassWdInput"/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -22,7 +22,7 @@
                     <view class="weui-label">教师ID：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入个人ID" bindinput="teacherInput" />
+                    <input class="weui-input" value="{{teacherID}}" placeholder="请输入个人ID" bindinput="teacherInput" />
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">
@@ -30,7 +30,7 @@
                     <view class="weui-label">课堂容量：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" type='number' placeholder="请输入课堂容量" bindinput="courseCapacityInput"/>
+                    <input class="weui-input" value="{{capacityNum}}" type='number' placeholder="请输入课堂容量" bindinput="courseCapacityInput"/>
                 </view>
             </view>
             <view class="weui-cell weui-cell_input">

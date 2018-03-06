@@ -71,17 +71,17 @@ Page({
   },
   registerAttendance: function () {
     wx.navigateTo({
-      url: "../exerciseedit/exerciseedit",
+      url: "../exercise/exerciseedit/exerciseedit",
     })
   },
   answerQuestions: function () {
     wx.navigateTo({
-      url: "../exerciseanswering/exerciseanswering",
+      url: "../exercise/exerciseanswering/exerciseanswering",
     })
   },
   historyAnswering: function () {
     wx.navigateTo({
-      url: "../exercisehistory/exercisehistory",
+      url: "../exercise/exercisehistory/exercisehistory",
     })
   }
 
