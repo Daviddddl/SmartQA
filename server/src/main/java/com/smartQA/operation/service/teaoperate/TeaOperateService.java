@@ -1,12 +1,19 @@
 package com.smartQA.operation.service.teaoperate;
 
+import com.smartQA.operation.service.stuoperate.StuOperateService;
 import com.smartQA.operation.service.utils.DBUtil;
 import com.smartQA.operation.service.utils.FileUtil;
+import org.apache.commons.collections.map.AbstractReferenceMap;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.print.attribute.HashDocAttributeSet;
 import javax.xml.ws.soap.Addressing;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -28,6 +35,31 @@ public class TeaOperateService {
             return joinres;
         return joinres.split("\"")[1];
     }
+
+    public ArrayList<HashMap> listMyOwnCourse(String userid) throws SQLException {
+
+        ArrayList<HashMap> maps = new ArrayList<>();
+        if(userid.startsWith("error!"))
+            return null;
+        String listsql = "select id,name,isactive from course where teacher = "+userid;
+        String listres = DBUtil.DBMonitorSQL(listsql,"user");
+        if(listres.startsWith("error!") || listres.length() <= 8)
+            return null;
+        ArrayList listarr = FileUtil.getQuoCon(listres);
+        for(int i = 0; i < listarr.size(); i++){
+            String courseid = (String)listarr.get(i);
+            String coursename = (String) listarr.get(++i);
+            String isactive = (String) listarr.get(++i);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id",courseid);
+            map.put("name",coursename);
+            map.put("isactive", isactive);
+            maps.add(map);
+            //System.out.println(courseid+"---"+coursename +"---" + isactive);
+        }
+        return maps;
+    }
+
 
     public boolean addOutline(String name, Integer chapters, String content) throws SQLException {
         String courseid = getCourseID(name);
@@ -140,8 +172,8 @@ public class TeaOperateService {
         return true;
     }
 
-    public ArrayList<String> listQues(String name, String chapters) throws SQLException {
-        String courseid = getCourseID(name);
+    public ArrayList<String> listQues(String courseid, String chapters) throws SQLException {
+        //String courseid = getCourseID(name);
         ArrayList ans = new ArrayList();
         if(courseid.startsWith("error!")) {
             ans.add("error!没有题目！");
@@ -185,6 +217,6 @@ public class TeaOperateService {
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(new TeaOperateService().addOutline("course02",1,"asdas"));
+
     }
 }

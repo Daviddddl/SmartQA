@@ -2,6 +2,7 @@ package com.smartQA.operation.web;
 
 import com.smartQA.operation.service.teaoperate.*;
 import com.smartQA.operation.service.utils.FileUtil;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 描述:
@@ -29,13 +31,31 @@ public class TeaOperateController {
         return new StuOperateController().returnbooljson(jsonres);
     }
 
-    public JSONObject returnstringjson(String jsonres){
-        return new StuOperateController().returnstringjson(jsonres);
+    public JSONObject returnstringjson(boolean res, String jsonres){
+        return new StuOperateController().returnstringjson(res, jsonres);
+    }
+
+    public JSONObject returnarrjson(boolean res, JSONArray json){
+        return new StuOperateController().returnarrjson(res, json);
     }
 
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(){
         return "teaoperate";
+    }
+
+    @RequestMapping(value = "listMyOwnCourse")
+    public void listMyOwnCourse(String userid, HttpServletResponse response) throws SQLException, IOException {
+        TeaOperateService teaOperateService = new TeaOperateService();
+        ArrayList<HashMap> courselist= teaOperateService.listMyOwnCourse(userid);
+        JSONObject jsonObject = new JSONObject();
+        if(courselist == null){
+            jsonObject = returnarrjson(false,new JSONArray(courselist));
+        }else {
+            jsonObject = returnarrjson(true,new JSONArray(courselist));
+        }
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "addOutline")
@@ -69,7 +89,7 @@ public class TeaOperateController {
     public void findOutline(String name, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.findOutline(name,chapters);
-        JSONObject jsonObject = returnstringjson(res);
+        JSONObject jsonObject = returnstringjson(true,res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -96,7 +116,7 @@ public class TeaOperateController {
     public void findQues(String name, Integer chapters, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.findQues(name,chapters);
-        JSONObject jsonObject = returnstringjson(res);
+        JSONObject jsonObject = returnstringjson(true,res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -114,16 +134,29 @@ public class TeaOperateController {
     public void checkQues(Integer quesid,HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         ArrayList res = teaOperateSerivce.checkQues(quesid);
-        JSONObject jsonObject = returnstringjson(res.toString());
+        JSONObject jsonObject = returnstringjson(true, res.toString());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
 
     @RequestMapping(value = "listQues")
-    public void listQues(String name, String chapters, HttpServletResponse response) throws SQLException, IOException {
+    public void listQues(String courseid, String chapters, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateService = new TeaOperateService();
-        ArrayList<String> queslist = teaOperateService.listQues(name, chapters);
-        JSONObject jsonObject = returnstringjson(queslist.toString());
+        ArrayList<String> queslist = teaOperateService.listQues(courseid, chapters);
+        JSONObject jsonObject = returnstringjson(true, queslist.toString());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "quizQues")
+    public void quizQues(String quesid, HttpServletResponse response) throws IOException, SQLException {
+        TeaOperateService teaOperateService = new TeaOperateService();
+        String[] quesids = quesid.split(",");
+        Integer[] quesidint = new Integer[quesids.length];
+        for(int i = 0 ; i < quesids.length; i++)
+            quesidint[i] = Integer.valueOf(quesids[i]);
+        boolean quizres = teaOperateService.quizQues(quesidint);
+        JSONObject jsonObject = returnbooljson(quizres);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -141,7 +174,7 @@ public class TeaOperateController {
     public void getStu(String name, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.getStu(name);
-        JSONObject jsonObject = returnstringjson(res);
+        JSONObject jsonObject = returnstringjson(true, res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -150,7 +183,7 @@ public class TeaOperateController {
     public void getRandStu(String name, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.getRandStu(name);
-        JSONObject jsonObject = returnstringjson(res);
+        JSONObject jsonObject = returnstringjson(true, res);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
