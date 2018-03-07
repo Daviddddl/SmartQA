@@ -52,7 +52,7 @@ Page({
 
   //创建课程按钮点击事件，调用参数要用：this.data.参数；
   //设置参数值，要使用this.setData({}）方法
-  createCourseBtnClick: function () {
+  editCourseBtnClick: function () {
     console.log(this.data)
     if (this.data.courseName.length == 0 || this.data.coursepassWd.length == 0 || this.data.capacityNum.length == 0) {
       this.setData({

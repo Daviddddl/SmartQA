@@ -34,7 +34,7 @@
     <!-- </view>  -->
         <view class="weui-cells__tips" >{{infoMess}}</view> 
         <view class="page__td_spacing page__bd_spacing">
-          <button class="weui-btn" type='primary' plain='true' bindtap="createCourseBtnClick">确认修改</button>
+          <button class="weui-btn" type='primary' plain='true' bindtap="editCourseOutlineClick">确认修改</button>
           <button class="weui-btn" type='warn' plain='true' bindtap="delChapter">删除</button>
           <button class="weui-btn" type='default' plain='true' bindtap="resetBtnClick">返回</button>
         </view>

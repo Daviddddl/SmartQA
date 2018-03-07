@@ -8,9 +8,12 @@ Page({
   data: {
     infoMess: '温馨提示',
     courseid: null,
+    outlineid: null,
     title: '第一章 java入门',
     content: 'java junit git', 
     chapterid: 1 ,
+    update: 0,
+    outlines: [],
     casArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
     casIndex: 0
   },
@@ -43,11 +46,13 @@ Page({
 
   //删除章节
   delChapter: function () {
+    var that = this
     wx.request({
-      url: this.globalData.URL + '/getAllCourses',
+      url: this.globalData.URL + '/deleteOutline',
       data: {
-        courseid: this.data.courseid,
-        chapters: this.data.chapterid
+        courseid: that.data.courseid,
+        chapterid: that.data.chapterid,
+        title: that.data.title
       },
       method: 'GET',
       header: { 'content-type': 'application/json' },
@@ -58,7 +63,6 @@ Page({
           duration: 1500
         })
         console.log(res.data);
-
       },
       fail: function (res) {
         wx.showToast({
@@ -73,8 +77,9 @@ Page({
 
   //创建课程按钮点击事件，调用参数要用：this.data.参数；
   //设置参数值，要使用this.setData({}）方法
-  createCourseBtnClick: function () {
+  editCourseOutlineClick: function () {
     console.log(this.data)
+    var that = this
     if (this.data.title.length == 0 || this.data.content.length == 0) {
       this.setData({
         infoMess: '温馨提示：标题、内容不能为空！',
@@ -85,8 +90,10 @@ Page({
       })
       that = this
       wx.request({
-        url: app.globalData.URL + '/appserver/servlet/CourseServlet',
+        url: app.globalData.URL + '/teaoperate/addOutline',
         data: {
+          update: that.data.update,
+          outlineid: that.data.outlineid,
           courseid: that.data.courseid,
           title: that.data.title,
           content: that.data.content,
@@ -111,9 +118,6 @@ Page({
             duration: 1500
           })
           console.log(".....fail.....");
-        },
-        complete: function (res) {
-          console.log(".....complete.....");
         }
       })
     }
@@ -132,9 +136,17 @@ Page({
     var outlinejson = options.outlinejson
     var curcourseid = options.courseid
     var outline = JSON.parse(outlinejson)
-    console.log(outline)
+    if(outline.id != null){
+      this.setData({
+        outlineid: outline.id,
+        update: 1
+      })
+    }else{
+      this.setData({
+        update: 0
+      })
+    }
     let curcasIndex = this.data.casArray.indexOf(outline.chapterid)
-    console.log(curcasIndex)
     this.setData({
       courseid: curcourseid,
       title: outline.title ,
