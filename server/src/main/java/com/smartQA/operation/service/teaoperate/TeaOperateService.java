@@ -86,24 +86,24 @@ public class TeaOperateService {
 
     public ArrayList listAllOutline(String courseid) throws SQLException {
         ArrayList maps = new ArrayList<>();
-        String listchapterssql = "select chapters from outline where courseid="+courseid + " group by chapters";
-        String chaptersres = DBUtil.DBMonitorSQL(listchapterssql, "outline");
-        if(chaptersres.startsWith("error!") ||chaptersres.length() <= 8)
+        String listchapteridsql = "select chapterid from outline where courseid="+courseid + " group by chapterid";
+        String chapteridres = DBUtil.DBMonitorSQL(listchapteridsql, "outline");
+        if(chapteridres.startsWith("error!") ||chapteridres.length() <= 8)
             return null;
-        ArrayList chapters = FileUtil.getQuoCon(chaptersres);
+        ArrayList chapterid = FileUtil.getQuoCon(chapteridres);
 
-        for(int i = 0; i< chapters.size();i++){
-            maps.add(listOutline(courseid,(String)chapters.get(i)));
+        for(int i = 0; i< chapterid.size();i++){
+            maps.add(listOutline(courseid,(String)chapterid.get(i)));
         }
 
         return maps;
     }
 
 
-    public ArrayList<HashMap> listOutline(String courseid, String chapters) throws SQLException {
+    public ArrayList<HashMap> listOutline(String courseid, String chapterid) throws SQLException {
         ArrayList<HashMap> maps = new ArrayList<>();
 
-        String listoutlinesql = "select * from outline where courseid="+courseid + " and chapters="+chapters;
+        String listoutlinesql = "select * from outline where courseid="+courseid + " and chapterid="+chapterid;
         String listres = DBUtil.DBMonitorSQL(listoutlinesql, "outline");
         if(listres.startsWith("error!") || listres.length() <= 8)
             return null;
@@ -111,14 +111,14 @@ public class TeaOperateService {
         for(int i = 0; i< listarr.size(); i++){
             String id = (String)listarr.get(i);
             courseid = (String)listarr.get(++i);
-            chapters = (String)listarr.get(++i);
+            chapterid = (String)listarr.get(++i);
             String title = (String)listarr.get(++i);
             String content = (String)listarr.get(++i);
             String unknown = (String)listarr.get(++i);
             HashMap<String, String> map = new HashMap<>();
             map.put("id", id);
             map.put("courseid", courseid);
-            map.put("chapters", chapters);
+            map.put("chapterid", chapterid);
             map.put("title", title);
             map.put("content",content);
             map.put("unknown",unknown);
@@ -128,29 +128,38 @@ public class TeaOperateService {
     }
 
 
-    public boolean addOutline(String courseid, Integer chapters, String content) throws SQLException {
-        if(courseid.startsWith("error!"))
+    public boolean addOutline(String courseid, Integer chapterid, String title, String content, Integer outlineid, Integer update) throws SQLException {
+
+        if(update == 0) {
+            //新增提纲
+            String addfindsql = "select * from course where id = " + courseid;
+            String addOutline = "insert into outline(`courseid`, `chapterid`, `title`, `content`, `uknown`) values(" + courseid + "," + chapterid + ",\"" + title + "\",\"" + content + "\",0);";
+            //System.out.println(addOutline);
+            String findres = DBUtil.DBMonitorSQL(addfindsql, "course");
+            //System.out.println(findres);
+            if (!findres.startsWith("error!")) {
+                //System.out.println("course表中有该课程！");
+                String addres = DBUtil.DBMonitorSQL(addOutline, "outline");
+                //System.out.println(addres);
+                if (addres.startsWith("error!"))
+                    return false;
+                return true;
+            }
             return false;
-        String addfindsql = "select * from course where id = " + courseid;
-        String addOutline = "insert into outline(`courseid`, `chapters`, `content`, `uknown`) values("+courseid+","+chapters+",\""+content+"\",0);";
-        //System.out.println(addOutline);
-        String findres = DBUtil.DBMonitorSQL(addfindsql, "course");
-        //System.out.println(findres);
-        if(!findres.startsWith("error!")){
-            //System.out.println("course表中有该课程！");
-            String addres = DBUtil.DBMonitorSQL(addOutline, "outline");
-            //System.out.println(addres);
-            if(addres.startsWith("error!"))
-                return false;
-            return true;
+        } else{
+            //更新提纲
+            String updateoutlinesql = "update outline set title = "+ "\""+title + "\"," +" content = " + "\"" + content +"\" where id = "+outlineid;
+            String res = DBUtil.DBMonitorSQL(updateoutlinesql, "outline");
+            if(res.startsWith("更新成功"))
+                return true;
+            return false;
         }
-        return false;
     }
 
-    public boolean deleteOutline(String courseid, Integer chapters) throws SQLException {
+    public boolean deleteOutline(String courseid, Integer chapterid, String title) throws SQLException {
         if(courseid.startsWith("error!"))
             return false;
-        String defindsql = "delete from outline where courseid = "+courseid+" and chapters = " + chapters;
+        String defindsql = "delete from outline where courseid = "+courseid+" and chapterid = " + chapterid + " and title = "+title;
         String deres = DBUtil.DBMonitorSQL(defindsql, "outline");
         if(deres.startsWith("error!"))
             return false;
@@ -158,30 +167,29 @@ public class TeaOperateService {
             return true;
     }
 
-    public String findOutline(String courseid, Integer chapters) throws SQLException {
+    public String findOutline(String courseid, Integer chapterid) throws SQLException {
         if(courseid.startsWith("error!"))
             return "error!";
-        String listsql = "select * from outline where courseid = "+courseid + " and chapters = "+chapters;
+        String listsql = "select * from outline where courseid = "+courseid + " and chapterid = "+chapterid;
         //System.out.println(listsql);
         String listres = DBUtil.DBMonitorSQL(listsql,"outline");
         return listres;
     }
 
-    public boolean changeOutline(String courseid, Integer chapters, String content) {
+    public boolean changeOutline(String courseid, Integer chapterid, String content) {
 
         return false;
     }
 
-    public boolean addQues(String courseid, Integer chapters, String ques, String ans) throws SQLException {
-        if(courseid.startsWith("error!"))
-            return false;
+    public boolean addQues(String courseid, Integer chapterid, String ques, String options, String ans) throws SQLException {
+
         String addfindsql = "select * from course where id = " + courseid;
-        String addQuessql = "insert into question(`courseid`, `chapters`, `ques`, `ans`) values("+courseid+","+chapters+",\""+ques+"\",\"" + ans + "\")";
+        String addQuessql = "insert into question(`courseid`, `chapterid`, `ques`, `options`, `ans`) values("+courseid+","+chapterid+",\""+ques+ "\"," + "\"" + options + "\"," + "\"" + ans + "\")";
         //System.out.println(addQuessql);
         String findres = DBUtil.DBMonitorSQL(addfindsql, "course");
         if(!findres.startsWith("error!")){
             //System.out.println("course表中有该课程！");
-            String addres = DBUtil.DBMonitorSQL(addQuessql, "outline");
+            String addres = DBUtil.DBMonitorSQL(addQuessql, "question");
             //System.out.println(addres);
             if(addres.startsWith("error!"))
                 return false;
@@ -190,10 +198,8 @@ public class TeaOperateService {
         return false;
     }
 
-    public boolean deleteQues(String courseid, Integer chapters) throws SQLException {
-        if(courseid.startsWith("error!"))
-            return false;
-        String defindsql = "delete from question where courseid = "+courseid+" and chapters = " + chapters;
+    public boolean deleteQues(String courseid, Integer chapterid) throws SQLException {
+        String defindsql = "delete from question where courseid = "+courseid+" and chapterid = " + chapterid;
         String deres = DBUtil.DBMonitorSQL(defindsql, "outline");
         if(deres.startsWith("error!"))
             return false;
@@ -201,21 +207,31 @@ public class TeaOperateService {
             return true;
     }
 
-    public String findQues(String courseid, Integer chapters) throws SQLException {
+    public boolean deleteQuesByID(String quesid) throws SQLException {
+
+        String defindsql = "delete from question where id = "+quesid;
+        String deres = DBUtil.DBMonitorSQL(defindsql, "question");
+        if(deres.startsWith("error!"))
+            return false;
+        else
+            return true;
+    }
+
+    public String findQues(String courseid, Integer chapterid) throws SQLException {
         if(courseid.startsWith("error!"))
             return "error!";
-        String listsql = "select * from question where courseid = "+courseid + " and chapters = "+chapters;
+        String listsql = "select * from question where courseid = "+courseid + " and chapterid = "+chapterid;
         //System.out.println(listsql);
         return DBUtil.DBMonitorSQL(listsql,"question");
     }
 
-    public boolean changeQues(String courseid, String chapters, String content) {
+    public boolean changeQues(String courseid, String chapterid, String content) {
 
         return false;
     }
 
     public ArrayList<String> checkQues(Integer quesid) throws SQLException {
-        String getressql = "select chapters, ques, ans, ansnum, correct from question where id = " + quesid;
+        String getressql = "select chapterid, ques, ans, ansnum, correct from question where id = " + quesid;
         String getres = DBUtil.DBMonitorSQL(getressql, "question");
         ArrayList ans = FileUtil.getQuoCon(getres);
         return ans;
@@ -233,21 +249,61 @@ public class TeaOperateService {
         return true;
     }
 
-    public ArrayList<String> listQues(String courseid, String chapters) throws SQLException {
+    public ArrayList<HashMap> listAllQues(String courseid) throws SQLException {
+        String getcchapterssql = "select chapterid from question where courseid = "+courseid +" group by chapterid";
+        String res = DBUtil.DBMonitorSQL(getcchapterssql, "chapterid");
+        ArrayList chapters = FileUtil.getQuoCon(res);
+        ArrayList<HashMap> listallques = new ArrayList<>();
+        for(int i = 0 ;i <chapters.size(); i++){
+            listallques.addAll(listQues(courseid, (String)chapters.get(i)));
+        }
+        return listallques;
+    }
+
+    public ArrayList<HashMap> listQues(String courseid, String chapterid) throws SQLException {
         //String courseid = getCourseID(name);
-        ArrayList ans = new ArrayList();
-        if(courseid.startsWith("error!")) {
+        ArrayList<HashMap> maps = new ArrayList();
+        /*if(courseid.startsWith("error!")) {
             ans.add("error!没有题目！");
             return ans;
-        }
-        String listquessql = "select ques from question where courseid = "+courseid + " and chapters = " + chapters;
+        }*/
+        String listquessql = "select * from question where courseid = "+courseid + " and chapterid = " + chapterid;
         String listquesans = DBUtil.DBMonitorSQL(listquessql, "question");
         if(listquesans.startsWith("error!")){
-            ans.add("error!没有题目！");
-            return ans;
+            return null;
         }
-        ans = FileUtil.getQuoCon(listquesans);
-        return ans;
+        ArrayList listques = FileUtil.getQuoCon(listquesans);
+        for(int i = 0; i< listques.size(); i++){
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", (String) listques.get(i));
+            map.put("courseid", (String)listques.get(++i));
+            map.put("chapterid", (String)listques.get(++i));
+            map.put("ques",(String)listques.get(++i));
+            //获取选项
+            String options = (String)listques.get(++i);
+            if(!options.equals("")){
+                options = FileUtil.replaceBlank(options);
+                String[] optionsarr = options.split("<EOF>");
+                ArrayList<HashMap> optionarr = new ArrayList<>();
+                for(String s : optionsarr){
+                    HashMap<String, String> op = new HashMap<>();
+                    op.put("name", s);
+                    op.put("value", s.substring(0, 1));
+                    optionarr.add(op);
+                }
+                map.put("options", optionarr.toString());
+            }else
+                map.put("options","没有选项！");
+            map.put("ans", (String)listques.get(++i));
+            map.put("ansnum", (String)listques.get(++i));
+            map.put("correct", (String)listques.get(++i));
+            map.put("isactive", (String)listques.get(++i));
+            map.put("isquiz", (String)listques.get(++i));
+
+            maps.add(map);
+        }
+
+        return maps;
     }
 
     public boolean checkSign(String name) {
@@ -277,7 +333,7 @@ public class TeaOperateService {
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(new TeaOperateService().listCourseDetail("7"));
+        System.out.println(new TeaOperateService().listAllQues("7"));
     }
 
 }

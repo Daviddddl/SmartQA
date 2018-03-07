@@ -51,9 +51,9 @@
 
 <form name="listOutline" action="./listOutline" method="get" onsubmit="return checknull()">
 
-    列出用户提纲：<br>
+    列出提纲：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     <input type="submit">
 </form>
 
@@ -70,7 +70,7 @@
 
     标记不懂：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     <input type="submit">
 </form>
 
@@ -86,7 +86,7 @@
     回答问题：<br>
     用户id：<input type="text" name="userid">
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     题号：<input type="text" name="quesid">
     答案：<input type="text" name="answer">
     <input type="submit">
@@ -97,7 +97,7 @@
     列出我的回答：<br>
     用户id：<input type="text" name="userid">
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     <input type="submit">
 </form>
 
