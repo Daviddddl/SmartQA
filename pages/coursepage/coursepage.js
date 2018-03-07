@@ -75,34 +75,90 @@ Page({
    */
   onShow: function () {
     let curcourseid = this.data.courseid
-    // console.log(curcourseid)
-    // wx.request({
-    //   url: app.globalData.URL + '/course/addCourse',
-    //   data: {
-    //     userid: 16,
-    //     courseid: curcourseid
-    //   },
-    //   method: 'GET',
-    //   header: {
-    //     'content-type': 'application/json' // 默认值
-    //   },
-    //   success: function (res) {
-    //     wx.showToast({
-    //       title: '创建成功',
-    //       icon: 'success',
-    //       duration: 1500
-    //     })
-    //     // console.log(res.data);
-    //   },
-    //   fail: function (res) {
-    //     wx.showToast({
-    //       title: '创建失败',
-    //       image: '../../images/icon_fail.png',
-    //       duration: 1500
-    //     })
-    //     console.log(".....fail.....");
-    //   }
-    // })  
+    console.log(curcourseid)
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/listCourseDetail',
+      data: {
+        courseid: curcourseid
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var course = res.data.result[0]
+        that.setData({
+          coursename: course.name,
+          coursepasswd: course.password,
+          capacitynum: course.capacity,
+          startdate: course.starttime,
+          enddate: course.endtime
+        })
+        wx.showToast({
+          title: '加载成功',
+          icon: 'success',
+          duration: 1500
+        })
+        // console.log(res.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
+    //获取课程大纲信息
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/listAllOutline',
+      data: {
+        courseid: curcourseid
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data)
+        var curoutlines_array = res.data.result
+        var curoutlines = []
+        for (var outlines_list of curoutlines_array){
+          if(outlines_list != null){
+            for (var outline of outlines_list){
+              curoutlines.push(outline)
+            }
+          }
+        }
+        console.log(curoutlines)
+        if(curoutlines != null){
+          that.setData({
+            outlines: curoutlines
+          })
+        }else{
+          that.setData({
+            outlines: []
+          })
+        }
+        
+        // wx.showToast({
+        //   title: '加载成功',
+        //   icon: 'success',
+        //   duration: 1500
+        // })
+        // console.log(res.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
     },
   /**
    * 生命周期函数--监听页面隐藏
