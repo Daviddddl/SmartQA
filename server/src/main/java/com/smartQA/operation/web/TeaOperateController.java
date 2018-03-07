@@ -58,6 +58,48 @@ public class TeaOperateController {
         response.getWriter().print(jsonObject);
     }
 
+    @RequestMapping(value = "listOutline")
+    public void listOutline(String courseid, String chapters, HttpServletResponse response) throws SQLException, IOException {
+        TeaOperateService teaOperateService = new TeaOperateService();
+        ArrayList<HashMap> outlinelist= teaOperateService.listOutline(courseid,chapters);
+        JSONObject jsonObject = new JSONObject();
+        if(outlinelist == null){
+            jsonObject = returnarrjson(false,new JSONArray(outlinelist));
+        }else {
+            jsonObject = returnarrjson(true,new JSONArray(outlinelist));
+        }
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "listAllOutline")
+    public void listAllOutline(String courseid, HttpServletResponse response) throws SQLException, IOException {
+        TeaOperateService teaOperateService = new TeaOperateService();
+        ArrayList<HashMap> outlinelist= teaOperateService.listAllOutline(courseid);
+        JSONObject jsonObject = new JSONObject();
+        if(outlinelist == null){
+            jsonObject = returnarrjson(false,new JSONArray(outlinelist));
+        }else {
+            jsonObject = returnarrjson(true,new JSONArray(outlinelist));
+        }
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "listCourseDetail")
+    public void listCourseDetail(String courseid, HttpServletResponse response) throws SQLException, IOException {
+        TeaOperateService teaOperateService = new TeaOperateService();
+        ArrayList<HashMap> listDetailres= teaOperateService.listCourseDetail(courseid);
+        JSONObject jsonObject = new JSONObject();
+        if(listDetailres == null){
+            jsonObject = returnarrjson(false,new JSONArray(listDetailres));
+        }else {
+            jsonObject = returnarrjson(true,new JSONArray(listDetailres));
+        }
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
     @RequestMapping(value = "addOutline")
     public void addOutline(String courseid, Integer chapters, String content, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();

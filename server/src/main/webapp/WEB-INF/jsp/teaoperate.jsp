@@ -19,6 +19,28 @@
     <input type="submit">
 </form>
 
+<form name="listCourseDetail" action="./listCourseDetail" method="get" onsubmit="return checknull()">
+
+    列出课程详细信息：<br>
+    课程id：<input type="text" name="courseid">
+    <input type="submit">
+</form>
+
+<form name="listOutline" action="./listOutline" method="get" onsubmit="return checknull()">
+
+    列出提纲：<br>
+    课程id：<input type="text" name="courseid">
+    章节：<input type="text" name="chapters">
+    <input type="submit">
+</form>
+
+<form name="listAllOutline" action="./listAllOutline" method="get" onsubmit="return checknull()">
+
+    列出课程提纲：<br>
+    课程id：<input type="text" name="courseid">
+    <input type="submit">
+</form>
+
 <form name="addOutline" action="./addOutline" method="get" onsubmit="return checknull()">
 
     加入提纲：<br>

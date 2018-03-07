@@ -60,6 +60,45 @@ public class TeaOperateService {
         return maps;
     }
 
+    public ArrayList<HashMap> listCourseDetail(String courseid) throws SQLException {
+        String listDetailsql = "select * from course where id = "+  courseid;
+        String listDetailres = DBUtil.DBMonitorSQL(listDetailsql,"course");
+        ArrayList detail = FileUtil.getQuoCon(listDetailres);
+        ArrayList<HashMap> maps = new ArrayList<>();
+
+        for(int i = 0; i <detail.size(); i++){
+
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", (String)detail.get(i));
+            map.put("name", (String)detail.get(++i));
+            map.put("password", (String)detail.get(++i));
+            map.put("teacher",(String)detail.get(++i));
+            map.put("capacity",(String)detail.get(++i));
+            map.put("stunum",(String)detail.get(++i));
+            map.put("starttime",(String)detail.get(++i));
+            map.put("endtime",(String)detail.get(++i));
+            map.put("isactive",(String)detail.get(++i));
+
+            maps.add(map);
+        }
+        return maps;
+    }
+
+    public ArrayList listAllOutline(String courseid) throws SQLException {
+        ArrayList maps = new ArrayList<>();
+        String listchapterssql = "select chapters from outline where courseid="+courseid + " group by chapters";
+        String chaptersres = DBUtil.DBMonitorSQL(listchapterssql, "outline");
+        if(chaptersres.startsWith("error!") ||chaptersres.length() <= 8)
+            return null;
+        ArrayList chapters = FileUtil.getQuoCon(chaptersres);
+
+        for(int i = 0; i< chapters.size();i++){
+            maps.add(listOutline(courseid,(String)chapters.get(i)));
+        }
+
+        return maps;
+    }
+
 
     public ArrayList<HashMap> listOutline(String courseid, String chapters) throws SQLException {
         ArrayList<HashMap> maps = new ArrayList<>();
@@ -70,7 +109,20 @@ public class TeaOperateService {
             return null;
         ArrayList listarr = FileUtil.getQuoCon(listres);
         for(int i = 0; i< listarr.size(); i++){
-            //String
+            String id = (String)listarr.get(i);
+            courseid = (String)listarr.get(++i);
+            chapters = (String)listarr.get(++i);
+            String title = (String)listarr.get(++i);
+            String content = (String)listarr.get(++i);
+            String unknown = (String)listarr.get(++i);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", id);
+            map.put("courseid", courseid);
+            map.put("chapters", chapters);
+            map.put("title", title);
+            map.put("content",content);
+            map.put("unknown",unknown);
+            maps.add(map);
         }
         return maps;
     }
@@ -225,6 +277,7 @@ public class TeaOperateService {
     }
 
     public static void main(String[] args) throws SQLException {
-
+        System.out.println(new TeaOperateService().listCourseDetail("7"));
     }
+
 }
