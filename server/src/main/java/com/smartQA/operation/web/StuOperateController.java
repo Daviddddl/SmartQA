@@ -149,11 +149,15 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "listQuiz")
-    public void listQuiz(String courseid, HttpServletResponse response) throws SQLException, IOException{
+    public void listQuiz(Integer courseid, HttpServletResponse response) throws SQLException, IOException{
         StuOperateService stuOperateService = new StuOperateService();
-        ArrayList res = stuOperateService.listquiz(courseid);
+        ArrayList<HashMap> res = stuOperateService.listquiz(courseid);
 
-        JSONObject jsonObject = returnstringjson(true, res.toString());
+        JSONObject jsonObject = new JSONObject();
+        if(jsonObject == null)
+            jsonObject = returnarrjson(false, new JSONArray(res));
+        else
+            jsonObject = returnarrjson(true, new JSONArray(res));
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -179,11 +183,11 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "listMyAns")
-    public void listQuiz(String userid, String courseid, String chapterid, HttpServletResponse response) throws SQLException, IOException{
+    public void listQuiz(Integer userid, Integer courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException{
         StuOperateService stuOperateService = new StuOperateService();
-        ArrayList res = stuOperateService.listMyAns(userid, courseid, chapterid);
-
-        JSONObject jsonObject = returnstringjson(true, res.toString());
+        ArrayList<HashMap> res = stuOperateService.listMyAns(userid, courseid, chapterid);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject = returnarrjson(true, new JSONArray(res));
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
