@@ -10,6 +10,7 @@ Page({
     questions: [
       {
         id: 0,
+        chapterid: 1,
         ques: "第1题：balabala",
         options: [
           { name: "A.nihao", value: "A" },
@@ -109,7 +110,33 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/listAllQues',
+      data: {
+        courseid: that.data.courseid,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var curquestions = res.data.result
+        that.setData({
+          questions: curquestions
+        })
+
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+
+    })
   },
 
   /**
@@ -146,9 +173,11 @@ Page({
   onShareAppMessage: function () {
     
   },
-  nav2addquestion: function(){
+  nav2addquestion: function(e){
+    console.log(e)
+    let curcourseid = e.currentTarget.dataset.courseid
     wx.navigateTo({
-      url: "../../question/addquestion/addquestion",
+      url: "../../question/addquestion/addquestion?courseid=" + curcourseid,
     })
   }
 })

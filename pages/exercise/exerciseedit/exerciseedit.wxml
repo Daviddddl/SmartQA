@@ -1,33 +1,35 @@
 
 <view >
   <view class='page__td page__bd_spacing'> 
-    <button class="weui-btn" type="default" plain="true" bindtap='nav2addquestion'>添加题目</button>  
+    <button class="weui-btn" type="default" plain="true" data-courseid='{{courseid}}' bindtap='nav2addquestion'>添加题目</button>  
   </view>
   <view class="weui-panel weui-panel_access">
           <view class="weui-panel__hd">题库列表</view>
           <view class="weui-panel__bd">
               <view wx:for="{{questions}}" wx:for-item="question" wx:key="index">
-                  <view class="weui-media-box weui-media-box_text">
-                    <!-- <navigator url="../question/editquestion/editquestion?quesid={{question.id}}"> -->
-                        <view class="weui-flex" data-quesidx='{{index}}' bindtap='nav2editquestion'>
-                            <text class="label_text weui-flex__item">{{question.ques}}</text>
-                            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-                            <!-- <image class="kind-list__img" src="../../images/icon_nav_3dots.png"></image> -->
-                        </view>
-                    <!-- </navigator> -->
-                    <view>
-                      <radio-group data-quesidx="{{index}}" bindchange="radioChange">
-                        <label class="weui-cell weui-check__label" wx:for="{{question.options}}" wx:key="value">
-                            <radio class="weui-check" value="{{item.value}}" disabled='true' checked="{{item.checked}}"/>
-                            <view class="weui-cell__bd">{{item.name}}</view>
-                            <!-- <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
-                                <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
-                            </view> -->
-                        </label>
-                      </radio-group> 
-                      <view class="weui-cell__bd">正确答案：{{question.ans}}</view>
+                <!-- <view class='weui-cells weui-cells_after-title'> -->
+                    <view class="weui-media-box weui-media-box_text">
+                      <!-- <navigator url="../question/editquestion/editquestion?quesid={{question.id}}"> -->
+                          <view class="weui-flex" data-quesidx='{{index}}' bindtap='nav2editquestion'>
+                              <text class="label_text weui-flex__item">{{question.ques}}</text>
+                              <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                              <!-- <image class="kind-list__img" src="../../images/icon_nav_3dots.png"></image> -->
+                          </view>
+                      <!-- </navigator> -->
+                      <view>
+                        <radio-group data-quesidx="{{index}}" bindchange="radioChange">
+                          <label class="weui-cell weui-check__label" wx:for="{{question.options}}" wx:key="value">
+                              <radio class="weui-check" value="{{item.value}}" disabled='true' checked="{{item.checked}}"/>
+                              <view class="weui-cell__bd">{{item.name}}</view>
+                              <!-- <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                                  <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                              </view> -->
+                          </label>
+                        </radio-group> 
+                        <view class="weui-cell__bd">正确答案：{{question.ans}}</view>
+                      </view>
                     </view>
-                  </view>
+                <!-- </view> -->
               </view>
           </view>
         </view>
