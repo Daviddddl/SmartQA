@@ -8,7 +8,7 @@ Page({
   data: {
     infoMess: '温馨提示',
     courseid: null,
-    outlineid: null,
+    outlineid: '',
     title: '第一章 java入门',
     content: 'java junit git', 
     chapterid: 1 ,
@@ -48,7 +48,7 @@ Page({
   delChapter: function () {
     var that = this
     wx.request({
-      url: this.globalData.URL + '/deleteOutline',
+      url: app.globalData.URL + '/teaoperate/deleteOutline',
       data: {
         courseid: that.data.courseid,
         chapterid: that.data.chapterid,
@@ -92,12 +92,12 @@ Page({
       wx.request({
         url: app.globalData.URL + '/teaoperate/addOutline',
         data: {
-          update: that.data.update,
-          outlineid: that.data.outlineid,
           courseid: that.data.courseid,
+          chapterid: that.data.chapterid,
           title: that.data.title,
           content: that.data.content,
-          chapterid: that.data.chapterid
+          outlineid: that.data.outlineid,
+          update: that.data.update
         },
         method: 'GET',
         header: {

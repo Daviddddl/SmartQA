@@ -88,7 +88,8 @@ Page({
           chapterid: that.data.chapterid,
           ques: that.data.ques,
           options: options_str,
-          ans: that.data.answer
+          ans: that.data.answer,
+          update: that.data.update
         },
         method: 'GET',
         header: {
@@ -109,9 +110,6 @@ Page({
             duration: 1500
           })
           console.log(".....fail.....");
-        },
-        complete: function (res) {
-          console.log(".....complete.....");
         }
       })
     }
