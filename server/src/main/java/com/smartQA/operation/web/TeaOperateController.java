@@ -59,7 +59,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "listOutline")
-    public void listOutline(String courseid, String chapterid, HttpServletResponse response) throws SQLException, IOException {
+    public void listOutline(Integer courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateService = new TeaOperateService();
         ArrayList<HashMap> outlinelist= teaOperateService.listOutline(courseid,chapterid);
         JSONObject jsonObject = new JSONObject();
@@ -73,7 +73,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "listAllOutline")
-    public void listAllOutline(String courseid, HttpServletResponse response) throws SQLException, IOException {
+    public void listAllOutline(Integer courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateService = new TeaOperateService();
         ArrayList<HashMap> outlinelist= teaOperateService.listAllOutline(courseid);
         JSONObject jsonObject = new JSONObject();
@@ -87,7 +87,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "listCourseDetail")
-    public void listCourseDetail(String courseid, HttpServletResponse response) throws SQLException, IOException {
+    public void listCourseDetail(Integer courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateService = new TeaOperateService();
         ArrayList<HashMap> listDetailres= teaOperateService.listCourseDetail(courseid);
         JSONObject jsonObject = new JSONObject();
@@ -101,7 +101,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "addOutline")
-    public void addOutline(String courseid, Integer chapterid, String title, String content, Integer outlineid, Integer update, HttpServletResponse response) throws SQLException, IOException {
+    public void addOutline(Integer courseid, Integer chapterid, String title, String content, Integer outlineid, Integer update, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.addOutline(courseid,chapterid,title, content, outlineid, update);
         JSONObject jsonObject = returnbooljson(res);
@@ -110,7 +110,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "deleteOutline")
-    public void deleteOutline(String courseid, Integer chapterid, String title, HttpServletResponse response) throws SQLException, IOException {
+    public void deleteOutline(Integer courseid, Integer chapterid, String title, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.deleteOutline(courseid,chapterid, title);
         JSONObject jsonObject = returnbooljson(res);
@@ -119,7 +119,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "changeOutline")
-    public void changeOutline(String courseid, Integer chapterid, String content, HttpServletResponse response) throws IOException {
+    public void changeOutline(Integer courseid, Integer chapterid, String content, HttpServletResponse response) throws IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.changeOutline(courseid,chapterid,content);
         JSONObject jsonObject = returnbooljson(res);
@@ -128,7 +128,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "findOutline")
-    public void findOutline(String courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
+    public void findOutline(Integer courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.findOutline(courseid,chapterid);
         JSONObject jsonObject = returnstringjson(true,res);
@@ -137,7 +137,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "addQues")
-    public void addQues(String courseid, Integer chapterid, String ques, String options, String ans, HttpServletResponse response) throws SQLException, IOException {
+    public void addQues(Integer courseid, Integer chapterid, String ques, String options, String ans, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.addQues(courseid,chapterid,ques,options,ans);
         JSONObject jsonObject = returnbooljson(res);
@@ -145,8 +145,17 @@ public class TeaOperateController {
         response.getWriter().print(jsonObject);
     }
 
+    @RequestMapping(value = "updateQues")
+    public void updateQues(Integer quesid, String ques, String options, String ans, HttpServletResponse response) throws SQLException, IOException {
+        TeaOperateService teaOperateSerivce = new TeaOperateService();
+        boolean res = teaOperateSerivce.updateQues(quesid,ques,options,ans);
+        JSONObject jsonObject = returnbooljson(res);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
     @RequestMapping(value = "deleteQues")
-    public void deleteQues(String courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
+    public void deleteQues(Integer courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.deleteQues(courseid,chapterid);
         JSONObject jsonObject = returnbooljson(res);
@@ -155,7 +164,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "deleteQuesByID")
-    public void deleteQues(String quesid, HttpServletResponse response) throws SQLException, IOException {
+    public void deleteQues(Integer quesid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.deleteQuesByID(quesid);
         JSONObject jsonObject = returnbooljson(res);
@@ -164,7 +173,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "findQues")
-    public void findQues(String courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
+    public void findQues(Integer courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.findQues(courseid,chapterid);
         JSONObject jsonObject = returnstringjson(true,res);
@@ -173,7 +182,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "changeQues")
-    public void changeQues(String courseid, String chapterid, String content, HttpServletResponse response) throws IOException {
+    public void changeQues(Integer courseid, Integer chapterid, String content, HttpServletResponse response) throws IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.changeQues(courseid,chapterid,content);
         JSONObject jsonObject = returnbooljson(res);
@@ -191,7 +200,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "listQues")
-    public void listQues(String courseid, String chapterid, HttpServletResponse response) throws SQLException, IOException {
+    public void listQues(Integer courseid, Integer chapterid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateService = new TeaOperateService();
         ArrayList<HashMap> queslist = teaOperateService.listQues(courseid, chapterid);
         JSONObject jsonObject = returnarrjson(true, new JSONArray(queslist));
@@ -200,7 +209,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "listAllQues")
-    public void listQues(String courseid, HttpServletResponse response) throws SQLException, IOException {
+    public void listQues(Integer courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateService = new TeaOperateService();
         ArrayList<HashMap> queslist = teaOperateService.listAllQues(courseid);
         JSONObject jsonObject = returnarrjson(true, new JSONArray(queslist));
@@ -222,7 +231,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "checkSign")
-    public void checkSign(String courseid, HttpServletResponse response) throws IOException {
+    public void checkSign(Integer courseid, HttpServletResponse response) throws IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         boolean res = teaOperateSerivce.checkSign(courseid);
         JSONObject jsonObject = returnbooljson(res);
@@ -231,7 +240,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "getStu")
-    public void getStu(String courseid, HttpServletResponse response) throws SQLException, IOException {
+    public void getStu(Integer courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.getStu(courseid);
         JSONObject jsonObject = returnstringjson(true, res);
@@ -240,7 +249,7 @@ public class TeaOperateController {
     }
 
     @RequestMapping(value = "getRandStu")
-    public void getRandStu(String courseid, HttpServletResponse response) throws SQLException, IOException {
+    public void getRandStu(Integer courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
         String res = teaOperateSerivce.getRandStu(courseid);
         JSONObject jsonObject = returnstringjson(true, res);
