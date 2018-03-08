@@ -1,5 +1,6 @@
 package com.smartQA.operation.service.stuoperate;
 
+import com.smartQA.operation.service.teaoperate.TeaOperateService;
 import com.smartQA.operation.service.utils.DBUtil;
 import com.smartQA.operation.service.utils.FileUtil;
 import com.smartQA.operation.web.StuOperateController;
@@ -248,37 +249,53 @@ public class StuOperateService {
     }
 
 
-    public ArrayList<String> listquiz(String courseid) throws SQLException {
-        String listquizsql = "select id,ques from question where courseid = "+courseid +" and isquiz = 1";
+    public ArrayList<HashMap> listquiz(Integer courseid) throws SQLException {
+        ArrayList<HashMap> maps = new ArrayList<>();
+        String listquizsql = "select id,ques,options from question where courseid = "+courseid +" and isquiz = 1";
         String listquizres = DBUtil.DBMonitorSQL(listquizsql, "question");
-        ArrayList<String> res = new ArrayList<>();
+        ArrayList res = FileUtil.getQuoCon(listquizres);
         if(listquizres.startsWith("error")){
-            res.add("error!没有课堂测试题！");
-            return res;
+            return null;
         }
-        res = FileUtil.getQuoCon(listquizres);
-        return res;
+        for(int i = 0; i< res.size(); i++){
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id", (String)res.get(i));
+            map.put("ques",(String)res.get(++i));
+            String options = (String)res.get(++i);
+            map.put("options",new TeaOperateService().optionsanalyz(options) == null ? "没有选项！" : new TeaOperateService().optionsanalyz(options));
+
+            maps.add(map);
+        }
+        return maps;
     }
 
-    public ArrayList<String> listMyAns(String userid, String courseid, String chapterid) throws SQLException {
+    public ArrayList<HashMap> listMyAns(Integer userid, Integer courseid, Integer chapterid) throws SQLException {
 
-        String listmyanssql = "select quesid,stuanswer from useranswer where userid = "+userid +" and courseid = "+courseid+" and chapterid = "+ chapterid;
+        ArrayList<HashMap> maps = new ArrayList<>();
+        String listmyanssql = "select courseid,chapterid,quesid,stuanswer from useranswer where userid = "+userid +" and courseid = "+courseid+" and chapterid = "+ chapterid;
         String listmyansres = DBUtil.DBMonitorSQL(listmyanssql, "useranswer");
-        ArrayList<String> res = new ArrayList<>();
         if(listmyansres.startsWith("error")){
-            res.add("error! 没有答案");
-            return res;
+            return null;
         }
-        res = FileUtil.getQuoCon(listmyansres);
-        return res;
+        ArrayList res = FileUtil.getQuoCon(listmyansres);
+        for(int i = 0; i < res.size(); i++){
+            HashMap<String, String> map = new HashMap<>();
+            map.put("courseid",(String)res.get(i));
+            map.put("chapterid",(String)res.get(++i));
+            map.put("quesid",(String)res.get(++i));
+            map.put("stuanswer", (String)res.get(++i));
+            maps.add(map);
+        }
+        return maps;
     }
 
     public static void main(String[] args) throws SQLException {
         StuOperateService stuOperateService = new StuOperateService();
 
-        Boolean res = stuOperateService.ansQuiz(18, 3,"阿斯达");
+        //System.out.println(stuOperateService.listquiz(7));
 
-        System.out.println(res);
+        System.out.println(stuOperateService.listMyAns(17,7,1));
+
         /*JSONObject jsonObject = new JSONObject();
 
         if(arrayList == null){

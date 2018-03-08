@@ -260,6 +260,23 @@ public class TeaOperateService {
         return listallques;
     }
 
+    public ArrayList<HashMap> optionsanalyz(String options){
+        ArrayList<HashMap> map = new ArrayList<>();
+        if(!options.equals("")){
+            options = FileUtil.replaceBlank(options);
+            String[] optionsarr = options.split("<EOF>");
+            ArrayList<HashMap> optionarr = new ArrayList<>();
+            for(String s : optionsarr){
+                HashMap<String, String> op = new HashMap<>();
+                op.put("name", s);
+                op.put("value", s.substring(0, 1));
+                optionarr.add(op);
+            }
+            return optionarr;
+        }else
+            return null;
+    }
+
     public ArrayList<HashMap> listQues(String courseid, String chapterid) throws SQLException {
         //String courseid = getCourseID(name);
         ArrayList<HashMap> maps = new ArrayList();
@@ -281,19 +298,7 @@ public class TeaOperateService {
             map.put("ques",(String)listques.get(++i));
             //获取选项
             String options = (String)listques.get(++i);
-            if(!options.equals("")){
-                options = FileUtil.replaceBlank(options);
-                String[] optionsarr = options.split("<EOF>");
-                ArrayList<HashMap> optionarr = new ArrayList<>();
-                for(String s : optionsarr){
-                    HashMap<String, String> op = new HashMap<>();
-                    op.put("name", s);
-                    op.put("value", s.substring(0, 1));
-                    optionarr.add(op);
-                }
-                map.put("options", optionarr);
-            }else
-                map.put("options","没有选项！");
+            map.put("options",optionsanalyz(options) == null ? "没有选项！" : optionsanalyz(options));
             map.put("ans", (String)listques.get(++i));
             map.put("ansnum", (String)listques.get(++i));
             map.put("correct", (String)listques.get(++i));
