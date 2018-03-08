@@ -30,7 +30,7 @@
 
     列出提纲：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     <input type="submit">
 </form>
 
@@ -45,8 +45,11 @@
 
     加入提纲：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
+    题目：<input type="text" name="title">
     提纲：<input type="textarea" cols="30" rows="10" name="content">
+    提纲id：<input type="text" name="outlineid">
+    是否更新：<input type="text" name="update">
     <input type="submit">
 </form>
 
@@ -54,7 +57,8 @@
 
     删除提纲：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
+    题目：<input type="text" name="title">
     <input type="submit">
 </form>
 
@@ -63,7 +67,7 @@
 
     改变提纲：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     提纲：<input type="textarea" cols="30" rows="10" name="content">
     <input type="submit">
 </form>
@@ -72,7 +76,7 @@
 
     搜索提纲：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     <input type="submit">
 </form>
 
@@ -80,8 +84,9 @@
 
     添加问题：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     题目：<input type="textarea" cols="30" rows="10" name="ques">
+    选项：<input type="textarea" cols="30" rows="10" name="options">
     答案：<input type="textarea" cols="30" rows="10" name="ans">
     <input type="submit">
 </form>
@@ -90,7 +95,14 @@
 
     删除问题：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
+    <input type="submit">
+</form>
+
+<form name="deleteQuesByID" action="./deleteQuesByID" method="get" onsubmit="return checknull()">
+
+    通过id删除问题：<br>
+    问题id：<input type="text" name="quesid">
     <input type="submit">
 </form>
 
@@ -100,7 +112,7 @@
 
     改变问题：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     提纲：<input type="textarea" cols="30" rows="10" name="content">
     <input type="submit">
 </form>
@@ -109,7 +121,7 @@
 
     寻找问题：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
     <input type="submit">
 </form>
 
@@ -117,7 +129,14 @@
 
     列出题目：<br>
     课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapters">
+    章节：<input type="text" name="chapterid">
+    <input type="submit">
+</form>
+
+<form name="listAllQues" action="./listAllQues" method="get" onsubmit="return checknull()">
+
+    列出课程的全部题目：<br>
+    课程id：<input type="text" name="courseid">
     <input type="submit">
 </form>
 
