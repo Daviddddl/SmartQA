@@ -159,13 +159,21 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "ansQuiz")
-    public void ansQuiz(String userid, String courseid, String chapterid, String quesid, String answer, HttpServletResponse response) throws SQLException, IOException {
+    public void ansQuiz(Integer userid, Integer quesid, String answer, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        String[] quesidarr = quesid.split(",");
-        String[] answerarr = answer.split(",");
-        ArrayList<String> res = stuOperateService.ansQuiz(userid, courseid,chapterid, quesidarr, answerarr);
+        Boolean res = stuOperateService.ansQuiz(userid, quesid,answer);
 
-        JSONObject jsonObject = returnstringjson(true, res.toString());
+        JSONObject jsonObject = returnbooljson(res);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().print(jsonObject);
+    }
+
+    @RequestMapping(value = "ansQuizList")
+    public void ansQuizList(Integer userid, Integer quesid, String answer, HttpServletResponse response) throws SQLException, IOException {
+        StuOperateService stuOperateService = new StuOperateService();
+        //Boolean res = stuOperateService.ansQuizList();
+
+        JSONObject jsonObject = returnbooljson(false);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }

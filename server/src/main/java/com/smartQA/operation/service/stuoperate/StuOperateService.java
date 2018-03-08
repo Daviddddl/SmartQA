@@ -125,7 +125,7 @@ public class StuOperateService {
             return null;
         ArrayList res = FileUtil.getQuoCon(getdetailres);
         for(int i = 0 ;i < res.size(); i++){
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, Object> map = new HashMap<>();
             String id = (String)res.get(i);
             //map.put("courseid", id);
             map.put("coursename", (String)res.get(++i));
@@ -144,7 +144,7 @@ public class StuOperateService {
             map.put("starttime",starttime);
             map.put("endtime",endtime);
             String isactive = (String)res.get(++i);
-            map.put("outline",listallOutline(courseid).toString());
+            map.put("outlines",listallOutline(courseid));
 
             detailres.add(map);
         }
@@ -192,6 +192,7 @@ public class StuOperateService {
 
     }
 
+    //学生提出问题
     public void putforwardQues(String course) {
 
     }
@@ -204,48 +205,46 @@ public class StuOperateService {
         return !upres.startsWith("error!");
     }
 
-    public ArrayList<String> ansQuiz(String userid, String courseid, String chapterid, String[] quesid, String[] answer) throws SQLException {
+    public void ansQuizList(){}
 
-        ArrayList<String> res = new ArrayList<>();
-        if(courseid.startsWith("error!") || userid.startsWith("error!"))
-            res.add("error! 没有该用户ID或课程ID!");
-        if(quesid.length != answer.length) {
-            res.add("error! 问题个数与回答个数不符合!");
-        }else{
-            for(int i = 0; i< quesid.length;i++){
+    public boolean ansQuiz(Integer userid, Integer quesid, String answer) throws SQLException {
 
-                String checkquesidsql = "select * from question where id = "+i;
-                String checkquesidres = DBUtil.DBMonitorSQL(checkquesidsql,"question");
-                if(checkquesidres.startsWith("error")){
-                    res.add("error! 没有该题号: "+i);
-                    return res;
-                }
-
-                //向学生答案表中插入答题结果
-                String addanssql = "insert into useranswer (userid, courseid, chapterid, quesid, stuanswer) values ("+ userid+","+courseid + ","+chapterid+"," +quesid[i] + ", \"" +answer[i] +"\")";
-                String addansres = DBUtil.DBMonitorSQL(addanssql, "useranswer");
-
-                //统计答题人数
-                String addansnumsql = "update question set ansnum = ansnum+1 where id =" +quesid[i];
-                String addansnumres = DBUtil.DBMonitorSQL(addansnumsql, "question");
-
-                //之后判断答题结果是否正确
-                String getanssql = "select ans from question where id = " + quesid[i];
-                String getans = DBUtil.DBMonitorSQL(getanssql, "question");
-                if(!getans.startsWith("error")) {
-                    ArrayList ans = FileUtil.getQuoCon(getans);
-                    boolean ansres = ans != null && answer[i].equals(ans.get(0));
-                    if(ansres){
-                        String addcorrectsql = "update question set correct = correct+1 where id = " + quesid[i];
-                        String addcorrectres = DBUtil.DBMonitorSQL(addcorrectsql, "question");
-                    }
-                    res.add(Boolean.toString(ansres));
-                }
-                else
-                    res.add("false");
-            }
+        String checkquesidsql = "select ans from question where id = "+quesid;
+        String checkquesidres = DBUtil.DBMonitorSQL(checkquesidsql,"question");
+        if(checkquesidres.startsWith("error")){
+            return false;
         }
-        return res;
+
+        String getquesdetail = "select courseid,chapterid from question where id = "+ quesid;
+        String res = DBUtil.DBMonitorSQL(getquesdetail,"question");
+        ArrayList quesdetail = FileUtil.getQuoCon(res);
+        Integer courseid = Integer.valueOf((String)quesdetail.get(0));
+        Integer chapterid = Integer.valueOf((String)quesdetail.get(1));
+
+
+        //向学生答案表中插入答题结果
+        String addanssql = "insert into useranswer (userid, courseid, chapterid, quesid, stuanswer) values ("+ userid+","+courseid + ","+chapterid+"," +quesid + ", \"" +answer +"\")";
+        String addansres = DBUtil.DBMonitorSQL(addanssql, "useranswer");
+
+        //统计答题人数
+        String addansnumsql = "update question set ansnum = ansnum+1 where id =" +quesid;
+        String addansnumres = DBUtil.DBMonitorSQL(addansnumsql, "question");
+
+        //之后判断答题结果是否正确
+        String getanssql = "select ans from question where id = " + quesid;
+        String getans = DBUtil.DBMonitorSQL(getanssql, "question");
+        if(!getans.startsWith("error")) {
+            ArrayList ans = FileUtil.getQuoCon(getans);
+            boolean ansres = ans != null && answer.equals(ans.get(0));
+            if(ansres){
+                String addcorrectsql = "update question set correct = correct+1 where id = " + quesid;
+                String addcorrectres = DBUtil.DBMonitorSQL(addcorrectsql, "question");
+                return true;
+            }
+            return false;
+        }
+        else
+            return false;
     }
 
 
@@ -277,9 +276,9 @@ public class StuOperateService {
     public static void main(String[] args) throws SQLException {
         StuOperateService stuOperateService = new StuOperateService();
 
-        ArrayList arrayList = stuOperateService.courseDetail("17","7");
+        Boolean res = stuOperateService.ansQuiz(18, 3,"阿斯达");
 
-        System.out.println(arrayList);
+        System.out.println(res);
         /*JSONObject jsonObject = new JSONObject();
 
         if(arrayList == null){

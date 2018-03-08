@@ -85,8 +85,15 @@
 
     回答问题：<br>
     用户id：<input type="text" name="userid">
-    课程id：<input type="text" name="courseid">
-    章节：<input type="text" name="chapterid">
+    题号：<input type="text" name="quesid">
+    答案：<input type="text" name="answer">
+    <input type="submit">
+</form>
+
+<form name="ansQuizList" action="./ansQuizList" method="get" onsubmit="return checknull()">
+
+    回答一堆问题：<br>
+    用户id：<input type="text" name="userid">
     题号：<input type="text" name="quesid">
     答案：<input type="text" name="answer">
     <input type="submit">

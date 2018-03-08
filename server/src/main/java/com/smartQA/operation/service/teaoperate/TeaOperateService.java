@@ -274,7 +274,7 @@ public class TeaOperateService {
         }
         ArrayList listques = FileUtil.getQuoCon(listquesans);
         for(int i = 0; i< listques.size(); i++){
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, Object> map = new HashMap<>();
             map.put("id", (String) listques.get(i));
             map.put("courseid", (String)listques.get(++i));
             map.put("chapterid", (String)listques.get(++i));
@@ -291,7 +291,7 @@ public class TeaOperateService {
                     op.put("value", s.substring(0, 1));
                     optionarr.add(op);
                 }
-                map.put("options", optionarr.toString());
+                map.put("options", optionarr);
             }else
                 map.put("options","没有选项！");
             map.put("ans", (String)listques.get(++i));

@@ -42,7 +42,7 @@ public class UserController {
             jsonObject.put("code",200);
             jsonObject.put("msg","success");
             jsonObject.put("success",res);
-            jsonObject.put("result",user.getId()+user.getnickName());
+            jsonObject.put("result",user.toString());
         }else{
             jsonObject.put("code",500);
             jsonObject.put("msg","添加用户失败，请检查");

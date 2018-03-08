@@ -42,7 +42,7 @@ public class CourseController {
             jsonObject.put("code",200);
             jsonObject.put("msg","success");
             jsonObject.put("success",res);
-            jsonObject.put("result","添加课程成功！");
+            jsonObject.put("result","添加课程成功！课程详细信息："+course.toString());
         }else{
             jsonObject.put("code",500);
             jsonObject.put("msg","添加课程失败，请检查");
