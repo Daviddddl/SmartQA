@@ -1,4 +1,17 @@
 <view class="page__bd">
+        <!-- 章节id -->
+        <view class="weui-cells weui-cells_after-title"> 
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">章节号：</view>
+                </view>
+                <view class="weui-cell__bd">
+                      <picker value="{{casIndex}}" range="{{casArray}}" bindchange="bindCasPickerChange">
+                        <view class="weui-input">{{chapterid}}</view>
+                    </picker> 
+                </view>
+            </view> 
+        </view>
         <!-- 添加题目 -->
         <view class="weui-label page_left_hd">题目：</view>
         <view class="weui-cells weui-cells_after-title">

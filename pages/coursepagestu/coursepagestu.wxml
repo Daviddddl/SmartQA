@@ -16,7 +16,7 @@
                     <view class="weui-label">教师：</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" name="teacherID" value="16" placeholder="请输入个人ID" bindinput="teacherInput" />
+                    <input class="weui-input" name="teacherID" value="{{teacherremark}}" placeholder="请输入个人ID" bindinput="teacherInput" />
                 </view>
             </view>  
             <view class="weui-cell weui-cell_input">
@@ -24,7 +24,7 @@
                     <view class="weui-label">开始日期</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <picker mode="date" disabled='true' name="startdate" value="{{startDate}}" start="2018-01-01" end="2099-12-31" bindchange="startDatePick">
+                    <picker mode="date" disabled='true' name="startdate" value="{{startdate}}" start="2018-01-01" end="2099-12-31" bindchange="startDatePick">
                         <view class="weui-input">{{startdate}}</view>
                     </picker>
                 </view>
@@ -34,7 +34,7 @@
                     <view class="weui-label">结束日期</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <picker mode="date" disabled='true' name='enddate' value="{{endDate}}" start="2018-01-01" end="2099-12-31" bindchange="endDatePick">
+                    <picker mode="date" disabled='true' name='enddate' value="{{enddate}}" start="2018-01-01" end="2099-12-31" bindchange="endDatePick">
                         <view class="weui-input">{{enddate}}</view>
                     </picker>
                 </view>

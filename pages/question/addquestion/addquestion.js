@@ -4,10 +4,14 @@ Page({
 
   data: {
     courseid: 0,
+    chapterid: null,
     ques: "",
     options: [{},{},{},{}],
     answer: "",
-    infoMess: '温馨提示'
+    infoMess: '温馨提示',
+    chapterid: 1,
+    casArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+    casIndex: 0
   },
 
   addOption: function () {
@@ -48,8 +52,19 @@ Page({
       answer: e.detail.value.trim()
     })
   },
+  //下拉框选择事件
+  bindCasPickerChange: function (e) {
+    let outlineidx = e.currentTarget.dataset.outlineidx
+    let curcasindex = e.detail.value
+    let curchapterid = this.data.casArray[curcasindex]
+    this.setData({
+      chapterid: curchapterid,
+      casIndex: e.detail.value
+    })
+    console.log(this.data)
+  },
 
-  addQuestionClickfunction() {
+  addQuestionClick: function() {
     console.log(this.data)
     if (this.data.ques.length == 0 || this.data.answer.length == 0) {
       this.setData({
@@ -59,16 +74,21 @@ Page({
       this.setData({
         infoMess: '温馨提示',
       })
+      var option_list = []
+      for (var option of this.data.options){
+        option_list.push(option.name)
+      }
+      var options_str = option_list.join("<EOF>")
+      console.log(options_str)
+      var that = this
       wx.request({
-        url: app.globalData.URI + '/appserver/servlet/CourseServlet',
+        url: app.globalData.URL + '/teaoperate/addQues',
         data: {
-          funcID: "createcourse",
-          name: this.data.courseName,
-          password: this.data.coursepassWd,
-          teacher: this.data.teacherID,
-          capacity: this.data.capacityNum,
-          startdate: this.data.startDate,
-          enddate: this.data.endDate
+          courseid: that.data.courseid,
+          chapterid: that.data.chapterid,
+          ques: that.data.ques,
+          options: options_str,
+          ans: that.data.answer
         },
         method: 'GET',
         header: {
@@ -104,7 +124,10 @@ Page({
       ques: "",
       options: [{}, {}, {}, {}],
       answer: "",
-      infoMess: '温馨提示'
+      infoMess: '温馨提示',
+      chapterid: 1,
+      casArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+      casIndex: 0
     })
     wx.navigateBack({
       delta: 1
@@ -115,7 +138,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let curcourseid = options.courseid
+    this.setData({
+      courseid: curcourseid
+    })
   },
 
   /**

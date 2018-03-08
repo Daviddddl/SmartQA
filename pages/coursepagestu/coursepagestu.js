@@ -6,34 +6,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    course: {
-
-    }
+    courseid: null,
+    coursename: 'java从入门到放弃',
+    teacherremark: 'ddl',
+    startdate: '2018-3-1',
+    enddate: '2018-5-1',
+    outlines: [
+      { title: '第一章 java入门', content: 'java junit git', chapterid: 1 },
+      { title: '第二章 java多线程', content: 'multithreads', chapterid: 2 }
+    ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    /*
-    wx.request({
-      url: app.globalData.URI + '/getStudentCourse',
-      data: {
-        userID: app.globalData.userInfo.userid,
-        courseID: this.data.course.id
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function(res){
-
-      },
-      fail: function(res){
-
-      }
-    })
-    */
     this.setData({
       courseid: options.courseid
     })
@@ -49,7 +36,44 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let curcourseid = this.data.courseid
+    console.log(curcourseid)
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/stuoperate/courseDetail',
+      data: {
+        courseid: curcourseid,
+        userid: 17
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var course = res.data.result[0]
+        that.setData({
+          coursename: course.coursename,
+          startdate: course.starttime,
+          enddate: course.endtime,
+          teacherremark: course.teacher_remark,
+          outlines: course.outlines
+        })
+        wx.showToast({
+          title: '加载成功',
+          icon: 'success',
+          duration: 1500
+        })
+        // console.log(res.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面隐藏
