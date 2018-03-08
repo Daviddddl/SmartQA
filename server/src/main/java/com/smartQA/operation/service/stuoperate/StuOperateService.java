@@ -206,7 +206,12 @@ public class StuOperateService {
         return !upres.startsWith("error!");
     }
 
-    public void ansQuizList(){}
+    public void ansQuizList(Object[] stuans){
+        for(int i = 0; i < stuans.length; i++){
+            /*stuans[i].quesid = ;
+            stuans[i].*/
+        }
+    }
 
     public boolean ansQuiz(Integer userid, Integer quesid, String answer) throws SQLException {
 

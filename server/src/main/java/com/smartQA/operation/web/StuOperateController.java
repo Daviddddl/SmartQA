@@ -173,11 +173,11 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "ansQuizList")
-    public void ansQuizList(Integer userid, Integer quesid, String answer, HttpServletResponse response) throws SQLException, IOException {
+    public void ansQuizList(Object[] stuans, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        //Boolean res = stuOperateService.ansQuizList();
+        stuOperateService.ansQuizList(stuans);
 
-        JSONObject jsonObject = returnbooljson(false);
+        JSONObject jsonObject = returnarrjson(true, new JSONArray());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
