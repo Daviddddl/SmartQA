@@ -4,6 +4,7 @@ import com.smartQA.operation.service.teaoperate.TeaOperateService;
 import com.smartQA.operation.service.utils.DBUtil;
 import com.smartQA.operation.service.utils.FileUtil;
 import com.smartQA.operation.web.StuOperateController;
+import jdk.nashorn.internal.scripts.JO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.support.ManagedMap;
@@ -44,6 +45,22 @@ public class StuOperateService {
         return (String)FileUtil.getQuoCon(getidres).get(0);
     }
 
+    public boolean checkUserID(Integer userid) throws SQLException {
+        String checkUsersql = "select * from user where id = "+userid;
+        String res = DBUtil.DBMonitorSQL(checkUsersql,"user");
+        if(res.startsWith("error"))
+            return false;
+        return true;
+    }
+
+    public boolean checkCourseID(Integer courseid) throws SQLException {
+        String checkCoursesql= "select * from course where id = "+courseid;
+        String res = DBUtil.DBMonitorSQL(checkCoursesql,"course");
+        if(res.startsWith("error"))
+            return false;
+        return true;
+    }
+
     public boolean joinCourse(String courseid, String password, String userid) throws SQLException {
 
         String courseupdatesql = "UPDATE course SET stunum = stunum+1 WHERE id = \""+courseid + "\" and password = \""+ password+"\"";
@@ -56,15 +73,15 @@ public class StuOperateService {
             String course = (String)FileUtil.getQuoCon(getcourses).get(0);
             String[] courselist = course.split(",");
             for(String s : courselist){
-                if(s.equals(courseid)){
+                if(s.equals("#"+courseid)){
                     System.out.println("该用户已选过该课程！");
                     return false;
                 }
             }
             String courseupres = DBUtil.DBMonitorSQL(courseupdatesql, "course");
             //System.out.println(courseupres);
-            String stuupdatesql = "UPDATE user SET joinCourse = CONCAT(joinCourse, \""+courseid+",\") WHERE id = "+userid;
-            //System.out.println(stuupdatesql);
+            String stuupdatesql = "UPDATE user SET joinCourse = CONCAT(joinCourse,\"#"+courseid+",\") WHERE id = "+userid;
+            System.out.println(stuupdatesql);
             if(courseupres.startsWith("error!"))
                 return false;
             String stuupres = DBUtil.DBMonitorSQL(stuupdatesql,"user");
@@ -80,8 +97,8 @@ public class StuOperateService {
 
         String getcoursesql = "select joinCourse from user where id = " + userid;
         String getcourseres = DBUtil.DBMonitorSQL(getcoursesql,"user");
-        if(getcourseres.contains(courseid+",")){
-            String upquitsql = "update user set joinCourse = replace(joinCourse, \'"+courseid+","+"\',\'\') where id = "+ userid;
+        if(getcourseres.contains("#"+courseid+",")){
+            String upquitsql = "update user set joinCourse = replace(joinCourse,\'#"+courseid+","+"\',\'\') where id = "+ userid;
             DBUtil.DBMonitorSQL(upquitsql,"user");
             String downnumsql = "update course set stunum = stunum-1 WHERE id = \""+courseid+"\"";
             DBUtil.DBMonitorSQL(downnumsql,"course");
@@ -100,7 +117,7 @@ public class StuOperateService {
         course = course.trim();
         String[] courselist = course.split(",");
         for(String courseid : courselist){
-            String listprosql = "select id,name,isactive from course where id = "+courseid;
+            String listprosql = "select id,name,isactive from course where id = "+courseid.substring(1,courseid.length());
             String res = DBUtil.DBMonitorSQL(listprosql,course);
             courselistres.add(res);
         }
@@ -206,11 +223,23 @@ public class StuOperateService {
         return !upres.startsWith("error!");
     }
 
-    public void ansQuizList(Object[] stuans){
-        for(int i = 0; i < stuans.length; i++){
-            /*stuans[i].quesid = ;
-            stuans[i].*/
+    public ArrayList<HashMap> ansQuizList(Integer userid, JSONArray stuans) throws SQLException {
+
+        if(checkUserID(userid)){
+            ArrayList<HashMap> anslist = new ArrayList<>();
+            for(int i = 0; i < stuans.length(); i++){
+                JSONObject ans = (JSONObject)stuans.get(i);
+                Integer quesid = Integer.valueOf(ans.getString("quesid"));
+                String answer = ans.getString("answer");
+                //System.out.println("quesid="+quesid+", answer="+answer);
+                HashMap<String, Object> ansmap = new HashMap<>();
+                ansmap.put("quesid", quesid);
+                ansmap.put("result",ansQuiz(userid,quesid,answer));
+                anslist.add(ansmap);
+            }
+            return anslist;
         }
+        return null;
     }
 
     public boolean ansQuiz(Integer userid, Integer quesid, String answer) throws SQLException {
@@ -299,7 +328,26 @@ public class StuOperateService {
 
         //System.out.println(stuOperateService.listquiz(7));
 
-        System.out.println(stuOperateService.listMyAns(17,7,1));
+        /*ArrayList<HashMap> arrayList = new ArrayList<>();
+        HashMap map1 = new HashMap();
+        map1.put("quesid","2");
+        map1.put("answer","123333");
+        arrayList.add(map1);
+
+        HashMap map2 = new HashMap();
+        map2.put("quesid","2");
+        map2.put("answer","233333");
+        arrayList.add(map2);
+
+        JSONArray jsonArray = new JSONArray(arrayList);
+        System.out.println(jsonArray);
+
+
+        System.out.println(stuOperateService.ansQuizList(17,jsonArray));*/
+
+        System.out.println(new StuOperateService().listMyCourse("18"));
+
+        //System.out.println(stuOperateService.listMyAns(17,7,1));
 
         /*JSONObject jsonObject = new JSONObject();
 

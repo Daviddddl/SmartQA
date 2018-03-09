@@ -173,11 +173,14 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "ansQuizList")
-    public void ansQuizList(Object[] stuans, HttpServletResponse response) throws SQLException, IOException {
+    public void ansQuizList(Integer userid, JSONArray stuans, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        stuOperateService.ansQuizList(stuans);
-
-        JSONObject jsonObject = returnarrjson(true, new JSONArray());
+        ArrayList<HashMap> res = stuOperateService.ansQuizList(userid, stuans);
+        JSONObject jsonObject = new JSONObject();
+        if(res == null)
+            jsonObject = returnarrjson(false, new JSONArray(res));
+        else
+            jsonObject = returnarrjson(true, new JSONArray(res));
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -187,7 +190,10 @@ public class StuOperateController {
         StuOperateService stuOperateService = new StuOperateService();
         ArrayList<HashMap> res = stuOperateService.listMyAns(userid, courseid, chapterid);
         JSONObject jsonObject = new JSONObject();
-        jsonObject = returnarrjson(true, new JSONArray(res));
+        if(res == null)
+            jsonObject = returnarrjson(false,new JSONArray(res));
+        else
+            jsonObject = returnarrjson(true, new JSONArray(res));
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }

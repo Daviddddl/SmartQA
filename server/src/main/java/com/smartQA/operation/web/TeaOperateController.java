@@ -242,8 +242,12 @@ public class TeaOperateController {
     @RequestMapping(value = "getStu")
     public void getStu(Integer courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        String res = teaOperateSerivce.getStu(courseid);
-        JSONObject jsonObject = returnstringjson(true, res);
+        ArrayList res = teaOperateSerivce.getStu(courseid);
+        JSONObject jsonObject = new JSONObject();
+        if(res == null)
+            jsonObject = returnarrjson(false,new JSONArray(res));
+        else
+            jsonObject = returnarrjson(true, new JSONArray(res));
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }
@@ -251,8 +255,12 @@ public class TeaOperateController {
     @RequestMapping(value = "getRandStu")
     public void getRandStu(Integer courseid, HttpServletResponse response) throws SQLException, IOException {
         TeaOperateService teaOperateSerivce = new TeaOperateService();
-        String res = teaOperateSerivce.getRandStu(courseid);
-        JSONObject jsonObject = returnstringjson(true, res);
+        ArrayList res = teaOperateSerivce.getRandStu(courseid);
+        JSONObject jsonObject = new JSONObject();
+        if(res == null)
+            jsonObject = returnarrjson(false, new JSONArray(res));
+        else
+            jsonObject = returnarrjson(true, new JSONArray(res));
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(jsonObject);
     }

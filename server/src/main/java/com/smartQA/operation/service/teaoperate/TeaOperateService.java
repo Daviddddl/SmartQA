@@ -327,27 +327,37 @@ public class TeaOperateService {
         return false;
     }
 
-    public String getRandStu(Integer courseid) throws SQLException {
+    public ArrayList<HashMap> getRandStu(Integer courseid) throws SQLException {
+        if(!new StuOperateService().checkCourseID(courseid))
+            return null;
         Random random = new Random();
         Integer rand = Math.abs(random.nextInt());
-        String stulist = getStu(courseid);
-        if(stulist.startsWith("error!"))
-            return "error!";
-        String[] stul = FileUtil.replaceBlank(stulist).split(";");
-        /*for(int i = 0; i< stul.length;i++)
-            System.out.println("---"+stul[i]);*/
-        return stul[rand%stul.length];
+        ArrayList stulist = getStu(courseid);
+        ArrayList<HashMap> res = new ArrayList<>();
+        res.add((HashMap)stulist.get(rand));
+        return res;
     }
 
-    public String getStu(Integer courseid) throws SQLException {
-        String listsql = "select id,nickname,remark from user where joinCourse like '"+courseid+",%';";
+    public ArrayList<HashMap> getStu(Integer courseid) throws SQLException {
+        if(!new StuOperateService().checkCourseID(courseid))
+            return null;
+        String listsql = "select id,nickname,remark from user where joinCourse like '%#"+courseid+",%';";
+        System.out.println(listsql);
         String getStures = DBUtil.DBMonitorSQL(listsql,"user");
-
-        return getStures;
+        ArrayList stulist = FileUtil.getQuoCon(getStures);
+        ArrayList<HashMap> maps = new ArrayList<>();
+        for(int i = 0 ;i <stulist.size(); i++){
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id",stulist.get(i));
+            map.put("nickname",stulist.get(++i));
+            map.put("remark",stulist.get(++i));
+            maps.add(map);
+        }
+        return maps;
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(new TeaOperateService().updateQues(9,"xindeques","xindeoptinos","xindeans"));
+        System.out.println(new TeaOperateService().getStu(9));
     }
 
 }
