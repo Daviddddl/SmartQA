@@ -223,6 +223,19 @@ public class StuOperateService {
         return !upres.startsWith("error!");
     }
 
+    public static JSONArray string2jsonarr(String string){
+        ArrayList arrayList = FileUtil.getQuoCon(string);
+        ArrayList<HashMap> maps = new ArrayList<>();
+        for(int i = 0; i < arrayList.size()-3;i++){
+            HashMap map = new HashMap();
+            map.put(arrayList.get(i),arrayList.get(++i));
+            map.put(arrayList.get(++i),arrayList.get(++i));
+
+            maps.add(map);
+        }
+        return new JSONArray(maps);
+    }
+
     public ArrayList<HashMap> ansQuizList(Integer userid, JSONArray stuans) throws SQLException {
 
         if(checkUserID(userid)){
@@ -340,12 +353,14 @@ public class StuOperateService {
         arrayList.add(map2);
 
         JSONArray jsonArray = new JSONArray(arrayList);
-        System.out.println(jsonArray);
+        System.out.println(jsonArray);*/
 
+        String test = "[{\"answer\":\"123333\",\"quesid\":\"2\"},{\"answer\":\"233333\",\"quesid\":\"2\"}]";
 
-        System.out.println(stuOperateService.ansQuizList(17,jsonArray));*/
-
-        System.out.println(new StuOperateService().listMyCourse("18"));
+        System.out.println(test);
+        /*System.out.println(string2jsonarr(test));
+        System.out.println(stuOperateService.ansQuizList(19,string2jsonarr(test)));*/
+        //System.out.println(new StuOperateService().listMyCourse("18"));
 
         //System.out.println(stuOperateService.listMyAns(17,7,1));
 

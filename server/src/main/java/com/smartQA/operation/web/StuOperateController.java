@@ -173,9 +173,11 @@ public class StuOperateController {
     }
 
     @RequestMapping(value = "ansQuizList")
-    public void ansQuizList(Integer userid, JSONArray stuans, HttpServletResponse response) throws SQLException, IOException {
+    public void ansQuizList(Integer userid, String stuans, HttpServletResponse response) throws SQLException, IOException {
         StuOperateService stuOperateService = new StuOperateService();
-        ArrayList<HashMap> res = stuOperateService.ansQuizList(userid, stuans);
+        ArrayList<HashMap> res = stuOperateService.ansQuizList(userid, StuOperateService.string2jsonarr(stuans));
+        System.out.println(stuans);
+        System.out.println(res);
         JSONObject jsonObject = new JSONObject();
         if(res == null)
             jsonObject = returnarrjson(false, new JSONArray(res));
