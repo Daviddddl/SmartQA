@@ -37,7 +37,7 @@ Page({
    */
   onShow: function () {
     let curcourseid = this.data.courseid
-    console.log(curcourseid)
+    // console.log(curcourseid)
     var that = this
     wx.request({
       url: app.globalData.URL + '/stuoperate/courseDetail',
@@ -100,12 +100,12 @@ Page({
   },
   answerQuestions: function () {
     wx.navigateTo({
-      url: "../exercise/exerciseanswering/exerciseanswering",
+      url: "../exercise/exerciseanswering/exerciseanswering?courseid=" + this.data.courseid,
     })
   },
   historyAnswering: function () {
     wx.navigateTo({
-      url: "../exercise/exercisehistory/exercisehistory",
+      url: "../exercise/exercisehistory/exercisehistory?courseid=" + this.data.courseid,
     })
   }
 

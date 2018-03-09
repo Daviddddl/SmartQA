@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    courseid: null,
     questions: [
       { id: 0,
         ques: "第1题：balabala", 
@@ -15,7 +16,9 @@ Page({
           { name: "C.tahao", value: "C" },
           { name: "D.nihao", value: "D" }
         ],
-        answer: 'A'
+        answer: 'A',
+        stuanswer: 'B',
+        right: flase
       },
       {
         id: 1,
@@ -70,7 +73,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let curcourseid = options.courseid
+    this.setData({
+      courseid: curcourseid
+    })
   },
 
   /**
@@ -84,7 +90,42 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/stuoperate/courseDetail',
+      data: {
+        courseid: curcourseid,
+        userid: 17
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var course = res.data.result[0]
+        that.setData({
+          coursename: course.coursename,
+          startdate: course.starttime,
+          enddate: course.endtime,
+          teacherremark: course.teacher_remark,
+          outlines: course.outlines
+        })
+        wx.showToast({
+          title: '加载成功',
+          icon: 'success',
+          duration: 1500
+        })
+        // console.log(res.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
   },
 
   /**

@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    courseid: null,
     questions: [
       { id: 0,
         ques: "第1题：balabala", 
@@ -51,8 +52,8 @@ Page({
     }
     let quesid = newquestions[quesidx].id
     newquestions[quesidx].options = radioItems
-    var answer = { id: quesid, choice: e.detail.value }
-    this.data.stuanswers[quesidx] = answer
+    var curanswer = { quesid: quesid, answer: e.detail.value[0] }
+    this.data.stuanswers[quesidx] = curanswer
     var refreshanswers = this.data.stuanswers   
     this.setData({
       questions: newquestions,
@@ -62,15 +63,18 @@ Page({
 
   submitAnswers: function(){
     //提交答案
-
-    console.log(this.data.stuanswers)
+    var stuanswers_str = JSON.stringify(this.data.stuanswers)
+    console.log(stuanswers_str)
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let curcourseid = options.courseid
+    this.setData({
+      courseid: curcourseid
+    })
   },
 
   /**
@@ -84,7 +88,43 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/stuoperate/listQuiz',
+      data: {
+        courseid: that.data.courseid,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var curquizs = res.data.result
+        var init_answers = []
+        for(var quiz of curquizs){
+          var init_answer = {quesid: quiz.id, answer: ''}
+          init_answers.push(init_answer)
+        }
+        that.setData({
+          questions: curquizs,
+          stuanswers: init_answers
+        })
+        wx.showToast({
+          title: '加载成功',
+          icon: 'success',
+          duration: 1500
+        })
+        // console.log(res.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
   },
 
   /**

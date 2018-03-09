@@ -11,7 +11,10 @@ Page({
     ques: "",
     options: [{}, {}, {}, {}],
     answer: "",
-    infoMess: '温馨提示'
+    infoMess: '温馨提示',
+    chapterid: 1,
+    casArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+    casIndex: 0
   },
 
   addOption: function () {
@@ -52,6 +55,18 @@ Page({
     })
   },
 
+  //下拉框选择事件
+  bindCasPickerChange: function (e) {
+    let outlineidx = e.currentTarget.dataset.outlineidx
+    let curcasindex = e.detail.value
+    let curchapterid = this.data.casArray[curcasindex]
+    this.setData({
+      chapterid: curchapterid,
+      casIndex: e.detail.value
+    })
+    console.log(this.data)
+  },
+
   editQuestionClick: function() {
     if (this.data.ques.length == 0 || this.data.answer.length == 0) {
       this.setData({
@@ -61,16 +76,20 @@ Page({
       this.setData({
         infoMess: '温馨提示',
       })
+      var option_list = []
+      for (var option of this.data.options) {
+        option_list.push(option.name)
+      }
+      var options_str = option_list.join("<EOF>")
+      console.log(options_str)
+      var that = this
       wx.request({
-        url: app.globalData.URI + '/appserver/servlet/CourseServlet',
+        url: app.globalData.URL + '/teaoperate/updateQues',
         data: {
-          funcID: "createcourse",
-          name: this.data.courseName,
-          password: this.data.coursepassWd,
-          teacher: this.data.teacherID,
-          capacity: this.data.capacityNum,
-          startdate: this.data.startDate,
-          enddate: this.data.endDate
+          quesid: that.data.quesid,
+          ques: that.data.ques,
+          options: options_str,
+          ans: that.data.answer,
         },
         method: 'GET',
         header: {
@@ -78,7 +97,7 @@ Page({
         },
         success: function (res) {
           wx.showToast({
-            title: '添加成功',
+            title: '修改成功',
             icon: 'success',
             duration: 1500
           })
@@ -86,21 +105,47 @@ Page({
         },
         fail: function (res) {
           wx.showToast({
-            title: '添加失败',
+            title: '修改失败',
             image: '../../images/icon_fail.png',
             duration: 1500
           })
           console.log(".....fail.....");
-        },
-        complete: function (res) {
-          console.log(".....complete.....");
         }
       })
     }
 
   },
   delQuestionClick: function(e){
-
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/deleteQuesByID',
+      data: {
+        quesid: that.data.quesid,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
+          duration: 1500
+        })
+        wx.navigateBack({
+          delta: 1
+        })
+        console.log(res.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '删除失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
   },
   //重置按钮点击事件
   resetBtnClick: function (e) {
@@ -126,7 +171,8 @@ Page({
       quesid: curquestion.id,
       ques: curquestion.ques,
       options: curquestion.options,
-      answer: curquestion.ans
+      answer: curquestion.ans,
+      chapterid: curquestion.chapterid
     })
   },
 

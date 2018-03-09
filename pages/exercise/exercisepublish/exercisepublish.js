@@ -6,9 +6,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    courseid: null,
     questions: [
       { id: 0,
         ques: "第1题：balabala", 
+        chapterid: 1,
         options: [
           { name: "A.nihao", value: "A" },
           { name: "B.wohao", value: "B" },
@@ -49,15 +51,55 @@ Page({
     });
   },
 
-  publishQuestions: function () {
-    
+  publishQuestions: function (e) {
+    console.log(this.data)
+    var published_ques_str = this.data.chosenquesids.join(",")
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/quizQues',
+      data: {
+        quesid: published_ques_str,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        wx.showToast({
+          title: '发布成功',
+          icon: 'success',
+          duration: 1500
+        })
+        setTimeout(
+          ()=>{
+            wx.navigateBack({
+              delta: 1
+            })
+          },
+          1500
+        )
+        
+        console.log(".....success.....");
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '发布失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let curcourseid = options.courseid
+    this.setData({
+      courseid: curcourseid
+    })
   },
 
   /**
@@ -71,7 +113,32 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var that = this
+    wx.request({
+      url: app.globalData.URL + '/teaoperate/listAllQues',
+      data: {
+        courseid: that.data.courseid,
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var curquestions = res.data.result
+        that.setData({
+          questions: curquestions
+        })
 
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加载失败',
+          image: '../../images/icon_fail.png',
+          duration: 1500
+        })
+        console.log(".....fail.....");
+      }
+    })
   },
 
   /**
