@@ -43,7 +43,7 @@ Page({
       url: app.globalData.URL + '/stuoperate/courseDetail',
       data: {
         courseid: curcourseid,
-        userid: 17
+        userid: 18
       },
       method: 'GET',
       header: {
